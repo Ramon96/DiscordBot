@@ -1,0 +1,31 @@
+{
+  "name": "discordbot",
+  "version": "1.0.0",
+  "description": "bot for the boyes discord server, this project is for educational purposes",
+  "main": "index.js",
+  "dependencies": {
+    "discord.js": "^11.5.1"
+  },
+  "devDependencies": {
+    "dotenv": "^8.2.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ramon96/DiscordBot.git"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "expiriment",
+    "discord.js"
+  ],
+  "author": "Ramon Meijers",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Ramon96/DiscordBot/issues"
+  },
+  "homepage": "https://github.com/Ramon96/DiscordBot#readme"
+}
