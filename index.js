@@ -8,7 +8,8 @@ client.on('ready', () => {
 
 client.on('message', msg => {
     // TODO: write a switch case for this shit
-    if(msg.content.startsWith(`${process.env.prefix}Game and watch`)){
+    let message = msg.content.toLowerCase();
+    if(message.startsWith(`${process.env.prefix}Game and watch`)){
          let rng = Math.floor(Math.random() * 9 ) + 1;
         if (rng == 9){
             let victim = msg.member;
@@ -26,10 +27,10 @@ client.on('message', msg => {
         }
 
     }
-    else if(msg.content.startsWith(`${process.env.prefix}Homey`)){
+    else if(message.startsWith(`${process.env.prefix}Homey`)){
         msg.channel.send("Ohh Homeeyyy ", {tts:true});
     }
-    else if(msg.content.startsWith(`${process.env.prefix}Roll`)){
+    else if(message.startsWith(`${process.env.prefix}Roll`)){
         let roll = Math.floor(Math.random() * 100 ) + 1;
         msg.reply(" has rolled " + roll);
     }
