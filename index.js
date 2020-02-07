@@ -36,4 +36,18 @@ client.on('message', msg => {
     }
 });
 
+client.on('voiceStateUpdate', (oldMember, newMember) => {
+    let newUserChannel = newMember.voiceChannel;
+    let oldUserChannel = oldMember.voiceChannel;
+
+    if (oldUserChannel === undefined && newUserChannel !== undefined){
+        //user joins
+        console.log(newUserChannel.name);
+        newMember.send("hallo" + newMember);
+    }
+    else if(newUserChannel === undefined){
+        // user leaves
+    }
+});
+
 client.login(process.env.token);
