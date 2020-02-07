@@ -36,7 +36,7 @@ client.on('message', msg => {
     }
     else if(message == "nigger"){
         // Bad word filter
-        msg.react(":shanoW:")
+        msg.react(client.emojis.get("322040031936249856"));
     }
 });
 
