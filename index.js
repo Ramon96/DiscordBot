@@ -29,6 +29,10 @@ client.on('message', msg => {
     else if(msg.content.startsWith(`${process.env.prefix}Homey`)){
         msg.channel.send("Ohh Homeeyyy ", {tts:true});
     }
+    else if(msg.content.startsWith(`${process.env.prefix}Roll`)){
+        let roll = Math.floor(Math.random() * 100 ) + 1;
+        msg.reply("You have rolled a " + roll);
+    }
 });
 
 client.login(process.env.token);
