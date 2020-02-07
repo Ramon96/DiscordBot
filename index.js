@@ -14,13 +14,13 @@ client.on('message', msg => {
         if (rng == 9){
             let victim = msg.member;
             msg.reply("The hammer rolled a " + rng + ". Get fucked!");
+            msg.channel.send("Beep!", {file:"https://www.ssbwiki.com/images/thumb/a/a3/GameWatchSide2-SSB4.png/200px-GameWatchSide2-SSB4.png"})
 
             setTimeout(function(){
                 //TODO: zet hier een timer neer
                 victim.kick("The hammer rolled a 9.")
                 .then(()=> console.log("succes"))
                 .catch(console.error);
-                msg.channel.send("Beep!", {file:"https://www.ssbwiki.com/images/thumb/a/a3/GameWatchSide2-SSB4.png/200px-GameWatchSide2-SSB4.png"})
             }, 3000)
         }
         else{
