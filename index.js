@@ -36,7 +36,7 @@ client.on('message', msg => {
         let roll = Math.floor(Math.random() * 100 ) + 1;
         msg.reply(" has rolled " + roll);
     }
-    else if(message == "nigger"){
+    else if(message.includes("nigger") || message.includes("neger")){
         // Bad word filter
         const shanoW = client.emojis.find(emoji => emoji.name == "shanoW");
         msg.react(shanoW);
