@@ -34,6 +34,9 @@ client.on('message', msg => {
         let roll = Math.floor(Math.random() * 100 ) + 1;
         msg.reply(" has rolled " + roll);
     }
+    else if(message.contains("Nigger")){
+        msg.react(":shanoW:")
+    }
 });
 
 client.on('voiceStateUpdate', (oldMember, newMember) => {
