@@ -10,8 +10,7 @@ client.on('message', msg => {
     // TODO: write a switch case for this shit
     let message = msg.content.toLowerCase();
     if(message.startsWith(`${process.env.prefix}game and watch`)){
-        //  let rng = Math.floor(Math.random() * 9 ) + 1;
-        let rng = 9;
+         let rng = Math.floor(Math.random() * 9 ) + 1;
         if (rng == 9){
             let victim = msg.member;
             msg.reply("The hammer rolled a " + rng + ". Get fucked!");
