@@ -13,9 +13,9 @@ client.on('message', msg => {
          let rng = Math.floor(Math.random() * 9 ) + 1;
         if (rng == 9){
             let victim = msg.member;
-            // je bent de lul
             msg.reply("The hammer rolled a " + rng + ". Get fucked!");
 
+            //TODO: zet hier een timer neer
             victim.kick("The hammer rolled a 9.")
             .then(()=> console.log("succes"))
             .catch(console.error);
@@ -41,15 +41,16 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
     let oldUserChannel = oldMember.voiceChannel;
 
     if (oldUserChannel === undefined && newUserChannel !== undefined){
-        const Channel = client.channels.get(newUserChannel.name);
-        //user joins
-        console.log(newUserChannel.name);
-    
-        Channel.send("hallo" + newMember);
+        //julians id
+        if(newMember.id == 275998536162738179){
+            newMember.guild.systemChannel.send("Hallo" + " <@131124125996548096>, Julian is in de discord server." );
+        }
     }
     else if(newUserChannel === undefined){
         // user leaves
     }
 });
+
+
 
 client.login(process.env.token);
