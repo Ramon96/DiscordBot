@@ -34,7 +34,8 @@ client.on('message', msg => {
         let roll = Math.floor(Math.random() * 100 ) + 1;
         msg.reply(" has rolled " + roll);
     }
-    else if(message.contains("Nigger")){
+    else if(message.includes("Nigger")){
+        // Bad word filter
         msg.react(":shanoW:")
     }
 });
