@@ -41,7 +41,7 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
     let oldUserChannel = oldMember.voiceChannel;
 
     if (oldUserChannel === undefined && newUserChannel !== undefined){
-        const Channel = newUserChannel.name;
+        const Channel = client.channels.get(newUserChannel.name);
         //user joins
         console.log(newUserChannel.name);
     
