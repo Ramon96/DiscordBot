@@ -43,7 +43,7 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
     if (oldUserChannel === undefined && newUserChannel !== undefined){
         //user joins
         console.log(newUserChannel.name);
-        newMember.channel.send("hallo" + newMember);
+        newUserChannel.channel.send("hallo" + newMember);
     }
     else if(newUserChannel === undefined){
         // user leaves
