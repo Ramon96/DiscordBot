@@ -17,7 +17,6 @@ client.on('message', msg => {
             msg.channel.send("Beep!", {file:"https://www.ssbwiki.com/images/thumb/a/a3/GameWatchSide2-SSB4.png/200px-GameWatchSide2-SSB4.png"})
 
             setTimeout(function(){
-                //TODO: zet hier een timer neer
                 victim.kick("The hammer rolled a 9.")
                 .then(()=> console.log("succes"))
                 .catch(console.error);
@@ -35,6 +34,12 @@ client.on('message', msg => {
     else if(message.startsWith(`${process.env.prefix}roll`)){
         let roll = Math.floor(Math.random() * 100 ) + 1;
         msg.reply(" has rolled " + roll);
+    }
+    else if(message.startsWith(`${process.eventNames.prefix}mhw`)){
+        const weaponCategories = ["Sword and Shield", "Great Sword", "Dual Blades", "Long Sword", "Hammer", "Hunting Horn", "Lance", "Gunlance", "Switch Axe", "Charge Blade", "Insect Glaive", "Bow", "Light Bowgun", "Heavy Bowgun"]
+        let chosenWeapon = Math.floor(math.random() * weaponCategories.length) + 1
+
+        msg.reply(" Should go for the" + chosenWeapon);
     }
     else if(message.includes("nigger") || message.includes("neger")){
         // Bad word filter
