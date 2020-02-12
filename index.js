@@ -37,7 +37,7 @@ client.on('message', msg => {
     }
     else if(message.startsWith(`${process.env.prefix}mhw`)){
         const weaponCategories = ["Sword and Shield", "Great Sword", "Dual Blades", "Long Sword", "Hammer", "Hunting Horn", "Lance", "Gunlance", "Switch Axe", "Charge Blade", "Insect Glaive", "Bow", "Light Bowgun", "Heavy Bowgun"]
-        let chosenWeapon = Math.floor(math.random() * weaponCategories.length) + 1
+        let chosenWeapon = Math.floor(Math.random() * weaponCategories.length) + 1
 
         msg.reply(" Should go for the" + chosenWeapon);
     }
