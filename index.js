@@ -37,9 +37,8 @@ client.on('message', msg => {
     }
     else if(message.startsWith(`${process.env.prefix}mhw`)){
         const weaponCategories = ["Sword and Shield", "Great Sword", "Dual Blades", "Long Sword", "Hammer", "Hunting Horn", "Lance", "Gunlance", "Switch Axe", "Charge Blade", "Insect Glaive", "Bow", "Light Bowgun", "Heavy Bowgun"]
-        let chosenWeapon = Math.floor(Math.random() * weaponCategories.length) + 1
 
-        msg.reply(" Should go for the " + weaponCategories[chosenWeapon]);
+        msg.reply(" Should go for the " + weaponCategories[Math.floor(Math.random() * weaponCategories.length)]);
     }
     else if(message.includes("nigger") || message.includes("neger")){
         // Bad word filter
