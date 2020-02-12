@@ -35,7 +35,7 @@ client.on('message', msg => {
         let roll = Math.floor(Math.random() * 100 ) + 1;
         msg.reply(" has rolled " + roll);
     }
-    else if(message.startsWith(`${process.eventNames.prefix}mhw`)){
+    else if(message.startsWith(`${process.env.prefix}mhw`)){
         const weaponCategories = ["Sword and Shield", "Great Sword", "Dual Blades", "Long Sword", "Hammer", "Hunting Horn", "Lance", "Gunlance", "Switch Axe", "Charge Blade", "Insect Glaive", "Bow", "Light Bowgun", "Heavy Bowgun"]
         let chosenWeapon = Math.floor(math.random() * weaponCategories.length) + 1
 
