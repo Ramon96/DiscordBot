@@ -2,32 +2,67 @@ require('dotenv').config({});
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const hiscores = require('osrs-json-hiscores');
+const _ = require('lodash');
 
 const osrsObject = {
     Ramon: {
         discordId: 294200096763936769,
-        osrsName: "Bijlmer"
+        osrsName: "Bijlmer",
+        stats: []
     },
     Daan2: {
         discordId: 291296782187495424,
-        osrsName: "Cringe Guard"
+        osrsName: "Crag Goblin",
+        stats: []
     },
     Julian: {
         discordId: 275998536162738179,
-        osrsName: "vKooten"
+        osrsName: "vKooten",
+        stats: []
     },
     Daan: {
         discordId: 131124125996548096,
-        osrsName: "Drakendoder"
+        osrsName: "Drakendoder",
+        stats: []
     },
     Matthee: {
         discordId: 285843924298498050,
-        osrsName: "M CG"
+        osrsName: "M CG",
+        stats: []
     }
 }
 
+// const osrsObject2 = {
+//     Ramon: {
+//         discordId: 294200096763936769,
+//         osrsName: "Bijlmer2",
+//         stats: []
+//     },
+//     Daan2: {
+//         discordId: 291296782187495424,
+//         osrsName: "Cringe Guard",
+//         stats: []
+//     },
+//     Julian: {
+//         discordId: 275998536162738179,
+//         osrsName: "vKooten",
+//         stats: []
+//     },
+//     Daan: {
+//         discordId: 131124125996548096,
+//         osrsName: "Drakendoder",
+//         stats: []
+//     },
+//     Matthee: {
+//         discordId: 285843924298498050,
+//         osrsName: "M CG",
+//         stats: []
+//     }
+// }
+
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}`);
+    storeStats();
 
     // Finding user id's
     // console.log(client.users.find("username", "MCG"))
@@ -74,14 +109,19 @@ client.on('message', msg => {
         msg.react(shanoW);
     } else if (message.startsWith(`${process.env.prefix}osrs`)) {
         const prefix = process.env.prefix + 'osrs';
-        const givenUsername = message.slice(prefix.length + 1).split(' ');
+        // const givenUsername = message.slice(prefix.length + 1).split(' ');
 
-        Object.keys(osrsObject).forEach(function(item){
-            // console.log(osrsObject[item].osrsName)
-        })
 
-        // hiscores.getStats(givenUsername[0])
-        //     .then(res => console.log(res.main.skills))
+
+    }
+    else if (message.startsWith(`${process.env.prefix}give`)) {
+        // const prefix = process.env.prefix + 'give';
+        // const givenUsername = message.slice(prefix.length + 1).split(' ');
+
+        // console.log(osrsObject.Ramon.stats)
+        // console.log(difference(osrsObject2, osrsObject))
+
+        compareStats()
     }
 });
 
@@ -100,5 +140,50 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
 });
 
 
-
 client.login(process.env.token);
+
+function storeStats(){
+    Object.keys(osrsObject).forEach(function (item) {
+        // console.log(osrsObject[item].osrsName)
+        hiscores.getStats(osrsObject[item].osrsName)
+            .then(res => {
+                // console.log(res.main.skills)
+                osrsObject[item].stats = res.main.skills
+            })
+            .then(() =>{
+                console.log("stored the player stats")
+            })
+    })
+}
+
+function compareStats(){
+    Object.keys(osrsObject).forEach(function (item) {
+        hiscores.getStats(osrsObject[item].osrsName)
+            .then(res => {
+                // osrsObject[item].stats = res.main.skills
+
+                // hoe krijg ik het voor elkaar om alleen een bericht te krijgen als het level anders is en niet de rank of exp
+                osrsObject[item].stats.woodcutting.level = 72; // for testing so we can see if we get this returned
+                console.log('differnce in: ' + osrsObject[item].osrsName)
+                console.log(difference(osrsObject[item].stats, res.main.skills))
+            })
+    })
+}
+
+/**
+ * Deep diff between two object, using lodash
+ * @param  {Object} object Object compared
+ * @param  {Object} base   Object to compare with
+ * @return {Object}        Return a new object who represent the diff
+ */
+// https://gist.github.com/Yimiprod/7ee176597fef230d1451
+function difference(object, base) {
+	function changes(object, base) {
+		return _.transform(object, function(result, value, key) {
+			if (!_.isEqual(value, base[key])) {
+				result[key] = (_.isObject(value) && _.isObject(base[key])) ? changes(value, base[key]) : value;
+			}
+		});
+	}
+	return changes(object, base);
+}
