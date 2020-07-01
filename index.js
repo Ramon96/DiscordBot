@@ -40,7 +40,7 @@ client.on('message', msg => {
 
         msg.reply(" Should go for the " + weaponCategories[Math.floor(Math.random() * weaponCategories.length)]);
     }
-    else if(message.includes("nigger") || message.includes("neger")){
+    else if(message.includes(process.env.triggerword1) || message.includes(process.env.triggerword2)){
         // Bad word filter
         const shanoW = client.emojis.find(emoji => emoji.name == "shanoW");
         msg.react(shanoW);
