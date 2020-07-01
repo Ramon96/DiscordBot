@@ -77,7 +77,7 @@ client.on('message', msg => {
         const givenUsername = message.slice(prefix.length + 1).split(' ');
 
         Object.keys(osrsObject).forEach(function(item){
-            console.log(osrsObject[item].osrsName)
+            // console.log(osrsObject[item].osrsName)
         })
 
         // hiscores.getStats(givenUsername[0])
