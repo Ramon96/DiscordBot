@@ -37,8 +37,8 @@ client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}`);
     // storeStats();
     getHiscore();
-    // half an hour
-    setInterval(getHiscore, 1800000)
+    // 5 minutes
+    setInterval(getHiscore, 300000)
     // Finding user id's
 
     // console.log(client.users.find("username", "Yabby"))
