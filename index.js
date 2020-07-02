@@ -98,6 +98,9 @@ client.on('message', msg => {
     else if (message.startsWith(`${process.env.prefix}osrs`)) {
         getHiscore();
     }
+    else if (message.startsWith(`${process.env.prefix}yeet`)) {
+        client.channels.get('321746940184363009').send(`yeet`)
+    }
 });
 
 // When someone joined or left a voice channel
@@ -136,6 +139,9 @@ function getHiscore() {
                                 client.channels.get('321746940184363009').send(`Gz <@${osrsObject[item].discordId}> with ${changes[skill].level} ${skill}!`)
                             }
                         })
+                    }
+                    else{
+                        console.log('no changes')
                     }
                 }
                 // Save the new aquired stats
