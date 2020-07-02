@@ -4,73 +4,51 @@ const client = new Discord.Client();
 const hiscores = require('osrs-json-hiscores');
 const _ = require('lodash');
 
+// I know this should be in an database, but I dont care :)
 const osrsObject = {
     Ramon: {
-        discordId: 294200096763936769,
+        discordId: '294200096763936769',
         osrsName: "Bijlmer",
         stats: []
     },
     Daan2: {
-        discordId: 291296782187495424,
-        osrsName: "Crag Goblin",
+        discordId: "291296782187495424",
+        osrsName: "Crag Goblin",
         stats: []
     },
     Julian: {
-        discordId: 275998536162738179,
+        discordId: "275998536162738179",
         osrsName: "vKooten",
         stats: []
     },
+    Matthee: {
+        discordId: "285843924298498050",
+        osrsName: "M CG",
+        stats: []
+    },
     Daan: {
-        discordId: 131124125996548096,
+        discordId: "131124125996548096",
         osrsName: "Drakendoder",
         stats: []
     },
-    Matthee: {
-        discordId: 285843924298498050,
-        osrsName: "M CG",
-        stats: []
-    }
 }
-
-// const osrsObject2 = {
-//     Ramon: {
-//         discordId: 294200096763936769,
-//         osrsName: "Bijlmer2",
-//         stats: []
-//     },
-//     Daan2: {
-//         discordId: 291296782187495424,
-//         osrsName: "Cringe Guard",
-//         stats: []
-//     },
-//     Julian: {
-//         discordId: 275998536162738179,
-//         osrsName: "vKooten",
-//         stats: []
-//     },
-//     Daan: {
-//         discordId: 131124125996548096,
-//         osrsName: "Drakendoder",
-//         stats: []
-//     },
-//     Matthee: {
-//         discordId: 285843924298498050,
-//         osrsName: "M CG",
-//         stats: []
-//     }
-// }
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}`);
-    storeStats();
-
+    // storeStats();
+    getHiscore();
+    // half an hour
+    setInterval(getHiscore, 1800000)
     // Finding user id's
-    // console.log(client.users.find("username", "MCG"))
+
+    // console.log(client.users.find("username", "Yabby"))
+    // console.log(client.channels.find("name", "general"))
 });
 
 client.on('message', msg => {
     // TODO: write a switch case for this shit
     let message = msg.content.toLowerCase();
+    // Command that has a change that the user kicks himself.
     if (message.startsWith(`${process.env.prefix}game and watch`)) {
         let rng = Math.floor(Math.random() * 9) + 1;
         if (rng == 9) {
@@ -92,46 +70,46 @@ client.on('message', msg => {
             })
         }
 
-    } else if (message.startsWith(`${process.env.prefix}homey`)) {
+    } 
+    // Makes the bot say oh homey using text to speech
+    else if (message.startsWith(`${process.env.prefix}homey`)) {
         msg.channel.send("Ohh Homeeyyy ", {
             tts: true
         });
-    } else if (message.startsWith(`${process.env.prefix}roll`)) {
+    } 
+    // Returns a random number between 1 and 100
+    else if (message.startsWith(`${process.env.prefix}roll`)) {
         let roll = Math.floor(Math.random() * 100) + 1;
         msg.reply(" has rolled " + roll);
-    } else if (message.startsWith(`${process.env.prefix}mhw`)) {
+    } 
+    // Suggegsts a Monster hunter class you should play
+    else if (message.startsWith(`${process.env.prefix}mhw`)) {
         const weaponCategories = ["Sword and Shield", "Great Sword", "Dual Blades", "Long Sword", "Hammer", "Hunting Horn", "Lance", "Gunlance", "Switch Axe", "Charge Blade", "Insect Glaive", "Bow", "Light Bowgun", "Heavy Bowgun"]
 
         msg.reply(" Should go for the " + weaponCategories[Math.floor(Math.random() * weaponCategories.length)]);
-    } else if (message.includes(process.env.triggerword1) || message.includes(process.env.triggerword2)) {
+    } 
+    // Filter bad words.
+    else if (message.includes(process.env.triggerword1) || message.includes(process.env.triggerword2)) {
         // Bad word filter
         const shanoW = client.emojis.find(emoji => emoji.name == "shanoW");
         msg.react(shanoW);
-    } else if (message.startsWith(`${process.env.prefix}osrs`)) {
-        const prefix = process.env.prefix + 'osrs';
-        // const givenUsername = message.slice(prefix.length + 1).split(' ');
-
-
-
-    }
-    else if (message.startsWith(`${process.env.prefix}give`)) {
-        // const prefix = process.env.prefix + 'give';
-        // const givenUsername = message.slice(prefix.length + 1).split(' ');
-
-        // console.log(osrsObject.Ramon.stats)
-        // console.log(difference(osrsObject2, osrsObject))
-
-        compareStats()
+    } 
+    // Check the highscores for level ups on oldschool runescape.
+    else if (message.startsWith(`${process.env.prefix}osrs`)) {
+        getHiscore();
     }
 });
 
+// When someone joined or left a voice channel
 client.on('voiceStateUpdate', (oldMember, newMember) => {
     let newUserChannel = newMember.voiceChannel;
     let oldUserChannel = oldMember.voiceChannel;
 
+    // user joins a channel
     if (oldUserChannel === undefined && newUserChannel !== undefined) {
-        //julians id
+        //if the user is julian
         if (newMember.id == 275998536162738179) {
+            // notify daan that julian is on discord right now.
             newMember.guild.systemChannel.send("Hallo" + " <@131124125996548096>, Julian is in de discord server.");
         }
     } else if (newUserChannel === undefined) {
@@ -142,32 +120,33 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
 
 client.login(process.env.token);
 
-function storeStats(){
+function getHiscore() {
+
+    //  Get the highscores for each player.
     Object.keys(osrsObject).forEach(function (item) {
-        // console.log(osrsObject[item].osrsName)
         hiscores.getStats(osrsObject[item].osrsName)
             .then(res => {
-                // console.log(res.main.skills)
+                // if there where already some stats.
+                if (!_.isEmpty(osrsObject[item].stats)) {
+                    // Compare the new stats with the old
+                    const changes = compare(osrsObject[item].stats, res.main.skills)
+                    if (!_.isEmpty(changes)) {
+                        Object.keys(changes).forEach(function (skill) {
+                            if (changes[skill].hasOwnProperty("level")) {
+                                client.channels.get('321746940184363009').send(`Gz <@${osrsObject[item].discordId}> with ${changes[skill].level} ${skill}!`)
+                            }
+                        })
+                    }
+                }
+                // Save the new aquired stats
                 osrsObject[item].stats = res.main.skills
-            })
-            .then(() =>{
-                console.log("stored the player stats")
             })
     })
 }
 
-function compareStats(){
-    Object.keys(osrsObject).forEach(function (item) {
-        hiscores.getStats(osrsObject[item].osrsName)
-            .then(res => {
-                // osrsObject[item].stats = res.main.skills
-
-                // hoe krijg ik het voor elkaar om alleen een bericht te krijgen als het level anders is en niet de rank of exp
-                osrsObject[item].stats.woodcutting.level = 72; // for testing so we can see if we get this returned
-                console.log('differnce in: ' + osrsObject[item].osrsName)
-                console.log(difference(osrsObject[item].stats, res.main.skills))
-            })
-    })
+function compare(oldSkills, newSkills) {
+    const diff = difference(newSkills, oldSkills)
+    return diff
 }
 
 /**
@@ -178,12 +157,12 @@ function compareStats(){
  */
 // https://gist.github.com/Yimiprod/7ee176597fef230d1451
 function difference(object, base) {
-	function changes(object, base) {
-		return _.transform(object, function(result, value, key) {
-			if (!_.isEqual(value, base[key])) {
-				result[key] = (_.isObject(value) && _.isObject(base[key])) ? changes(value, base[key]) : value;
-			}
-		});
-	}
-	return changes(object, base);
+    function changes(object, base) {
+        return _.transform(object, function (result, value, key) {
+            if (!_.isEqual(value, base[key])) {
+                result[key] = (_.isObject(value) && _.isObject(base[key])) ? changes(value, base[key]) : value;
+            }
+        });
+    }
+    return changes(object, base);
 }
