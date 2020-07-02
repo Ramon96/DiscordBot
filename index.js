@@ -135,7 +135,7 @@ function getHiscore() {
                     const changes = compare(osrsObject[item].stats, res.main.skills)
                     if (!_.isEmpty(changes)) {
                         Object.keys(changes).forEach(function (skill) {
-                            if (changes[skill].hasOwnProperty("level")) {
+                            if (changes[skill].hasOwnProperty("level") && skill !== "overall") {
                                 client.channels.get('321746940184363009').send(`Gz <@${osrsObject[item].discordId}> with ${changes[skill].level} ${skill}!`)
                             }
                         })
