@@ -3,35 +3,11 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const hiscores = require('osrs-json-hiscores');
 const _ = require('lodash');
+const mongoose = require('mongoose');
+const Player = require('./model/osrs');
+const { result } = require('lodash');
 
-// I know this should be in an database, but I dont care :)
-const osrsObject = {
-    Ramon: {
-        discordId: '294200096763936769',
-        osrsName: "Bijlmer",
-        stats: []
-    },
-    Daan2: {
-        discordId: "291296782187495424",
-        osrsName: "Crag Goblin",
-        stats: []
-    },
-    Julian: {
-        discordId: "275998536162738179",
-        osrsName: "vKooten",
-        stats: []
-    },
-    Matthee: {
-        discordId: "285843924298498050",
-        osrsName: "M CG",
-        stats: []
-    },
-    Daan: {
-        discordId: "131124125996548096",
-        osrsName: "Drakendoder",
-        stats: []
-    },
-}
+mongoose.connect(`mongodb+srv://admin:${process.env.mongoose}@osrsboys.rc9hb.azure.mongodb.net/test`);
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}`);
@@ -123,33 +99,69 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
 
 client.login(process.env.token);
 
-function getHiscore() {
-
-    //  Get the highscores for each player.
+function storePlayers(){
     Object.keys(osrsObject).forEach(function (item) {
-        hiscores.getStats(osrsObject[item].osrsName)
-            .then(res => {
-                // if there where already some stats.
-                if (!_.isEmpty(osrsObject[item].stats)) {
-                    // Compare the new stats with the old
-                    const changes = compare(osrsObject[item].stats, res.main.skills)
-                    if (!_.isEmpty(changes)) {
-                        if(changes.length !== 23){
-                        Object.keys(changes).forEach(function (skill) {
-                            if (changes[skill].hasOwnProperty("level") && skill !== "overall") {
-                                client.channels.get('321746940184363009').send(`Gz <@${osrsObject[item].discordId}> with ${changes[skill].level} ${skill}!`)
-                            }
-                        })
-                    }
-                    }
-                    else{
-                        console.log('no changes')
-                    }
-                }
-                // Save the new aquired stats
-                osrsObject[item].stats = res.main.skills
-            })
+
+        const player = new Player({
+            discordId: osrsObject[item].discordId,
+            osrsName: osrsObject[item].osrsName,
+            stats: osrsObject[item].stats
+        })
+
+        player.save()
+        .then(result => {
+            console.log(result)
+        })
+        .catch(err => console.log(err))
     })
+}
+
+function getHiscore() {
+// Get all the players from the database
+    Player.find()
+        .exec()
+        .then(docs => {
+            // console.log(docs)
+            Object.keys(docs).forEach(function(item){
+
+                // console.log(docs[item].osrsName)
+                    hiscores.getStats(docs[item].osrsName)
+                        .then(res => {
+                                // Compare the new stats with the old
+                                const changes = compare(docs[item].stats, res.main.skills)
+                                if (!_.isEmpty(changes)) {
+                                    Object.keys(changes).forEach(function (skill) {
+
+                                        // console.log(docs[item].stats[skill])
+            
+
+                                        if (changes[skill].hasOwnProperty("level") && skill !== "overall") {
+                                            if(docs[item].stats[skill].level < changes[skill].level){
+                                                client.channels.get('321746940184363009').send(`Gz <@${docs[item].discordId}> with ${changes[skill].level} ${skill}!`)
+                                                // save changes pls
+                                                Player.findOne({_id: docs[item].id})
+                                                .then(doc => {
+                                                    doc.stats[skill] = changes[skill]
+                                                    doc.markModified('stats')
+                                                    doc.save();
+                                                })
+                                                .catch(err => console.log(err))
+                                               }
+                                        }
+                                    })
+                                }
+                                else{
+                                    console.log('no changes')
+                                }
+                            
+                            // Save the new aquired stats
+                            // osrsObject[item].stats = res.main.skills
+
+                        })
+                })
+
+        })
+        .catch(err => console.log(err))
 }
 
 function compare(oldSkills, newSkills) {
