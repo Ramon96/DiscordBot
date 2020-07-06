@@ -194,7 +194,7 @@ function getHiscore() {
 
                                         if (changes[skill].hasOwnProperty("level") && skill !== "overall") {
                                             if(docs[item].stats[skill].level < changes[skill].level){
-                                                client.channels.get('321746940184363009').send(`Gz <@${docs[item].discordId}> with ${changes[skill].level} ${skill}!`)
+                                                client.channels.cache.get('321746940184363009').send(`Gz <@${docs[item].discordId}> with ${changes[skill].level} ${skill}!`)
                                                 // save changes pls
                                                 Player.findOne({_id: docs[item].id})
                                                 .then(doc => {
