@@ -4,7 +4,7 @@
   "description": "bot for the boyes discord server, this project is for educational purposes",
   "main": "index.js",
   "dependencies": {
-    "discord.js": "^11.5.1",
+    "discord.js": "^12.2.0",
     "dotenv": "^8.2.0",
     "lodash": "^4.17.15",
     "mongoose": "^5.9.21",

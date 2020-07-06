@@ -7,7 +7,10 @@ const mongoose = require('mongoose');
 const Player = require('./model/osrs');
 const { result } = require('lodash');
 
-mongoose.connect(`mongodb+srv://admin:${process.env.mongoose}@osrsboys.rc9hb.azure.mongodb.net/test`);
+mongoose.connect(`mongodb+srv://admin:${process.env.mongoose}@osrsboys.rc9hb.azure.mongodb.net/test`, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}`);
@@ -74,8 +77,57 @@ client.on('message', msg => {
     else if (message.startsWith(`${process.env.prefix}osrs`)) {
         getHiscore();
     }
-    else if (message.startsWith(`${process.env.prefix}yeet`)) {
-        client.channels.get('321746940184363009').send(`yeet`)
+    else if (message.startsWith(`${process.env.prefix}add`)) {
+        // client.channels.get('321746940184363009').send(`yeet`)
+        const prefix = process.env.prefix + 'osrs';
+        const args = message.slice(prefix.length).split(' ');
+        const rsn = args[0];
+        const mention = msg.mentions.users.first();
+        if(!msg.mentions.users.size){
+            return msg.reply('Mention was missing.')
+        }
+
+        if(!rsn){
+            return msg.reply('Runescape name was missing.')
+        }
+
+        storePlayer(rsn, mention.id)
+        .then(res =>{
+
+            if(res == false){
+                msg.reply("Runescape user was not found in the highscores (user '_' for spaces in your username)")
+            }
+            else{
+                msg.reply(`${rsn} was succesfully added to the collection.`)
+            }
+        })
+    }
+    else if (message.startsWith(`${process.env.prefix}namechange`)) {
+        const prefix = process.env.prefix + 'namechange';
+        const args = message.slice(prefix.length + 1).split(' ');
+        const rsnold = args[0];
+        const rsnnew = args[1];
+        hiscores.getStats(rsnnew)
+            .then(res => {
+                Player.findOne({osrsName: rsnold})
+                .then(doc => {
+                    doc.osrsName = rsnnew;
+                    doc.markModified('osrsName');
+                    doc.save();
+                    msg.reply(`Changed username to ${rsnnew}`)
+                })
+                .catch(err => {
+                    console.log(args)
+                console.log("old" + rsnold)
+                console.log("new" + rsnnew)
+                    msg.reply(`${rsnold} was not found in the collection.`)
+                })
+            })
+            .catch(err => {
+                msg.reply(`${rsnnew} was not found in the hiscores.`)
+            })
+
+
     }
 });
 
@@ -99,20 +151,25 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
 
 client.login(process.env.token);
 
-function storePlayers(){
-    Object.keys(osrsObject).forEach(function (item) {
 
+async function storePlayer(rsn, mention){
+    return await hiscores.getStats(rsn)
+    .then(res => {
         const player = new Player({
-            discordId: osrsObject[item].discordId,
-            osrsName: osrsObject[item].osrsName,
-            stats: osrsObject[item].stats
+            discordId: mention,
+            osrsName: rsn,
+            stats: res.main.skills
         })
-
         player.save()
         .then(result => {
-            console.log(result)
+            return true
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+            console.log(err)
+        })
+    })
+    .catch(err => {
+        return false
     })
 }
 
