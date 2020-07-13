@@ -126,8 +126,9 @@ client.on('message', msg => {
             .catch(err => {
                 msg.reply(`${rsnnew} was not found in the hiscores.`)
             })
-
-
+    }
+    else if(message.startsWith(`${process.env.prefix}guide`)){
+        client.channels.cache.get('321746940184363009').send(`https://www.youtube.com/watch?v=-DW95B4QqlU`)
     }
 });
 
