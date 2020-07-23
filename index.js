@@ -180,33 +180,55 @@ function getHiscore() {
         .exec()
         .then(docs => {
             // console.log(docs)
-            Object.keys(docs).forEach(function(item){
+            Object.keys(docs).forEach(async function(item){
 
                 // console.log(docs[item].osrsName)
-                    hiscores.getStats(docs[item].osrsName)
-                        .then(res => {
+                   await hiscores.getStats(docs[item].osrsName)
+                        .then(async res => {
                                 // Compare the new stats with the old
                                 const changes = compare(docs[item].stats, res.main.skills)
                                 if (!_.isEmpty(changes)) {
-                                    Object.keys(changes).forEach(function (skill) {
-
+                                   /* Object.keys(changes).forEach(function (skill) {
                                         // console.log(docs[item].stats[skill])
-            
-
                                         if (changes[skill].hasOwnProperty("level") && skill !== "overall") {
                                             if(docs[item].stats[skill].level < changes[skill].level){
-                                                client.channels.cache.get('321746940184363009').send(`Gz <@${docs[item].discordId}> with ${changes[skill].level} ${skill}!`)
+
+                                                // client.channels.cache.get('321746940184363009').send(`Gz <@${docs[item].discordId}> with ${changes[skill].level} ${skill}!`)
                                                 // save changes pls
+
+                                                // It is only saving one skill at a time :S
                                                 Player.findOne({_id: docs[item].id})
                                                 .then(doc => {
+                                                    // Dit moet ook loopen aap
+                                                    console.log(changes[skill])
                                                     doc.stats[skill] = changes[skill]
                                                     doc.markModified('stats')
                                                     doc.save();
+                                                    // console.log(skill);
                                                 })
                                                 .catch(err => console.log(err))
                                                }
                                         }
-                                    })
+                                    })*/ 
+                                    for(let skill in changes){
+                                        if(changes[skill].hasOwnProperty("level") && skill !== "overall"){
+                                            if(docs[item].stats[skill].level < changes[skill].level){
+                                                await Player.findOne({_id: docs[item].id})
+                                                .then(async doc => {
+                                                    doc.stats[skill] = changes[skill]
+                                                    doc.markModified('stats')
+                                                    await doc.save();
+                                                })
+                                                .then(() => {
+                                                    client.channels.cache.get('321746940184363009').send(`Gz <@${docs[item].discordId}> with ${changes[skill].level} ${skill}!`)
+                                                    // console.log(changes[skill].level + skill)
+                                                })
+                                                .catch(err => console.log(err))
+                                               
+                                            }
+                                        }
+                                    }
+
                                 }
                                 else{
                                     console.log('no changes')
@@ -217,7 +239,7 @@ function getHiscore() {
 
                         })
                 })
-
+                // docs.save();
         })
         .catch(err => console.log(err))
 }
