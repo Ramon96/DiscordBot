@@ -128,7 +128,7 @@ client.on('message', msg => {
             })
     }
     else if(message.startsWith(`${process.env.prefix}guide`)){
-        client.channels.cache.get('321746940184363009').send(`https://www.youtube.com/watch?v=-DW95B4QqlU`)
+        msg.reply(`https://www.youtube.com/watch?v=-DW95B4QqlU`)
     }
 });
 
@@ -152,10 +152,10 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
 
 client.login(process.env.token);
 
-
 async function storePlayer(rsn, mention){
     return await hiscores.getStats(rsn)
     .then(res => {
+        // todo check of de speler niet al in de highscore staat xd
         const player = new Player({
             discordId: mention,
             osrsName: rsn,
@@ -198,7 +198,7 @@ function getHiscore() {
                                                     await doc.save();
                                                 })
                                                 .then(() => {
-                                                    client.channels.cache.get('752832742420643850').send(`Gz <@${docs[item].discordId}> with ${changes[skill].level} ${skill}!`)
+                                                    client.channels.cache.get('872200569257873458').send(`Gz <@${docs[item].discordId}> with ${changes[skill].level} ${skill}!`)
                                                     // console.log(changes[skill].level + skill)
                                                 })
                                                 .catch(err => console.log(err))
