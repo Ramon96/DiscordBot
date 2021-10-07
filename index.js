@@ -181,13 +181,13 @@ function getHiscore() {
         .then(docs => {
             // console.log(docs)
             Object.keys(docs).forEach(async function(item){
-
                 // console.log(docs[item].osrsName)
                    await hiscores.getStats(docs[item].osrsName)
                         .then(async res => {
                                 // Compare the new stats with the old
                                 const changes = compare(docs[item].stats, res.main.skills)
-
+                                const username = docs[item].osrsName.replace(new RegExp('_', 'g'), ' ')
+                                console.log(_.startCase(username))
                                 if (!_.isEmpty(changes)) { 
                                     for(let skill in changes){
                                         if(changes[skill].hasOwnProperty("level") && skill !== "overall"){
@@ -199,7 +199,8 @@ function getHiscore() {
                                                     await doc.save();
                                                 })
                                                 .then(() => {
-                                                    client.channels.cache.get('872200569257873458').send(`<@${docs[item].discordId}> Gz ${docs[item].osrsName.repace('-', ' ').toUppercase()} with ${changes[skill].level} ${skill}!`)
+                                                    client.channels.cache.get('872200569257873458').send(`<@${docs[item].discordId}> Gz ${docs[item].osrsName} with ${changes[skill].level} ${skill}!`)
+                                                    console.log('hallo')
                                                     // console.log(changes[skill].level + skill)
                                                 })
                                                 .catch(err => console.log(err))
