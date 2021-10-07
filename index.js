@@ -198,9 +198,7 @@ function getHiscore() {
                                                     await doc.save();
                                                 })
                                                 .then(() => {
-                                                    client.channels.cache.get('872200569257873458').send(`<@${docs[item].discordId}> Gz ${_.startCase(username)} with ${changes[skill].level} ${skill}!`)
-                                                    console.log('hallo')
-                                                    // console.log(changes[skill].level + skill)
+                                                    client.channels.cache.get('872200569257873458').send(`Gz <@${docs[item].discordId}> with ${changes[skill].level} ${skill} on ${_.startCase(username)}!`)
                                                 })
                                                 .catch(err => console.log(err))
                                                
