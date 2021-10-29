@@ -6,6 +6,15 @@ const _ = require('lodash');
 const mongoose = require('mongoose');
 const Player = require('./model/osrs');
 const { result } = require('lodash');
+const fs = require('fs');
+client.commands = new Discord.Collection();
+
+commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
+
+for(const file of commandFiles) {
+    const command = require(`./commands/${file}`);
+    client.commands.set(command.name, command);
+}
 
 mongoose.connect(`mongodb+srv://admin:${process.env.mongoose}@osrsboys.rc9hb.azure.mongodb.net/test`, {
     useNewUrlParser: true,
@@ -25,60 +34,30 @@ client.on('ready', () => {
 });
 
 client.on('message', msg => {
-    // TODO: write a switch case for this shit
     let message = msg.content.toLowerCase();
-    // Command that has a change that the user kicks himself.
+
     if (message.startsWith(`${process.env.prefix}game and watch`)) {
-        let rng = Math.floor(Math.random() * 9) + 1;
-        if (rng == 9) {
-            let victim = msg.member;
-            msg.reply("The hammer rolled a " + rng + ". Get fucked!");
-            msg.channel.send("Beep!", {
-                file: "https://www.ssbwiki.com/images/thumb/a/a3/GameWatchSide2-SSB4.png/200px-GameWatchSide2-SSB4.png"
-            })
-
-            setTimeout(function () {
-                victim.kick("The hammer rolled a 9.")
-                    .then(() => console.log("succes"))
-                    .catch(console.error);
-            }, 3000)
-        } else {
-            msg.reply("You have been hit by a " + rng);
-            msg.channel.send("Beep!", {
-                file: "https://www.ssbwiki.com/images/thumb/e/ec/GameWatchSide1-SSB4.png/200px-GameWatchSide1-SSB4.png"
-            })
-        }
-
+        client.commands.get('rng').execute(msg);
     } 
-    // Makes the bot say oh homey using text to speech
     else if (message.startsWith(`${process.env.prefix}homey`)) {
-        msg.channel.send("Ohh Homeeyyy ", {
-            tts: true
-        });
+        client.commands.get('homey').execute(msg);
     } 
-    // Returns a random number between 1 and 100
     else if (message.startsWith(`${process.env.prefix}roll`)) {
-        let roll = Math.floor(Math.random() * 100) + 1;
-        msg.reply(" has rolled " + roll);
+        client.commands.get('roll').execute(msg);
     } 
-    // Suggegsts a Monster hunter class you should play
     else if (message.startsWith(`${process.env.prefix}mhw`)) {
-        const weaponCategories = ["Sword and Shield", "Great Sword", "Dual Blades", "Long Sword", "Hammer", "Hunting Horn", "Lance", "Gunlance", "Switch Axe", "Charge Blade", "Insect Glaive", "Bow", "Light Bowgun", "Heavy Bowgun"]
-
-        msg.reply(" Should go for the " + weaponCategories[Math.floor(Math.random() * weaponCategories.length)]);
+        client.commands.get('mhw').execute(msg);
     } 
-    // Filter bad words.
     else if (message.includes(process.env.triggerword1) || message.includes(process.env.triggerword2)) {
-        // Bad word filter
-        const shanoW = client.emojis.find(emoji => emoji.name == "shanoW");
-        msg.react(shanoW);
+        client.commands.get('badword').execute(msg);
+    }
+    else if (message.startsWith(`${process.env.prefix}magische schelp`)) {
+        client.commands.get('8ball').execute(msg);
     } 
-    // Check the highscores for level ups on oldschool runescape.
     else if (message.startsWith(`${process.env.prefix}osrs`)) {
         getHiscore();
     }
     else if (message.startsWith(`${process.env.prefix}add`)) {
-        // client.channels.get('321746940184363009').send(`yeet`)
         const prefix = process.env.prefix + 'osrs';
         const args = message.slice(prefix.length).split(' ');
         const rsn = args[0];
@@ -128,7 +107,7 @@ client.on('message', msg => {
             })
     }
     else if(message.startsWith(`${process.env.prefix}guide`)){
-        msg.reply(`https://www.youtube.com/watch?v=-DW95B4QqlU`)
+        client.commands.get('guide').execute(msg);
     }
 });
 
@@ -138,13 +117,17 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
     let oldUserChannel = oldMember.voiceChannel;
 
     // user joins a channel
-    if (oldUserChannel === undefined && newUserChannel !== undefined) {
-        //if the user is julian
+    if (oldMember.channelID === null) {
         if (newMember.id == 275998536162738179) {
-            // notify daan that julian is on discord right now.
-            newMember.guild.systemChannel.send("Hallo" + " <@131124125996548096>, Julian is in de discord server.");
+            client.channels.cache.get('867074325824012382').send("Hallo Daan, Julian is in de discord server.");
         }
-    } else if (newUserChannel === undefined) {
+        else if (newMember.id == 291296782187495424) {
+            client.channels.cache.get('867074325824012382').send("Kijk daar heb je DANIEL XDDDDDDDDD.");
+        }
+        else if (newMember.id == 131124125996548096) {
+            client.channels.cache.get('867074325824012382').send("Good to see you again, my king <@131124125996548096> o7");
+        }
+    } else if (newMember === null) {
         // user leaves
     }
 });
@@ -202,7 +185,6 @@ function getHiscore() {
                                                     client.channels.cache.get('872200569257873458').send(`Gz <@${docs[item].discordId}>, ${_.startCase(username)} gained a total of ${levelups} level(s) and now has ${changes[skill].level} ${skill}!`)
                                                 })
                                                 .catch(err => console.log(err))
-                                               
                                             }
                                         }
                                     }
