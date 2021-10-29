@@ -95,7 +95,7 @@ client.on('message', msg => {
         .then(res =>{
 
             if(res == false){
-                msg.reply("Runescape user was not found in the highscores (user '_' for spaces in your username)")
+                msg.reply("Runescape username was not found in the highscores, use '_' for spaces in your username")
             }
             else{
                 msg.reply(`${rsn} was succesfully added to the collection.`)
@@ -191,6 +191,7 @@ function getHiscore() {
                                     for(let skill in changes){
                                         if(changes[skill].hasOwnProperty("level") && skill !== "overall"){
                                             if(docs[item].stats[skill].level < changes[skill].level){
+                                                const levelups = changes[skill].level - docs[item].stats[skill].level;
                                                 await Player.findOne({_id: docs[item].id})
                                                 .then(async doc => {
                                                     doc.stats[skill] = changes[skill]
@@ -198,7 +199,7 @@ function getHiscore() {
                                                     await doc.save();
                                                 })
                                                 .then(() => {
-                                                    client.channels.cache.get('872200569257873458').send(`Gz <@${docs[item].discordId}> with ${changes[skill].level} ${skill} on ${_.startCase(username)}!`)
+                                                    client.channels.cache.get('872200569257873458').send(`Gz <@${docs[item].discordId}>, ${_.startCase(username)} gained a total of ${levelups} level(s) and now has ${changes[skill].level} ${skill}!`)
                                                 })
                                                 .catch(err => console.log(err))
                                                
