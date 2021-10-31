@@ -18,7 +18,6 @@ module.exports = {
 
         storePlayer(rsn, mention.id)
         .then(res =>{
-            console.log(res)
             if(res == false){
                 msg.reply("Runescape username was not found in the highscores, use '_' for spaces in your username")
             }

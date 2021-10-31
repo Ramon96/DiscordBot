@@ -1,11 +1,10 @@
 require('dotenv').config({});
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const hiscores = require('osrs-json-hiscores');
+const hiscores = require('osrs-json-hiscores'); //weghalen wanneer die niet meer nodig is
 const _ = require('lodash');
 const mongoose = require('mongoose');
-const Player = require('./model/osrs');
-const { result } = require('lodash');
+const Player = require('./model/osrs'); // weghalen wanneer die niet meer nodig is
 const fs = require('fs');
 client.commands = new Discord.Collection();
 

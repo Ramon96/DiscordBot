@@ -1,4 +1,5 @@
 const hiscores = require('osrs-json-hiscores');
+const Player = require('../../model/osrs');
 
 async function storePlayer(rsn, mention){
     console.log('ik kom hier ' + rsn + ' ' + mention)
@@ -19,6 +20,7 @@ async function storePlayer(rsn, mention){
         })
     })
     .catch(err => {
+        console.log(err)
         return false
     })
 }
