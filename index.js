@@ -33,6 +33,7 @@ client.on('ready', () => {
 
 client.on('message', msg => {
     let message = msg.content.toLowerCase();
+    // TODO aliases
 
     if (message.startsWith(`${process.env.prefix}game and watch`)) {
         client.commands.get('rng').execute(msg);
@@ -67,13 +68,18 @@ client.on('message', msg => {
     else if (message.includes('maplestory') || message.includes('maple') || message.includes('mesos')) {
         msg.author.send('Mesos pl0x');
     }
+    else if (message.startsWith(`${process.env.prefix}play`) || message.startsWith(`${process.env.prefix}stop`) || message.startsWith(`${process.env.prefix}skip`)) {
+        client.commands.get('music').execute(msg);
+    }
+    else if (message.includes('lik me') || message.includes('lik mijn')) {
+        msg.reply('👅 💦🌰')
+    }
 });
 
 // When someone joined or left a voice channel
 client.on('voiceStateUpdate', (oldMember, newMember) => {
-
-    // user joins a channel
     if (oldMember.channelID === null) {
+        // user joins a channel
         if (newMember.id == 275998536162738179) {
             client.channels.cache.get('867074325824012382').send("Hallo Daan, Julian is in de discord server.");
         }
