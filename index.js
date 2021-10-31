@@ -64,6 +64,9 @@ client.on('message', msg => {
     else if(message.startsWith(`${process.env.prefix}guide`)){
         client.commands.get('guide').execute(msg);
     }
+    else if (message.includes('maplestory') || message.includes('maple') || message.includes('mesos')) {
+        msg.author.send('Mesos pl0x');
+    }
 });
 
 // When someone joined or left a voice channel
@@ -84,6 +87,5 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
         // user leaves
     }
 });
-
 
 client.login(process.env.token);
