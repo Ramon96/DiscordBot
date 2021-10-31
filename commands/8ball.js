@@ -3,7 +3,7 @@ module.exports = {
     description: "Gives advise",
     execute(message) {
         const answers = ['yes', 'no', 'maybe']
-        let roll = Math.floor(Math.random() * 3);
+        let roll = Math.floor(Math.random() * answers.length);
         message.reply(answers[roll]);
     }
 }

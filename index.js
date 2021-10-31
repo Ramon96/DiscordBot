@@ -58,28 +58,7 @@ client.on('message', msg => {
         getHiscore();
     }
     else if (message.startsWith(`${process.env.prefix}add`)) {
-        const prefix = process.env.prefix + 'osrs';
-        const args = message.slice(prefix.length).split(' ');
-        const rsn = args[0];
-        const mention = msg.mentions.users.first();
-        if(!msg.mentions.users.size){
-            return msg.reply('Mention was missing.')
-        }
-
-        if(!rsn){
-            return msg.reply('Runescape name was missing.')
-        }
-
-        storePlayer(rsn, mention.id)
-        .then(res =>{
-
-            if(res == false){
-                msg.reply("Runescape username was not found in the highscores, use '_' for spaces in your username")
-            }
-            else{
-                msg.reply(`${rsn} was succesfully added to the collection.`)
-            }
-        })
+        client.commands.get('add').execute(message, msg);
     }
     else if (message.startsWith(`${process.env.prefix}namechange`)) {
         const prefix = process.env.prefix + 'namechange';
@@ -135,27 +114,7 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
 
 client.login(process.env.token);
 
-async function storePlayer(rsn, mention){
-    return await hiscores.getStats(rsn)
-    .then(res => {
-        // todo check of de speler niet al in de highscore staat xd
-        const player = new Player({
-            discordId: mention,
-            osrsName: rsn,
-            stats: res.main.skills
-        })
-        player.save()
-        .then(result => {
-            return true
-        })
-        .catch(err => {
-            console.log(err)
-        })
-    })
-    .catch(err => {
-        return false
-    })
-}
+
 
 function getHiscore() {
 // Get all the players from the database
