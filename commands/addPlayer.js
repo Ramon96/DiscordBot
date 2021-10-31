@@ -2,7 +2,7 @@ const storePlayer = require('../helpers/osrs/storePlayer');
 
 module.exports = {
     name: "add",
-    description: "Adds an player to the database",
+    description: "Adds an player to the database. use !add <osrs name> @mention",
     execute(message, msg) {
         const prefix = process.env.prefix + 'osrs';
         const args = message.slice(prefix.length).split(' ');

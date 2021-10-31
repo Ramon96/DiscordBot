@@ -22,12 +22,11 @@ mongoose.connect(`mongodb+srv://admin:${process.env.mongoose}@osrsboys.rc9hb.azu
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}`);
-    // storeStats();
     getHiscore();
     // 5 minutes
     setInterval(getHiscore, 300000)
+    
     // Finding user id's
-
     // console.log(client.users.find("username", "Yabby"))
     // console.log(client.channels.find("name", "general"))
 });
@@ -60,29 +59,7 @@ client.on('message', msg => {
         client.commands.get('add').execute(message, msg);
     }
     else if (message.startsWith(`${process.env.prefix}namechange`)) {
-        const prefix = process.env.prefix + 'namechange';
-        const args = message.slice(prefix.length + 1).split(' ');
-        const rsnold = args[0];
-        const rsnnew = args[1];
-        hiscores.getStats(rsnnew)
-            .then(res => {
-                Player.findOne({osrsName: rsnold})
-                .then(doc => {
-                    doc.osrsName = rsnnew;
-                    doc.markModified('osrsName');
-                    doc.save();
-                    msg.reply(`Changed username to ${rsnnew}`)
-                })
-                .catch(err => {
-                    console.log(args)
-                console.log("old" + rsnold)
-                console.log("new" + rsnnew)
-                    msg.reply(`${rsnold} was not found in the collection.`)
-                })
-            })
-            .catch(err => {
-                msg.reply(`${rsnnew} was not found in the hiscores.`)
-            })
+        client.commands.get('namechange').execute(message, msg);
     }
     else if(message.startsWith(`${process.env.prefix}guide`)){
         client.commands.get('guide').execute(msg);

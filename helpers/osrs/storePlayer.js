@@ -2,10 +2,9 @@ const hiscores = require('osrs-json-hiscores');
 const Player = require('../../model/osrs');
 
 async function storePlayer(rsn, mention){
-    console.log('ik kom hier ' + rsn + ' ' + mention)
     return await hiscores.getStats(rsn)
     .then(res => {
-        // todo check of de speler niet al in de highscore staat xd
+        // TODO check of de speler niet al in de highscore staat xd
         const player = new Player({
             discordId: mention,
             osrsName: rsn,
@@ -16,11 +15,11 @@ async function storePlayer(rsn, mention){
             return true
         })
         .catch(err => {
-            console.log(err)
+            console.error(err)
         })
     })
     .catch(err => {
-        console.log(err)
+        console.error(err)
         return false
     })
 }
