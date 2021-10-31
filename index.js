@@ -1,10 +1,7 @@
 require('dotenv').config({});
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const hiscores = require('osrs-json-hiscores'); //weghalen wanneer die niet meer nodig is
-const _ = require('lodash');
 const mongoose = require('mongoose');
-const Player = require('./model/osrs'); // weghalen wanneer die niet meer nodig is
 const fs = require('fs');
 client.commands = new Discord.Collection();
 
@@ -22,9 +19,12 @@ mongoose.connect(`mongodb+srv://admin:${process.env.mongoose}@osrsboys.rc9hb.azu
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}`);
-    getHiscore();
+    client.commands.get('highscore').execute(client.channels.cache.get('872200569257873458'));
     // 5 minutes
-    setInterval(getHiscore, 300000)
+    // setInterval(client.commands.get('highscore').execute(), 300000)
+    setInterval(function() {
+        client.commands.get('highscore').execute(client.channels.cache.get('872200569257873458'));
+    },  300000)
     
     // Finding user id's
     // console.log(client.users.find("username", "Yabby"))
@@ -53,7 +53,7 @@ client.on('message', msg => {
         client.commands.get('8ball').execute(msg);
     } 
     else if (message.startsWith(`${process.env.prefix}osrs`)) {
-        getHiscore();
+        client.commands.get('highscore').execute(client.channels.cache.get('872200569257873458'))
     }
     else if (message.startsWith(`${process.env.prefix}add`)) {
         client.commands.get('add').execute(message, msg);
@@ -68,8 +68,6 @@ client.on('message', msg => {
 
 // When someone joined or left a voice channel
 client.on('voiceStateUpdate', (oldMember, newMember) => {
-    let newUserChannel = newMember.voiceChannel;
-    let oldUserChannel = oldMember.voiceChannel;
 
     // user joins a channel
     if (oldMember.channelID === null) {
@@ -89,75 +87,3 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
 
 
 client.login(process.env.token);
-
-
-
-function getHiscore() {
-// Get all the players from the database
-    Player.find()
-        .exec()
-        .then(docs => {
-            // console.log(docs)
-            Object.keys(docs).forEach(async function(item){
-                // console.log(docs[item].osrsName)
-                   await hiscores.getStats(docs[item].osrsName)
-                        .then(async res => {
-                                // Compare the new stats with the old
-                                const changes = compare(docs[item].stats, res.main.skills)
-                                const username = docs[item].osrsName.replace(new RegExp('_', 'g'), ' ')
-                                if (!_.isEmpty(changes)) { 
-                                    for(let skill in changes){
-                                        if(changes[skill].hasOwnProperty("level") && skill !== "overall"){
-                                            if(docs[item].stats[skill].level < changes[skill].level){
-                                                const levelups = changes[skill].level - docs[item].stats[skill].level;
-                                                await Player.findOne({_id: docs[item].id})
-                                                .then(async doc => {
-                                                    doc.stats[skill] = changes[skill]
-                                                    doc.markModified('stats')
-                                                    await doc.save();
-                                                })
-                                                .then(() => {
-                                                    client.channels.cache.get('872200569257873458').send(`Gz <@${docs[item].discordId}>, ${_.startCase(username)} gained a total of ${levelups} level(s) and now has ${changes[skill].level} ${skill}!`)
-                                                })
-                                                .catch(err => console.log(err))
-                                            }
-                                        }
-                                    }
-
-                                }
-                                else{
-                                    console.log('no changes')
-                                }
-                            
-                            // Save the new aquired stats
-                            // osrsObject[item].stats = res.main.skills
-
-                        })
-                })
-                // docs.save();
-        })
-        .catch(err => console.log(err))
-}
-
-function compare(oldSkills, newSkills) {
-    const diff = difference(newSkills, oldSkills)
-    return diff
-}
-
-/**
- * Deep diff between two object, using lodash
- * @param  {Object} object Object compared
- * @param  {Object} base   Object to compare with
- * @return {Object}        Return a new object who represent the diff
- */
-// https://gist.github.com/Yimiprod/7ee176597fef230d1451
-function difference(object, base) {
-    function changes(object, base) {
-        return _.transform(object, function (result, value, key) {
-            if (!_.isEqual(value, base[key])) {
-                result[key] = (_.isObject(value) && _.isObject(base[key])) ? changes(value, base[key]) : value;
-            }
-        });
-    }
-    return changes(object, base);
-}
