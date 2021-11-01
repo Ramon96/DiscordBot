@@ -13,7 +13,7 @@ module.exports = {
         let roll = Math.floor(Math.random() * answers.length);
 
         const Embed = new MessageEmbed()
-            .setColor(0xFFC300)
+            .setColor(0x0457A0)
             .setTitle(`🦪 ${message.author.username}: ${messageArgs}`)
             .setDescription(`**${answers[roll]}**`)
             .setImage('https://media1.giphy.com/media/NcsEoyGjuLUYg/200.gif');
