@@ -19,11 +19,11 @@ mongoose.connect(`mongodb+srv://admin:${process.env.mongoose}@osrsboys.rc9hb.azu
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}`);
-    client.commands.get('highscore').execute(client.channels.cache.get('872200569257873458'));
+    client.commands.get('highscore').execute(client.channels.cache.get('872200569257873458'), client);
     // 5 minutes
     // setInterval(client.commands.get('highscore').execute(), 300000)
     setInterval(function() {
-        client.commands.get('highscore').execute(client.channels.cache.get('872200569257873458'));
+        client.commands.get('highscore').execute(client.channels.cache.get('872200569257873458'), client);
     },  300000)
     
     // Finding user id's
@@ -54,7 +54,7 @@ client.on('message', msg => {
         client.commands.get('8ball').execute(msg);
     } 
     else if (message.startsWith(`${process.env.prefix}osrs`)) {
-        client.commands.get('highscore').execute(client.channels.cache.get('872200569257873458'))
+        client.commands.get('highscore').execute(client.channels.cache.get('872200569257873458'), client)
     }
     else if (message.startsWith(`${process.env.prefix}add`)) {
         client.commands.get('add').execute(message, msg);
