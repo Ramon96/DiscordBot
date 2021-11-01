@@ -14,8 +14,8 @@ module.exports = {
 
         const Embed = new MessageEmbed()
             .setColor(0x0457A0)
-            .setTitle(`🦪 ${message.author.username}: ${messageArgs}`)
-            .setDescription(`**${answers[roll]}**`)
+            .setTitle(`${message.author.username}: ${messageArgs}`)
+            .setDescription(`🦪: **${answers[roll]}**`)
             .setImage('https://media1.giphy.com/media/NcsEoyGjuLUYg/200.gif');
 
         message.channel.send(Embed).then(() => {
