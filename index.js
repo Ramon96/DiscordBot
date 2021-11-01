@@ -74,6 +74,9 @@ client.on('message', msg => {
     else if (message.includes('lik me') || message.includes('lik mijn')) {
         msg.reply('👅 💦🌰')
     }
+    else if(message.startsWith(`${process.env.prefix}poll`)){
+        client.commands.get('poll').execute(msg);
+    }
 });
 
 // When someone joined or left a voice channel
