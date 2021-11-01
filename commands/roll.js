@@ -43,7 +43,7 @@ module.exports = {
                 .setTitle(`${message.author.username} has iniated a roll!`)
                 .setDescription(`Nobody joined the roll ${item ? 'for a ' + item : ''}. Roll ended`)
                 .addField(`Duration: `, `Roll has ended`)
-                .setFooter('The role has ended you can no longer participate')
+                .setFooter('The roll has ended you can no longer participate')
                 .setThumbnail(`https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.jpeg`)
                 .setTimestamp();
 
@@ -62,7 +62,7 @@ module.exports = {
                 .setDescription(item ? `${winner.user.username} has won a ${item}!` : `${winner.user.username} has won!`)
                 .setImage("https://cdn.discordapp.com/avatars/"+winner.user.id+"/"+winner.user.avatar+".jpeg")
                 .addField(`Duration: `, `Roll has ended`)
-                .setFooter('The role has ended you can no longer participate')
+                .setFooter('The roll has ended you can no longer participate')
                 .setThumbnail(`https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.jpeg`)
                 .setTimestamp();
 
