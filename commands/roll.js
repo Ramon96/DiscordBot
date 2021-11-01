@@ -8,12 +8,10 @@ module.exports = {
         const prefix = process.env.prefix + 'roll';
         const args = message.content.slice(prefix.length + 1).split(' ');
 
-        const item = '';
+        let item = '';
         const time = args[0];
         const participants = [];
         if (!time) return message.channel.send('add a time fool');
-
-
 
         for (var i = 1; i < args.length; i++) {
             item += (args[i] + " ");
@@ -40,7 +38,16 @@ module.exports = {
                 return message.channel.send(`I fucked up: ${e}`)
             }
             if (peopleReacted.length <= 0) {
-                return message.channel.send(`Nobody joined the roll`);
+                const EmbedNoJoin = new MessageEmbed()
+                .setColor(0x45150d)
+                .setTitle(`${message.author.username} has iniated a roll!`)
+                .setDescription(`Nobody joined the roll ${item ? 'for a ' + item : ''}. Roll ended`)
+                .addField(`Duration: `, `Roll has ended`)
+                .setFooter('The role has ended you can no longer participate')
+                .setThumbnail(`https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.jpeg`)
+                .setTimestamp();
+
+                sendEmbed.edit(EmbedNoJoin)
             } else {
                 for(let i = 0; i < peopleReacted.length; i++) {
                     participants.push({ user: peopleReacted[i], roll: Math.floor(Math.random() * 100) + 1})
