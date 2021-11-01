@@ -129,7 +129,7 @@ module.exports = {
                                                     const Embed = new MessageEmbed()
                                                     .setColor(osrsSkills[skill].color)
                                                     .setTitle(`**${_.startCase(username)} has advanced his ${skill}!**`)
-                                                    .setDescription((levelups > 1) ? `<@${docs[item].discordId}> has gained a total of ${levelups} level ups!` : `${client.users.cache.get(docs[item].discordId)} has gained 1 level!`)
+                                                    .setDescription((levelups > 1) ? `<@${docs[item].discordId}> has gained a total of ${levelups} level ups!` : `<@${docs[item].discordId}> has gained 1 level!`)
                                                     .setImage(osrsSkills[skill].gif)
                                                     .setTimestamp();
 
