@@ -55,7 +55,7 @@ client.on('message', msg => {
     } 
     else if (message.startsWith(`${process.env.prefix}osrs`)) {
         client.commands.get('highscore').execute(client.channels.cache.get('872200569257873458'), client);
-        message.delete({ timeout: 100 });
+        msg.delete({ timeout: 100 });
     }
     else if (message.startsWith(`${process.env.prefix}add`)) {
         client.commands.get('add').execute(message, msg);
