@@ -40,7 +40,7 @@ module.exports = {
             if (peopleReacted.length <= 0) {
                 const EmbedNoJoin = new MessageEmbed()
                 .setColor(0x45150d)
-                .setTitle(`${message.author.username} has iniated a roll!`)
+                .setTitle(`${message.author.username} has initiated a roll!`)
                 .setDescription(`Nobody joined the roll ${item ? 'for a ' + item : ''}. Roll ended`)
                 .addField(`Duration: `, `Roll has ended`)
                 .setFooter('The roll has ended you can no longer participate')
