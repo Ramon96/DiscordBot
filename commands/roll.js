@@ -19,7 +19,7 @@ module.exports = {
 
         const Embed = new MessageEmbed()
             .setColor(0x45150d)
-            .setTitle(`${message.author.username} has iniated a roll!`)
+            .setTitle(`${message.author.username} has initiated a roll!`)
             .setDescription(item ? `Roll for a ${item}!` : `Roll to win something!`)
             .setImage('https://media4.giphy.com/media/I38qmkMXsMOFKsuer9/giphy.gif?cid=ecf05e47xdyrn6x25g4sdbnd0lp5jzza868lsxrwhjqtdft5&rid=giphy.gif&ct=g')
             .addField(`Duration: `, ms(ms(time)))
@@ -58,7 +58,7 @@ module.exports = {
 
                 const EmbedWinner = new MessageEmbed()
                 .setColor(0x45150d)
-                .setTitle(`${message.author.username} has iniated a roll!`)
+                .setTitle(`${message.author.username} has initiated a roll!`)
                 .setDescription(item ? `${winner.user.username} has won a ${item}!` : `${winner.user.username} has won!`)
                 .setImage("https://cdn.discordapp.com/avatars/"+winner.user.id+"/"+winner.user.avatar+".jpeg")
                 .addField(`Duration: `, `Roll has ended`)
