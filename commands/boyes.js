@@ -6,8 +6,6 @@ module.exports = {
         else if (message.content.includes('daan')) boye_daan(message);
         else if (message.content.includes('julian')) boye_julian(message);
         else if (message.content.includes('ramon')) boye_ramon(message);
-
-        message.delete({ timeout: 100 });
     }
 }
 
