@@ -18,7 +18,7 @@ const boye_daan = (message) => {
 }
 
 const boye_julian = (message) => {
-    message.channel.send('Julian wil graag de wereld veroveren, maar wat hij echt veroverd zijn de harten van de boyes. Holy moly denken ze dan, als deze heerlijke jongen weer om een Elton John vraagt. Aftrekken op het balkon is hij daan ook niet vies van.', {files: ['./images/julianframe.gif']});
+    message.channel.send('Julian wil graag de wereld veroveren, maar wat hij echt veroverd zijn de harten van de boyes. Holy moly denken ze dan, als deze heerlijke jongen weer om een Elton John vraagt. Aftrekken op het balkon is hij dan ook niet vies van.', {files: ['./images/julianframe.gif']});
 }
 
 const boye_ramon = (message) => {
