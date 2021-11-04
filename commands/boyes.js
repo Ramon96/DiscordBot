@@ -27,9 +27,9 @@ const boye_ramon = (message) => {
 }
 
 const boyes = (message) => {
-     message.channel.send('!daan')
-     message.channel.send('!daniel')
-     message.channel.send('!julian')
-     message.channel.send('!ramon')
-     return
+    //  message.channel.send('!daan')
+    //  message.channel.send('!daniel')
+    //  message.channel.send('!julian')
+    //  message.channel.send('!ramon')
+    //  return
 }
