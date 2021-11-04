@@ -2,11 +2,11 @@ module.exports = {
     name: "boyes",
     description: "retrieve the lore of a follow boye",
     execute(message) {
-        if (message.content.includes('daniel')) boye_daniel(message);
-        else if (message.content.includes('daan')) boye_daan(message);
-        else if (message.content.includes('julian')) boye_julian(message);
-        else if (message.content.includes('ramon')) boye_ramon(message);
-        else if (message.content.includes('boyes')) boyes(message);
+        if (message.content.includes(`${process.env.prefix}daniel`)) boye_daniel(message);
+        else if (message.content.includes(`${process.env.prefix}daan`)) boye_daan(message);
+        else if (message.content.includes(`${process.env.prefix}julian`)) boye_julian(message);
+        else if (message.content.includes(`${process.env.prefix}ramon`)) boye_ramon(message);
+        else if (message.content.includes(`${process.env.prefix}boyes`)) boyes(message);
     }
 }
 
@@ -27,9 +27,8 @@ const boye_ramon = (message) => {
 }
 
 const boyes = (message) => {
-    //  message.channel.send('!daan')
-    //  message.channel.send('!daniel')
-    //  message.channel.send('!julian')
-    //  message.channel.send('!ramon')
-    //  return
+     message.channel.send('!daan')
+     message.channel.send('!daniel')
+     message.channel.send('!julian')
+     message.channel.send('!ramon')
 }
