@@ -5,7 +5,7 @@ module.exports = {
     name: "dailymessage",
     description: "sends a daily message giving a random hotty of the day",
     execute(client) {
-        let dailymessage = new cron.CronJob('00 00 13 * * *', () => {
+        let dailymessage = new cron.CronJob('00 00 11 * * *', () => {
             const guild = client.guilds.cache.get('867074325824012379');
             const user = guild.members.cache.random().user;
 
