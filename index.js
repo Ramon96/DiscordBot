@@ -1,8 +1,9 @@
 require('dotenv').config({});
 const Discord = require('discord.js');
-const client = new Discord.Client();
+const client = new Discord.Client({ ws: { intents: new Discord.Intents(Discord.Intents.ALL) }});
 const mongoose = require('mongoose');
 const fs = require('fs');
+const cron = require('cron');
 client.commands = new Discord.Collection();
 
 commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
@@ -25,6 +26,7 @@ client.on('ready', () => {
     setInterval(function() {
         client.commands.get('highscore').execute(client.channels.cache.get('872200569257873458'), client);
     },  300000)
+    client.commands.get('dailymessage').execute(client);
     
     // Finding user id's
     // console.log(client.users.find("username", "Yabby"))
