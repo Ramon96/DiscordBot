@@ -3,7 +3,6 @@ const Discord = require('discord.js');
 const client = new Discord.Client({ ws: { intents: new Discord.Intents(Discord.Intents.ALL) }});
 const mongoose = require('mongoose');
 const fs = require('fs');
-const cron = require('cron');
 client.commands = new Discord.Collection();
 
 commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
