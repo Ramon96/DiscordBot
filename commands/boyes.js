@@ -6,6 +6,7 @@ module.exports = {
         else if (message.content.includes('daan')) boye_daan(message);
         else if (message.content.includes('julian')) boye_julian(message);
         else if (message.content.includes('ramon')) boye_ramon(message);
+        else if (message.content.includes('boyes')) boyes(message);
     }
 }
 
@@ -23,4 +24,11 @@ const boye_julian = (message) => {
 
 const boye_ramon = (message) => {
     message.channel.send('Ramon is van nature al edgy en heeft dus geen edgy class nodig om de wereld te laten zien hoe edgy hij is. Van zijn geluk lijkt nog veel te blijven, al beseft hij niet hoeveel geluk hij heeft dat hij met 1 luck onderdeel mag uitmaken van de boyes.', {files: ['./images/ramonframe.gif']});
+}
+
+const boyes = (message) => {
+     message.channel.send('!daan')
+     message.channel.send('!daniel')
+     message.channel.send('!julian')
+     message.channel.send('!ramon')
 }

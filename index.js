@@ -78,7 +78,7 @@ client.on('message', msg => {
     else if(message.startsWith(`${process.env.prefix}poll`)){
         client.commands.get('poll').execute(msg);
     }
-    else if (message.includes('daniel') || message.includes('daan') || message.includes('ramon') || message.includes('julian')) {
+    else if (message.includes('daniel') || message.includes('daan') || message.includes('ramon') || message.includes('julian') || message.includes('boyes')) {
         client.commands.get('boyes').execute(msg);
     }
 });
