@@ -31,4 +31,5 @@ const boyes = (message) => {
      message.channel.send('!daniel')
      message.channel.send('!julian')
      message.channel.send('!ramon')
+     return
 }
