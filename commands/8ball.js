@@ -14,7 +14,7 @@ module.exports = {
             .setColor(0x0457A0)
             .setTitle(`${message.author.username}: ${messageArgs}`)
             .setDescription(`🦪: **${answers[roll]}**`)
-            .setImage('https://tenor.com/view/magic-conch-spongebob-pulling-string-magic-conch-shell-pull-gif-16295324');
+            .setImage('https://c.tenor.com/Y_dBpTURBncAAAAd/magic-conch-spongebob.gif');
 
         message.channel.send(Embed).then(() => {
             message.delete({ timeout: 1000 }).catch(console.error);
