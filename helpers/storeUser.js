@@ -11,7 +11,6 @@ async function storeUser(mention, birthday) {
     const checkUser = await User.exists({ id: mention });
     console.log(checkUser)
     if (checkUser) {
-        console.log('ik kom hier')
         return false;
     } else {
         return await user.save()
