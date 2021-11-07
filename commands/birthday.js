@@ -19,7 +19,8 @@ module.exports = {
             if (validateDate(birthday)) {
                 storeUser(userId, birthday)
                     .then(res => {
-                        if (res !== false) message.reply('Birthday stored!');
+                        console.log(res)
+                        if (res === true) message.reply('Birthday stored!');
                         else message.reply('Birthday already stored!');
                     })
                     .catch(err => {
