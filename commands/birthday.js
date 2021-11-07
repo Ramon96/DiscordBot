@@ -17,10 +17,9 @@ module.exports = {
             const userId = message.author.id;
 
             if (validateDate(birthday)) {
-                console.log(storeUser)
                 storeUser(userId, birthday)
                     .then(res => {
-                        if (res) message.reply('Birthday stored!');
+                        if (res !== false) message.reply('Birthday stored!');
                         else message.reply('Birthday already stored!');
                     })
                     .catch(err => {

@@ -7,18 +7,20 @@ async function storeUser(mention, birthday) {
     })
 
     //function that checks if the user is already stored in the database
-    const checkUser = await User.findOne({ id: mention });
+    const checkUser =  User.findOne({ id: mention });
     if (checkUser) {
-        return;
+        return false;
     } else {
-        user.save()
+        await user.save()
         .then(result => {
-            return true
+            console.log(result);
+            return result
         })
         .catch(err => {
             console.error(err)
         })
     }
+    
 }
 
 module.exports = storeUser;
