@@ -1,7 +1,6 @@
 const User = require('../model/discordUser');
 
 async function storeUser(mention, birthday) {
-    // console.log(mention)
     const user = new User({
         id: mention,
         birthday: birthday,
@@ -20,8 +19,7 @@ async function storeUser(mention, birthday) {
         .catch(err => {
             console.error(err)
         })
-    }
-    
+    } 
 }
 
 module.exports = storeUser;

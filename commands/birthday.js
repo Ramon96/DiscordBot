@@ -39,20 +39,21 @@ module.exports = {
                     let user = client.users.cache.get(userId);
                     let today = new Date();
                     let birthdayDate = new Date(convertDate(birthday));
+                    let age = today.getFullYear() - birthdayDate.getFullYear();
 
                     if (birthdayDate.getDate() == today.getDate() && birthdayDate.getMonth() == today.getMonth()) {
                         let embed = new MessageEmbed()
                             .setTitle('Happy Birthday!')
-                            .setDescription(`${user}`)
+                            .setDescription(`${user} is ${age} jaar!`)
                             .setThumbnail(user.avatarURL())
                             .setColor('#ff0000')
-                            .setImage('https://media2.giphy.com/media/KdC9XVrVYOVu6zZiMH/giphy.gif?cid=ecf05e472frr6makwkfx3huoqftm8x5malnq3l6um6xn7csx&rid=giphy.gif&ct=g');
+                            .setImage('https://media2.giphy.com/media/KdC9XVrVYOVu6zZiMH/giphy.gif?cid=ecf05e472frr6makwkfx3huoqftm8x5malnq3l6um6xn7csx&rid=giphy.gif&ct=g')
+                            .setTimestamp();
                         client.channels.cache.get('867074325824012382').send(embed);
                     }
                 });
             })
         });
-
         dailymessage.start();
     }
 }
