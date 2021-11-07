@@ -4,7 +4,7 @@ module.exports = {
     name: "8ball",
     description: "Gives advise",
     execute(message) {
-        const prefix = process.env.prefix + 'namechange';
+        const prefix = process.env.prefix + 'magischeschelp';
         const args = message.content.slice(prefix.length + 1).split(' ');
         let messageArgs = args.slice(1).join(" ");
         const answers = ['yes', 'no', 'maybe']

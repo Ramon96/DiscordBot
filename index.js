@@ -22,11 +22,11 @@ client.on('ready', () => {
     client.commands.get('highscore').execute(client.channels.cache.get('872200569257873458'), client);
     // 5 minutes
     // setInterval(client.commands.get('highscore').execute(), 300000)
-    setInterval(function() {
-        client.commands.get('highscore').execute(client.channels.cache.get('872200569257873458'), client);
-    },  300000)
+    // setInterval(function() {
+    //     client.commands.get('highscore').execute(client.channels.cache.get('872200569257873458'), client);
+    // },  300000)
     client.commands.get('dailymessage').execute(client);
-    
+    client.commands.get('birthday').execute(client);
     // Finding user id's
     // console.log(client.users.find("username", "Yabby"))
     // console.log(client.channels.find("name", "general"))
@@ -81,6 +81,9 @@ client.on('message', msg => {
     }
     else if(message.startsWith(`${process.env.prefix}daily`)){
         client.commands.get('dailymessage').execute(client, msg);
+    }
+    else if(message.startsWith(`${process.env.prefix}birthday`)){
+        client.commands.get('birthday').execute(client, msg);
     }
     else if (message.includes('daniel') || message.includes('daan') || message.includes('ramon') || message.includes('julian') || message.includes('boyes')) {
         client.commands.get('boyes').execute(msg);
