@@ -5,10 +5,6 @@ const mongoose = require('mongoose');
 const fs = require('fs');
 client.commands = new Discord.Collection();
 
-const cron = require('cron'); // remove
-const { MessageEmbed } = require('discord.js');
-
-
 commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 
 for(const file of commandFiles) {
@@ -34,25 +30,6 @@ client.on('ready', () => {
     // Finding user id's
     // console.log(client.users.find("username", "Yabby"))
     // console.log(client.channels.find("name", "general"))
-
-    let dailymessage = new cron.CronJob('* * * * * *', () => {
-        const guild = client.guilds.cache.get('321746940184363009');
-        let user = guild.members.cache.random().user;
-
-        while(user.id === '675080598355705899'){
-            user = guild.members.cache.random().user;
-        }
-        
-        const Embed = new MessageEmbed()
-        .setColor(0xff496c)
-        .setTitle(`**Hottie of the day!**`)
-        .setDescription(`Todays hottie of the day is ${user.username}`)
-        .setImage(`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.jpeg`)
-        .setTimestamp();
-        client.channels.cache.get('906647391187382282').send(Embed);
-    });
-
-    dailymessage.start();
 });
 
 client.on('message', msg => {
