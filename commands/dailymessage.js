@@ -26,7 +26,7 @@ module.exports = {
 
         let dailymessage = new cron.CronJob('00 00 11 * * *', () => {
             const guild = client.guilds.cache.get('867074325824012379');
-            const user = guild.members.cache.random().user;
+            let user = guild.members.cache.random().user;
 
             while(user.id === '675080598355705899'){
                 user = guild.members.cache.random().user;
