@@ -2,6 +2,9 @@
   "name": "discordbot",
   "version": "1.0.0",
   "description": "bot for the boyes discord server, this project is for educational purposes",
+  "engines": {
+    "node": "16.13.0"
+  },
   "main": "index.js",
   "dependencies": {
     "@discordjs/opus": "github:discordjs/opus",
