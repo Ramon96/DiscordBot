@@ -21,7 +21,7 @@ module.exports = {
             .setDescription(`Todays hottie of the day is ${user.username}`)
             .setImage(`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.jpeg`)
             .setTimestamp();
-            client.channels.cache.get('867074325824012382').send(Embed);
+            client.channels.cache.get('867074325824012382').send({embeds: [Embed]});
         }
 
         let dailymessage = new cron.CronJob('00 00 11 * * *', () => {
@@ -38,7 +38,7 @@ module.exports = {
             .setDescription(`Todays hottie of the day is ${user.username}`)
             .setImage(`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.jpeg`)
             .setTimestamp();
-            client.channels.cache.get('867074325824012382').send(Embed);
+            client.channels.cache.get('867074325824012382').send({embeds: [Embed]});
         });
 
         dailymessage.start();

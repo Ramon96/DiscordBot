@@ -1,4 +1,4 @@
-const User = require('../model/discordUser');
+const User = require('../../model/discordUser');
 
 async function storeUser(mention, birthday) {
     const user = new User({

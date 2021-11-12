@@ -1,7 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 const hiscores = require('osrs-json-hiscores');
-const Player = require('../model/osrs');
-const compare = require('../helpers/compare');
+const Player = require('../../model/osrs');
+const compare = require('../../helpers/functions/compare');
 const _ = require('lodash');
 const osrsSkills = {
     attack: {
@@ -124,7 +124,7 @@ const osrsSkills = {
 module.exports = {
     name: "highscore",
     description: "fetches the highscores and compares the levels stored in the database with the highscore data. if there are level increases the player will be congratiolated and the new data will be saved.",
-    execute(channel, client) {
+    execute(channel) {
         Player.find()
             .exec()
             .then(docs => {
@@ -157,7 +157,7 @@ module.exports = {
                                                     .setThumbnail(osrsSkills[skill].placeholder)
                                                     .setTimestamp();
 
-                                                    channel.send(Embed);
+                                                    channel.send({embeds: [Embed]});
                                                 })
                                                 .catch(err => console.log(err))
                                         }

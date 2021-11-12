@@ -1,108 +1,104 @@
 require('dotenv').config({});
-const Discord = require('discord.js');
-const client = new Discord.Client({ ws: { intents: new Discord.Intents(Discord.Intents.ALL) }});
+const { Client, Collection } = require('discord.js');
+const client = new Client({ 
+    intents: [
+        "GUILDS", 
+        "GUILD_MESSAGES", 
+        "DIRECT_MESSAGES",
+        "GUILD_MEMBERS",
+        "GUILD_BANS",
+        "GUILD_INTEGRATIONS",
+        "GUILD_WEBHOOKS",
+        "GUILD_INVITES",
+        "GUILD_VOICE_STATES",
+        "GUILD_PRESENCES",
+        "GUILD_MESSAGE_REACTIONS",
+        "GUILD_MESSAGE_TYPING",
+        "GUILD_MESSAGE_REACTIONS",
+    ], 
+    partials: [
+        'MESSAGE', 
+        'CHANNEL', 
+        'REACTION'
+    ] 
+});
+const music = require('@koenie06/discord.js-music');
 const mongoose = require('mongoose');
 const fs = require('fs');
-client.commands = new Discord.Collection();
 
-commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
+client.commands = new Collection();
+client.slashCommands = new Collection();
+client.events = new Collection();
 
-for(const file of commandFiles) {
-    const command = require(`./commands/${file}`);
-    client.commands.set(command.name, command);
-}
+/* This will run when a new song started to play */
+music.event.on('playSong', (channel, songInfo, requester) => {
+	channel.send({ content: `Started playing the song [${songInfo.title}](${songInfo.url}) - ${songInfo.duration} | Requested by \`${requester.tag}\`` });
+});
+
+/* This will run when a new song has been added to the queue */
+music.event.on('addSong', (channel, songInfo, requester) => {
+	channel.send({ content: `Added the song [${songInfo.title}](${songInfo.url}) - ${songInfo.duration} to the queue | Added by \`${requester.tag}\`` });
+});
+
+/* This will run when a song started playing from a playlist */
+music.event.on('playList', async (channel, playlist, songInfo, requester) => {
+    channel.send({
+        content: `Started playing the song [${songInfo.title}](${songInfo.url}) by \`${songInfo.author}\` of the playlist ${playlist.title}.
+        This was requested by ${requester.tag} (${requester.id})`
+    });
+});
+
+/* This will run when a new playlist has been added to the queue */
+music.event.on('addList', async (channel, playlist, requester) => {
+    channel.send({
+        content: `Added the playlist [${playlist.title}](${playlist.url}) with ${playlist.videos.length} amount of videos to the queue.
+        Added by ${requester.tag} (${requester.id})`
+    });
+});
+
+/* This will run when all the music has been played, and the bot disconnects. */
+music.event.on('finish', (channel) => {
+	channel.send({ content: `All music has been played, disconnecting..` });
+});
+
 
 mongoose.connect(`mongodb+srv://admin:${process.env.mongoose}@osrsboys.rc9hb.azure.mongodb.net/test`, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
 
-client.on('ready', () => {
-    console.log(`Logged in as ${client.user.tag}`);
-    client.commands.get('highscore').execute(client.channels.cache.get('872200569257873458'), client);
+function loadCommands() {
+    const commandFiles = fs.readdirSync('./commands/normalcommands/').filter(file => file.endsWith('.js'));
+    for (const file of commandFiles) {
+        const command = require(`./commands/normalcommands/${file}`);
+        client.commands.set(command.name, command);
+    }
+}
 
-    // 5 minutes
-    setInterval(function() {
-        client.commands.get('highscore').execute(client.channels.cache.get('872200569257873458'), client);
-    },  300000)
-    client.commands.get('dailymessage').execute(client);
-    client.commands.get('birthday').execute(client);
-});
+function loadSlashCommands() {
+    const commandFiles = fs.readdirSync('./commands/slashcommands/').filter(file => file.endsWith('.js'));
+    for (const file of commandFiles) {
+        const command = require(`./commands/slashcommands/${file}`);
+        client.slashCommands.set(command.name, command);
+    }
 
-client.on('message', msg => {
-    let message = msg.content.toLowerCase();
-    // TODO aliases
+}
 
-    if (message.startsWith(`${process.env.prefix}game and watch`)) {
-        client.commands.get('rng').execute(msg);
-    } 
-    else if (message.startsWith(`${process.env.prefix}homey`)) {
-        client.commands.get('homey').execute(msg);
-    } 
-    else if (message.startsWith(`${process.env.prefix}roll`)) {
-        client.commands.get('roll').execute(msg, client);
-    } 
-    else if (message.startsWith(`${process.env.prefix}mhw`)) {
-        client.commands.get('mhw').execute(msg);
-    } 
-    else if (message.includes(process.env.triggerword1) || message.includes(process.env.triggerword2)) {
-        client.commands.get('badword').execute(msg);
-    }
-    else if (message.startsWith(`${process.env.prefix}magische schelp`)) {
-        client.commands.get('8ball').execute(msg);
-    } 
-    else if (message.startsWith(`${process.env.prefix}osrs`)) {
-        client.commands.get('highscore').execute(client.channels.cache.get('872200569257873458'), client);
-        msg.delete({ timeout: 100 });
-    }
-    else if (message.startsWith(`${process.env.prefix}add`)) {
-        client.commands.get('add').execute(message, msg);
-    }
-    else if (message.startsWith(`${process.env.prefix}namechange`)) {
-        client.commands.get('namechange').execute(message, msg);
-    }
-    else if(message.startsWith(`${process.env.prefix}guide`)){
-        client.commands.get('guide').execute(msg);
-    }
-    else if (message.includes('maplestory') || message.includes('maple') || message.includes('mesos')) {
-        msg.author.send('Mesos pl0x');
-    }
-    else if (message.startsWith(`${process.env.prefix}play`) || message.startsWith(`${process.env.prefix}stop`) || message.startsWith(`${process.env.prefix}skip`)) {
-        client.commands.get('music').execute(msg);
-    }
-    else if (message.includes('lik me') || message.includes('lik mijn')) {
-        msg.reply('👅 💦🌰')
-    }
-    else if(message.startsWith(`${process.env.prefix}poll`)){
-        client.commands.get('poll').execute(msg);
-    }
-    else if(message.startsWith(`${process.env.prefix}daily`)){
-        client.commands.get('dailymessage').execute(client, msg);
-    }
-    else if(message.startsWith(`${process.env.prefix}birthday`)){
-        client.commands.get('birthday').execute(client, msg);
-    }
-    else if (message.includes('daniel') || message.includes('daan') || message.includes('ramon') || message.includes('julian') || message.includes('boyes')) {
-        client.commands.get('boyes').execute(msg);
-    }
-});
-
-// When someone joined or left a voice channel
-client.on('voiceStateUpdate', (oldMember, newMember) => {
-    if (oldMember.channelID === null) {
-        // user joins a channel
-        if (newMember.id == 275998536162738179) {
-            client.channels.cache.get('867074325824012382').send("Hallo Daan, Julian is in de discord server.");
+function loadEvents() {
+    const eventFiles = fs.readdirSync('./events/').filter(file => file.endsWith('.js'));
+    for (const file of eventFiles) {
+        const event = require(`./events/${file}`);
+        if(event.once) {
+            client.once(event.name, (...args) => event.execute(client, ...args));
+        } else {
+            client.on(event.name, (...args) => event.execute(client, ...args));
         }
-        else if (newMember.id == 291296782187495424) {
-            client.channels.cache.get('867074325824012382').send("Kijk daar heb je DANIEL XDDDDDDDDD.");
-        }
-        else if (newMember.id == 131124125996548096) {
-            client.channels.cache.get('867074325824012382').send("Good to see you again, my king <@131124125996548096> o7");
-        }
-    } else if (newMember === null) {
-        // user leaves
     }
-});
+}
+
+loadCommands();
+loadSlashCommands();
+loadEvents();
+
 
 client.login(process.env.token);

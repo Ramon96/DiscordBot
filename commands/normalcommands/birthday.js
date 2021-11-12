@@ -2,9 +2,9 @@ const {
     MessageEmbed
 } = require('discord.js');
 const cron = require('cron');
-const validateDate = require('../helpers/validateDate');
-const storeUser = require('../helpers/storeUser');
-const User = require('../model/discordUser');
+const validateDate = require('../../helpers/functions/validateDate');
+const storeUser = require('../../helpers/functions/storeUser');
+const User = require('../../model/discordUser');
 
 module.exports = {
     name: "birthday",
@@ -49,7 +49,7 @@ module.exports = {
                             .setColor('#ff0000')
                             .setImage('https://media2.giphy.com/media/KdC9XVrVYOVu6zZiMH/giphy.gif?cid=ecf05e472frr6makwkfx3huoqftm8x5malnq3l6um6xn7csx&rid=giphy.gif&ct=g')
                             .setTimestamp();
-                        client.channels.cache.get('867074325824012382').send(embed);
+                        client.channels.cache.get('867074325824012382').send({embeds: [embed]});
                     }
                 });
             })
