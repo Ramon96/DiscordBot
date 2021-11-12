@@ -1,20 +1,8 @@
 require('dotenv').config({});
-const { Client, Collection } = require('discord.js');
+const { Client, Collection, Intents } = require('discord.js');
 const client = new Client({ 
     intents: [
-        "GUILDS", 
-        "GUILD_MESSAGES", 
-        "DIRECT_MESSAGES",
-        "GUILD_MEMBERS",
-        "GUILD_BANS",
-        "GUILD_INTEGRATIONS",
-        "GUILD_WEBHOOKS",
-        "GUILD_INVITES",
-        "GUILD_VOICE_STATES",
-        "GUILD_PRESENCES",
-        "GUILD_MESSAGE_REACTIONS",
-        "GUILD_MESSAGE_TYPING",
-        "GUILD_MESSAGE_REACTIONS",
+        Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_VOICE_STATES
     ], 
     partials: [
         'MESSAGE', 
