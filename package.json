@@ -5,7 +5,7 @@
   "engines": {
     "node": "16.13.0"
   },
-  "main": "index.js",
+  "main": "./index.js",
   "dependencies": {
     "@discordjs/opus": "github:discordjs/opus",
     "@discordjs/rest": "^0.1.0-canary.0",
