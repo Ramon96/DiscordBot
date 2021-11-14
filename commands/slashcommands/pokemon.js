@@ -28,6 +28,8 @@ module.exports = {
             : pokeTypes.getTypeWeaknesses(data.types[0].type.name)
             const weakness = getKeyByValue(typeChart, 2);
             const immunity = getKeyByValue(typeChart, 0);
+            const hiddenAbility = data.abilities.find(a => a.is_hidden).ability.name;
+            const abilities = data.abilities.filter(a => a.is_hidden == false).map(a => a.ability.name).join(", ");
                 
             const embed = new MessageEmbed()
                 .setTitle(name)
@@ -36,7 +38,9 @@ module.exports = {
                 .addField("Type", type, false)
                 .addField("Stats", stats, false)
                 .addField("immunity", immunity.join(", "), true)
-                .addField("weakness", weakness.join(", "), true);
+                .addField("weakness", weakness.join(", "), false)
+                .addField("abilities", abilities, true)
+                .addField("hidden ability", hiddenAbility, false);
                                
             interaction.reply(`Getting ${data.name}'s stats.`);
             interaction.followUp({ embeds: [embed] });
