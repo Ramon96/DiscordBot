@@ -1,7 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const fetchPokemon = require('../../helpers/api/pokemon/fetchPokemon');
-// const fetchWeakness = require('../../helpers/api/pokemon/fetchWeakness');
 const pokeTypes = require('poke-types');
 
 module.exports = {
@@ -12,8 +11,7 @@ module.exports = {
     name: "pokemon",
     async execute(interaction) {
         const pokemon = interaction.options.getString("pokemon");
-        
-
+    
         try {
             const data = await fetchPokemon(pokemon);
             
@@ -30,9 +28,6 @@ module.exports = {
             : pokeTypes.getTypeWeaknesses(data.types[0].type.name)
             const weakness = getKeyByValue(typeChart, 2);
             const immunity = getKeyByValue(typeChart, 0);
-
-            // console.log(immunity);
-            // const weakness = typeChart.keys(type).find(value = type[value] === 2);
                 
             const embed = new MessageEmbed()
                 .setTitle(name)
@@ -42,16 +37,7 @@ module.exports = {
                 .addField("Stats", stats, false)
                 .addField("immunity", immunity.join(", "), true)
                 .addField("weakness", weakness.join(", "), true);
-                
-
-            // const weaknesses = await fetchWeakness(data.types);
-
-            // let getTypeWeaknesses = pokeTypes.getWeaknesses(data.types);
-
-            // console.log(weaknesses);
-
-
-                
+                               
             interaction.reply(`Getting ${data.name}'s stats.`);
             interaction.followUp({ embeds: [embed] });
         } catch (error) {
