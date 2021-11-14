@@ -14,8 +14,9 @@ module.exports = {
     
         try {
             const data = await fetchPokemon(pokemon);
-            
+            // console.log(data);
             if (!data) {
+                console.log('in the try')
                 return interaction.reply(`I couldn't find "${pokemon}".`);
             }
             
@@ -30,17 +31,23 @@ module.exports = {
             const immunity = getKeyByValue(typeChart, 0);
             const hiddenAbility = data.abilities.find(a => a.is_hidden).ability.name;
             const abilities = data.abilities.filter(a => a.is_hidden == false).map(a => a.ability.name).join(", ");
-                
-            const embed = new MessageEmbed()
-                .setTitle(name)
-                .setColor("#0099ff")
-                .setThumbnail(sprite)
-                .addField("Type", type, false)
-                .addField("Stats", stats, false)
-                .addField("immunity", immunity.join(", "), true)
-                .addField("weakness", weakness.join(", "), false)
-                .addField("abilities", abilities, true)
-                .addField("hidden ability", hiddenAbility, false);
+
+            console.log(immunity.join(", "));
+             const embed = new MessageEmbed()
+                 .setTitle(name)
+                 .setColor("#0099ff")
+                 .setThumbnail(sprite)
+                 .addField("Type", type, false)
+                 .addField("Stats", stats, false)
+                 .addField("abilities", abilities, true)
+                 .addField("hidden ability", hiddenAbility, false)
+                 .addField("weakness", weakness.join(", "), true);
+
+            if (immunity.length > 0) {
+                embed.addField("immunity", immunity.join(", "), true);
+            } else {
+                embed.addField("immunity", "no immunity", true);
+            }
                                
             interaction.reply(`Getting ${data.name}'s stats.`);
             interaction.followUp({ embeds: [embed] });
