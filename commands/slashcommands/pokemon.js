@@ -15,12 +15,10 @@ module.exports = {
     
         try {
             const data = await fetchPokemon(cleanString);
-            // console.log(data);
+
             if (!data) {
-                // throw 'Pokemon not found';
                 return interaction.reply(`I couldn't find "${pokemon}" in the database.`);
             }
-            
 
             const sprite = data.sprites.front_default;
             const name = data.name;
@@ -35,20 +33,17 @@ module.exports = {
             const hiddenAbility = data.abilities.find(a => a.is_hidden) ? data.abilities.find(a => a.is_hidden).ability.name : "none";
             const abilities = data.abilities.filter(a => a.is_hidden == false).map(a => a.ability.name).join(", ");
 
-             console.log(immunity);
-            // // console.log(hiddenAbility);
-             const embed = new MessageEmbed()
-                 .setTitle(name)
-                 .setColor("#0099ff")
-                 .setThumbnail(sprite)
-                 .addField("Type", type, false)
-                 .addField("Stats", stats, false)
-                 .addField("abilities", abilities, false)
-                 .addField("hidden ability", hiddenAbility, true)
-                 .addField("2x weakness", weakness2x, true)
-                 .addField("4x weakness", weakness4x, true)
-                 .addField("immunity", immunity, true);
-
+            const embed = new MessageEmbed()
+            .setTitle(name)
+            .setColor("#0099ff")
+            .setThumbnail(sprite)
+            .addField("Type", type, false)
+            .addField("Stats", stats, false)
+            .addField("abilities", abilities, false)
+            .addField("hidden ability", hiddenAbility, false)
+            .addField("2x weakness", weakness2x, true)
+            .addField("4x weakness", weakness4x, true)
+            .addField("immunity", immunity, true);
                                
             interaction.reply(`Getting ${pokemon}'s stats.`);
             interaction.followUp({ embeds: [embed] });
