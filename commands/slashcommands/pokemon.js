@@ -18,7 +18,7 @@ module.exports = {
             if (!data) {
                 console.log('in the try')
                 // throw 'Pokemon not found';
-                return interaction.reply(`I couldn't find "${pokemon} in the database".`);
+                return interaction.reply(`I couldn't find "${pokemon}" in the database.`);
             }
             
             console.log(data.abilities)
