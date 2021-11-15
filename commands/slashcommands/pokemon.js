@@ -56,7 +56,7 @@ module.exports = {
 
             const embed = new MessageEmbed()
             .setTitle(name)
-            .setColor(colours[type])
+            .setColor(colours[data.types[0].type.name])
             .setThumbnail(sprite)
             .addField("Type", type, false)
             .addField("Stats", stats, true)
