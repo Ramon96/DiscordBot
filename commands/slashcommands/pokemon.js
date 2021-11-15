@@ -29,7 +29,7 @@ module.exports = {
             let typeChart = data.types.length > 1 
             ? pokeTypes.getTypeWeaknesses(data.types[0].type.name, data.types[1].type.name)
             : pokeTypes.getTypeWeaknesses(data.types[0].type.name)
-            const weakness2x = getKeyByValue(typeChart, 2);
+            const weakness2x = getKeyByValue(typeChart, 2).length > 0 ? getKeyByValue(typeChart, 2).join(', ') : 'No 2x weakness';
             const weakness4x = getKeyByValue(typeChart, 4).length > 0 ? getKeyByValue(typeChart, 4).join(', ') : 'No 4x weakness';
             const immunity = getKeyByValue(typeChart, 0).length > 0 ? getKeyByValue(typeChart, 0).join(', ') : 'No immunity';
             const hiddenAbility = data.abilities.find(a => a.is_hidden) ? data.abilities.find(a => a.is_hidden).ability.name : "none";
