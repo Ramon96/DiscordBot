@@ -11,9 +11,10 @@ module.exports = {
     name: "pokemon",
     async execute(interaction) {
         const pokemon = interaction.options.getString("pokemon");
+        const cleanString = pokemon.replace(/ /g, '-');
     
         try {
-            const data = await fetchPokemon(pokemon);
+            const data = await fetchPokemon(cleanString);
             // console.log(data);
             if (!data) {
                 // throw 'Pokemon not found';
