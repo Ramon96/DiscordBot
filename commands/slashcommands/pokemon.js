@@ -16,12 +16,10 @@ module.exports = {
             const data = await fetchPokemon(pokemon);
             // console.log(data);
             if (!data) {
-                console.log('in the try')
                 // throw 'Pokemon not found';
                 return interaction.reply(`I couldn't find "${pokemon}" in the database.`);
             }
             
-            console.log(data.abilities)
 
             const sprite = data.sprites.front_default;
             const name = data.name;
@@ -31,12 +29,12 @@ module.exports = {
             ? pokeTypes.getTypeWeaknesses(data.types[0].type.name, data.types[1].type.name)
             : pokeTypes.getTypeWeaknesses(data.types[0].type.name)
             const weakness = getKeyByValue(typeChart, 2);
-            const immunity = getKeyByValue(typeChart, 0);
+            const immunity = getKeyByValue(typeChart, 0).length > 0 ? getKeyByValue(typeChart, 0).join(', ') : 'No immunity';
             const hiddenAbility = data.abilities.find(a => a.is_hidden) ? data.abilities.find(a => a.is_hidden).ability.name : "none";
             const abilities = data.abilities.filter(a => a.is_hidden == false).map(a => a.ability.name).join(", ");
 
-            console.log(data.abilities);
-            console.log(hiddenAbility);
+             console.log(immunity);
+            // // console.log(hiddenAbility);
              const embed = new MessageEmbed()
                  .setTitle(name)
                  .setColor("#0099ff")
@@ -45,15 +43,11 @@ module.exports = {
                  .addField("Stats", stats, false)
                  .addField("abilities", abilities, true)
                  .addField("hidden ability", hiddenAbility, false)
-                 .addField("weakness", weakness.join(", "), true);
+                 .addField("weakness", weakness.join(", "), true)
+                 .addField("immunity", immunity, true);
 
-            if (immunity.length > 0) {
-                embed.addField("immunity", immunity.join(", "), true);
-            } else {
-                embed.addField("immunity", "no immunity", true);
-            }
                                
-            interaction.reply(`Getting ${data.name}'s stats.`);
+            interaction.reply(`Getting ${pokemon}'s stats.`);
             interaction.followUp({ embeds: [embed] });
         } catch (error) {
             console.error(error);
