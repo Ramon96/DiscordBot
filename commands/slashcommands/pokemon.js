@@ -24,6 +24,7 @@ module.exports = {
             const name = data.name;
             const type = data.types.map(t => t.type.name).join(", ");
             const stats = data.stats.map(s => `${s.stat.name}: ${s.base_stat}`).join("\n");
+            const evs = data.stats.map(s => `${s.stat.name}: ${s.effort}`).join("\n");
             let typeChart = data.types.length > 1 
             ? pokeTypes.getTypeWeaknesses(data.types[0].type.name, data.types[1].type.name)
             : pokeTypes.getTypeWeaknesses(data.types[0].type.name)
@@ -37,8 +38,9 @@ module.exports = {
             .setTitle(name)
             .setColor("#0099ff")
             .setThumbnail(sprite)
-            .addField("Type", type, false)
-            .addField("Stats", stats, false)
+            .addField("Type", type, true)
+            .addField("Stats", stats, true)
+            .addField("Ev's", evs, false)
             .addField("abilities", abilities, false)
             .addField("hidden ability", hiddenAbility, false)
             .addField("2x weakness", weakness2x, true)
