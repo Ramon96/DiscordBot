@@ -33,10 +33,30 @@ module.exports = {
             const immunity = getKeyByValue(typeChart, 0).length > 0 ? getKeyByValue(typeChart, 0).join(', ') : 'No immunity';
             const hiddenAbility = data.abilities.find(a => a.is_hidden) ? data.abilities.find(a => a.is_hidden).ability.name : "none";
             const abilities = data.abilities.filter(a => a.is_hidden == false).map(a => a.ability.name).join(", ");
+            const colours = {
+                normal: '#A8A77A',
+                fire: '#EE8130',
+                water: '#6390F0',
+                electric: '#F7D02C',
+                grass: '#7AC74C',
+                ice: '#96D9D6',
+                fighting: '#C22E28',
+                poison: '#A33EA1',
+                ground: '#E2BF65',
+                flying: '#A98FF3',
+                psychic: '#F95587',
+                bug: '#A6B91A',
+                rock: '#B6A136',
+                ghost: '#735797',
+                dragon: '#6F35FC',
+                dark: '#705746',
+                steel: '#B7B7CE',
+                fairy: '#D685AD',
+            };
 
             const embed = new MessageEmbed()
             .setTitle(name)
-            .setColor("#0099ff")
+            .setColor(colours[type])
             .setThumbnail(sprite)
             .addField("Type", type, false)
             .addField("Stats", stats, true)
