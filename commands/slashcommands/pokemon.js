@@ -29,7 +29,8 @@ module.exports = {
             let typeChart = data.types.length > 1 
             ? pokeTypes.getTypeWeaknesses(data.types[0].type.name, data.types[1].type.name)
             : pokeTypes.getTypeWeaknesses(data.types[0].type.name)
-            const weakness = getKeyByValue(typeChart, 2);
+            const weakness2x = getKeyByValue(typeChart, 2);
+            const weakness4x = getKeyByValue(typeChart, 4).length > 0 ? getKeyByValue(typeChart, 4).join(', ') : 'No 4x weakness';
             const immunity = getKeyByValue(typeChart, 0).length > 0 ? getKeyByValue(typeChart, 0).join(', ') : 'No immunity';
             const hiddenAbility = data.abilities.find(a => a.is_hidden) ? data.abilities.find(a => a.is_hidden).ability.name : "none";
             const abilities = data.abilities.filter(a => a.is_hidden == false).map(a => a.ability.name).join(", ");
@@ -42,9 +43,10 @@ module.exports = {
                  .setThumbnail(sprite)
                  .addField("Type", type, false)
                  .addField("Stats", stats, false)
-                 .addField("abilities", abilities, true)
-                 .addField("hidden ability", hiddenAbility, false)
-                 .addField("weakness", weakness.join(", "), true)
+                 .addField("abilities", abilities, false)
+                 .addField("hidden ability", hiddenAbility, true)
+                 .addField("2x weakness", weakness2x.join(", "), true)
+                 .addField("4x weakness", weakness.join(", "), true)
                  .addField("immunity", immunity, true);
 
                                
