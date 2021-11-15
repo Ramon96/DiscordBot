@@ -17,9 +17,12 @@ module.exports = {
             // console.log(data);
             if (!data) {
                 console.log('in the try')
-                return interaction.reply(`I couldn't find "${pokemon}".`);
+                // throw 'Pokemon not found';
+                return interaction.reply(`I couldn't find "${pokemon} in the database".`);
             }
             
+            console.log(data.abilities)
+
             const sprite = data.sprites.front_default;
             const name = data.name;
             const type = data.types.map(t => t.type.name).join(", ");
@@ -29,10 +32,11 @@ module.exports = {
             : pokeTypes.getTypeWeaknesses(data.types[0].type.name)
             const weakness = getKeyByValue(typeChart, 2);
             const immunity = getKeyByValue(typeChart, 0);
-            const hiddenAbility = data.abilities.find(a => a.is_hidden).ability.name;
+            const hiddenAbility = data.abilities.find(a => a.is_hidden) ? data.abilities.find(a => a.is_hidden).ability.name : "none";
             const abilities = data.abilities.filter(a => a.is_hidden == false).map(a => a.ability.name).join(", ");
 
-            console.log(immunity.join(", "));
+            console.log(data.abilities);
+            console.log(hiddenAbility);
              const embed = new MessageEmbed()
                  .setTitle(name)
                  .setColor("#0099ff")
