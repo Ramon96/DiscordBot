@@ -45,8 +45,8 @@ module.exports = {
                  .addField("Stats", stats, false)
                  .addField("abilities", abilities, false)
                  .addField("hidden ability", hiddenAbility, true)
-                 .addField("2x weakness", weakness2x.join(", "), true)
-                 .addField("4x weakness", weakness.join(", "), true)
+                 .addField("2x weakness", weakness2x, true)
+                 .addField("4x weakness", weakness4x, true)
                  .addField("immunity", immunity, true);
 
                                
