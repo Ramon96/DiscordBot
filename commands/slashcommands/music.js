@@ -15,7 +15,7 @@ module.exports = {
         volume
             .setName("volume")
             .setDescription("Change the volume")
-            .addNumberOption(vol => vol.setName("volume").setRequired(true).setDescription("The volume you want to set"))
+            .addNumberOption(vol => vol.setName("vol").setRequired(true).setDescription("The volume you want to set"))
     )
     .addSubcommand(settings =>
         settings
@@ -56,12 +56,15 @@ module.exports = {
                     return interaction.reply({content: "Playing song: " + options.getString("song")});
                 }
                 case "volume": {
-                    const volume = options.getNumber("volume");
+                    const volume = options.getNumber("vol");
+                    console.log(volume);
+
                     if (volume < 0 || volume > 100) {
-                        client.distube.setVolume(options.getNumber("volume"));
-                        return interaction.reply({content: "Volume set to " + options.getNumber("volume") + "%"});
+                        client.distube.setVolume(volume);
+                        return interaction.reply({content: "Volume set to " + volume + "%"});
+                    } else {
+                        return interaction.reply({content: "Volume must be between 0 and 100"});
                     }
-                    return interaction.reply({content: "Volume must be between 0 and 100"});
                 }
                 case "settings": {
                     const queue = await client.distube.getQueue(VoiceChannel);
