@@ -15,7 +15,7 @@ module.exports = {
         volume
             .setName("volume")
             .setDescription("Change the volume")
-            .addIntegerOption(vol => vol.setName("volume").setRequired(true).setDescription("The volume you want to set"))
+            .addNumberOption(vol => vol.setName("volume").setRequired(true).setDescription("The volume you want to set"))
     )
     .addSubcommand(settings =>
         settings
