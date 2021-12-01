@@ -56,10 +56,10 @@ module.exports = {
                     return interaction.reply({content: "Playing song: " + options.getString("song")});
                 }
                 case "volume": {
-                    const volume = options.getNumber("percent");
+                    const volume = options.getNumber("volume");
                     if (volume < 0 || volume > 100) {
-                        client.distube.setVolume(options.getNumber("percent"));
-                        return interaction.reply({content: "Volume set to " + options.getNumber("percent") + "%"});
+                        client.distube.setVolume(options.getNumber("volume"));
+                        return interaction.reply({content: "Volume set to " + options.getNumber("volume") + "%"});
                     }
                     return interaction.reply({content: "Volume must be between 0 and 100"});
                 }
