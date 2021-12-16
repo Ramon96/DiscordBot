@@ -7,6 +7,7 @@ module.exports = {
         else if (message.content.includes(`${process.env.prefix}julian`)) boye_julian(message);
         else if (message.content.includes(`${process.env.prefix}ramon`)) boye_ramon(message);
         else if (message.content.includes(`${process.env.prefix}boyes`)) boyes(message);
+        else if (message.content.includes(`${process.env.prefix}mannen`)) mannen(message);
     }
 }
 
@@ -24,6 +25,10 @@ const boye_julian = (message) => {
 
 const boye_ramon = (message) => {
     message.channel.send({ content: 'Ramon is van nature al edgy en heeft dus geen edgy class nodig om de wereld te laten zien hoe edgy hij is. Van zijn geluk lijkt nog veel te blijven, al beseft hij niet hoeveel geluk hij heeft dat hij met 1 luck onderdeel mag uitmaken van de boyes.', files: ['./images/ramonframe.gif']});
+}
+
+const mannen = (message) => {
+    message.channel.send({ content: 'Met de hulp van Skaarl kan Julian de hele wereld veroveren. De wereld domineren is dan ook een van Julian zijn doelen. Gelukkig staat Julian er niet alleen voor. Julian word ondersteund door zijn Surinamer "Ramon" Die Julian ondersteund al het gif in de wereld te bestrijden. Als Ramon en Julian gezien worden horen ze in de verte al : "Kijk daar heb je de mannen!"', files: ['./images/mannen.jpg']});
 }
 
 const boyes = (message) => {
