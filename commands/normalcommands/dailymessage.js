@@ -11,7 +11,7 @@ module.exports = {
             const user = guild.members.cache.random().user;
             message.delete({ timeout: 100 }).catch(console.error);
 
-            while(user.id === '675080598355705899' || user.id == '641016805434851349' || user.id == '682137805249445898' || user.id == '878726499526647838' || user.id == '281524615975534592'){
+            while(user.id === '675080598355705899' || user.id === '641016805434851349' || user.id === '682137805249445898' || user.id === '878726499526647838' || user.id === '281524615975534592'){
                 user = guild.members.cache.random().user;
             }
             
