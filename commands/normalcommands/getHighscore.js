@@ -128,7 +128,9 @@ module.exports = {
         Player.find()
             .exec()
             .then(docs => {
+                console.log(docs)
                 Object.keys(docs).forEach(async function (item) {
+                    try{
                     await hiscores.getStats(docs[item].osrsName)
                         .then(async res => {
                             // Compare the new stats with the old
@@ -167,6 +169,10 @@ module.exports = {
                                 console.log('no changes')
                             }
                         })
+                    }
+                    catch(err){
+                        console.log(err)
+                    }
                 })
             })
             .catch(err => console.log(err))
