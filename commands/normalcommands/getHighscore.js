@@ -128,7 +128,6 @@ module.exports = {
         Player.find()
             .exec()
             .then(docs => {
-                console.log(docs)
                 Object.keys(docs).forEach(async function (item) {
                     try{
                     await hiscores.getStats(docs[item].osrsName)
