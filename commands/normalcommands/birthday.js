@@ -44,12 +44,12 @@ module.exports = {
                     if (birthdayDate.getDate() == today.getDate() && birthdayDate.getMonth() == today.getMonth()) {
                         let embed = new MessageEmbed()
                             .setTitle('Happy Birthday!')
-                            .setDescription(`${user} is ${age} jaar!`)
+                            .setDescription(`${user} has reached ${age} age!`)
                             .setThumbnail(user.avatarURL())
                             .setColor('#ff0000')
                             .setImage('https://media2.giphy.com/media/KdC9XVrVYOVu6zZiMH/giphy.gif?cid=ecf05e472frr6makwkfx3huoqftm8x5malnq3l6um6xn7csx&rid=giphy.gif&ct=g')
                             .setTimestamp();
-                        client.channels.cache.get('867074325824012382').send({embeds: [embed]});
+                        client.channels.cache.get('1022102320575696906').send({embeds: [embed]});
                     }
                 });
             })
