@@ -46,6 +46,7 @@ module.exports = {
                         name: 'stop',
                         value: 'stop'
                     })
+            )
     ),
     name: "music",
     description: "Plays a song from the queue",
