@@ -26,12 +26,26 @@ module.exports = {
                     .setName("options")
                     .setRequired(true)
                     .setDescription("The option you want to change")
-                    .addChoice('queue', 'queue')
-                    .addChoice('skip', 'skip')
-                    .addChoice('pause', 'pause')
-                    .addChoice('resume', 'resume')
-                    .addChoice('stop', 'stop'))
-    
+                    .addChoices({
+                        name: 'queue',
+                        value: 'queue'
+                    },
+                    {
+                        name: 'skip',
+                        value: 'skip'
+                    },
+                    {
+                        name: 'pause',
+                        value: 'pause'
+                    },
+                    {
+                        name: 'resume',
+                        value: 'resume'
+                    },
+                    {
+                        name: 'stop',
+                        value: 'stop'
+                    })
     ),
     name: "music",
     description: "Plays a song from the queue",
