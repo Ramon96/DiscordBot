@@ -21,8 +21,9 @@ module.exports = {
                 return interaction.reply("That pokemon doesn't have a shiny form.");
             }
 
-            interaction.reply(`Getting ${data.name}'s shiny form.`);
-            interaction.followUp(shiny);
+            await interaction.deferReply();
+            await interaction.editReply(shiny);
+            // await interaction.followUp(shiny);
         } catch (error) {
             console.error(error);
             return interaction.reply(`I couldn't find "${pokemon}".`);

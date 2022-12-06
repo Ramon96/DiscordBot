@@ -67,8 +67,9 @@ module.exports = {
             .addField("4x weakness", weakness4x, true)
             .addField("immunity", immunity, true);
                                
-            interaction.reply(`Getting ${pokemon}'s stats.`);
-            interaction.followUp({ embeds: [embed] });
+            await interaction.deferReply();
+            await interaction.editReply(`Getting ${pokemon}'s stats.`);
+            await interaction.followUp({ embeds: [embed] });
         } catch (error) {
             console.error(error);
             return interaction.reply(`I couldn't find "${pokemon}".`);

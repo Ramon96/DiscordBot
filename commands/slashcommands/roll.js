@@ -14,7 +14,7 @@ module.exports = {
         const time = interaction.options.getString("time");
         const participants = [];
         if (!time) return interaction.reply('add a time fool');
-        
+
         const Embed = new MessageEmbed()
             .setColor(0x45150d)
             .setTitle(`${interaction.user.username} has initiated a roll!`)
@@ -38,7 +38,7 @@ module.exports = {
                     .setColor(0x45150d)
                     .setTitle(`${interaction.user.username} has initiated a roll!`)
                     .setDescription(`Nobody joined the roll ${item ? 'for a ' + item : ''}. Roll ended`)
-                    .addField(`Duration: `, `Roll has ended`)
+                    .addField(`Duration: `, `Roll has ended (${ms(ms(time))})`)
                     .setFooter('The roll has ended you can no longer participate')
                     .setThumbnail(`https://cdn.discordapp.com/avatars/${interaction.user.id}/${interaction.user.avatar}.jpeg`)
                     .setTimestamp();
@@ -57,7 +57,7 @@ module.exports = {
                     .setTitle(`${interaction.user.username} has initiated a roll!`)
                     .setDescription(item ? `${winner.user[1].username} has won a ${item}!` : `${winner.user[1].username} has won!`)
                     .setImage("https://cdn.discordapp.com/avatars/"+winner.user[1].id+"/"+winner.user[1].avatar+".jpeg")
-                    .addField(`Duration: `, `Roll has ended`)
+                    .addField(`Duration: `, `Roll has ended (${ms(ms(time))})`)
                     .setFooter('The roll has ended you can no longer participate')
                     .setThumbnail(`https://cdn.discordapp.com/avatars/${interaction.user.id}/${interaction.user.avatar}.jpeg`)
                     .setTimestamp();
@@ -69,7 +69,16 @@ module.exports = {
                     sendEmbed.edit({embeds: [EmbedWinner]})
                 }
             } catch (e) {
-                return interaction.channel.send(`I fucked up: ${e}`)
+                    const EmbedNoJoin = new MessageEmbed()
+                    .setColor(0x45150d)
+                    .setTitle(`${interaction.user.username} has initiated a roll!`)
+                    .setDescription(`Nobody joined the roll ${item ? 'for a ' + item : ''}. Roll ended`)
+                    .addField(`Duration: `, `Roll has ended (${ms(ms(time))})`)
+                    .setFooter('The roll has ended you can no longer participate')
+                    .setThumbnail(`https://cdn.discordapp.com/avatars/${interaction.user.id}/${interaction.user.avatar}.jpeg`)
+                    .setTimestamp();
+    
+                    sendEmbed.edit({embeds: [EmbedNoJoin]})
             }
  
         }, ms(time));

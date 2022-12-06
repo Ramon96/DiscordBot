@@ -11,7 +11,15 @@ module.exports = {
             const user = guild.members.cache.random().user;
             message.delete({ timeout: 100 }).catch(console.error);
 
-            while(user.id === '675080598355705899' || user.id === '641016805434851349' || user.id === '682137805249445898' || user.id === '878726499526647838' || user.id === '281524615975534592' || user.id === '819778342818414632'){
+            while(
+                user.id !== '291296782187495424' ||
+                user.id !== '424641375372443654' ||
+                user.id !== '248857813475000320' ||
+                user.id !== '294200096763936769' ||
+                user.id !== '131124125996548096' ||
+                user.id !== '275998536162738179' 
+                ){
+            // while(user.id === '675080598355705899' || user.id === '641016805434851349' || user.id === '682137805249445898' || user.id === '878726499526647838' || user.id === '281524615975534592' || user.id === '819778342818414632'){
                 user = guild.members.cache.random().user;
             }
             
@@ -28,7 +36,15 @@ module.exports = {
             const guild = client.guilds.cache.get('867074325824012379');
             let user = guild.members.cache.random().user;
 
-            while(user.id === '675080598355705899' || user.id === '641016805434851349' || user.id === '682137805249445898' || user.id === '878726499526647838' || user.id === '281524615975534592' || user.id === '819778342818414632'){
+            while(
+                user.id !== '291296782187495424' ||
+                user.id !== '424641375372443654' ||
+                user.id !== '248857813475000320' ||
+                user.id !== '294200096763936769' ||
+                user.id !== '131124125996548096' ||
+                user.id !== '275998536162738179' 
+                ){
+            // while(user.id === '675080598355705899' || user.id === '641016805434851349' || user.id === '682137805249445898' || user.id === '878726499526647838' || user.id === '281524615975534592' || user.id === '819778342818414632'){
                 user = guild.members.cache.random().user;
             }
             
