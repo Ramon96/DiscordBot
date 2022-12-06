@@ -8,7 +8,7 @@ module.exports = {
 
         if (message) {
             const guild = client.guilds.cache.get('867074325824012379');
-            const user = guild.members.cache.random().user;
+            let user = guild.members.cache.random().user;
             message.delete({ timeout: 100 }).catch(console.error);
 
             while(
