@@ -5,10 +5,10 @@ async function fetchPokemon(pokemonName) {
 
     try {
         const response = await fetch(url)
-        .then(res => res.json())
-        .catch(error => {
-            throw 'doesnt exist';
-        });
+            .then(res => res.json())
+            .catch(error => {
+                throw 'doesnt exist';
+            });
         return response;
     } catch (error) {
         console.log(error);

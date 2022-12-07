@@ -1,9 +1,11 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const {
+    SlashCommandBuilder
+} = require('@discordjs/builders');
 
 module.exports = {
     data: new SlashCommandBuilder()
-    .setName("rng")
-    .setDescription("Rolls the dice between 1 - 9. Get kicked if the dice lands on 9"),
+        .setName("rng")
+        .setDescription("Rolls the dice between 1 - 9. Get kicked if the dice lands on 9"),
     name: "rng",
     execute(interaction) {
         let rng = Math.floor(Math.random() * 9) + 1;

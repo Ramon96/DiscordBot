@@ -1,12 +1,15 @@
 require('dotenv').config({});
-const { Client, Collection } = require('discord.js');
-const client = new Client({ 
-    intents: 32767, 
+const {
+    Client,
+    Collection
+} = require('discord.js');
+const client = new Client({
+    intents: 32767,
     partials: [
-        'MESSAGE', 
-        'CHANNEL', 
+        'MESSAGE',
+        'CHANNEL',
         'REACTION'
-    ] 
+    ]
 });
 const mongoose = require('mongoose');
 const fs = require('fs');
@@ -41,7 +44,7 @@ function loadEvents() {
     const eventFiles = fs.readdirSync('./events/').filter(file => file.endsWith('.js'));
     for (const file of eventFiles) {
         const event = require(`./events/${file}`);
-        if(event.once) {
+        if (event.once) {
             client.once(event.name, (...args) => event.execute(client, ...args));
         } else {
             client.on(event.name, (...args) => event.execute(client, ...args));

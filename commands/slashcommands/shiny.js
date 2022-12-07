@@ -1,11 +1,13 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const {
+    SlashCommandBuilder
+} = require('@discordjs/builders');
 const fetchPokemon = require('../../helpers/api/pokemon/fetchPokemon');
 
 module.exports = {
     data: new SlashCommandBuilder()
-    .setName("shiny")
-    .addStringOption(option => option.setName("pokemon").setDescription("Name of the pokemon you want to look up.").setRequired(true))
-    .setDescription("Show the shiny form of a pokemon"),
+        .setName("shiny")
+        .addStringOption(option => option.setName("pokemon").setDescription("Name of the pokemon you want to look up.").setRequired(true))
+        .setDescription("Show the shiny form of a pokemon"),
     name: "shiny",
     async execute(interaction) {
         const pokemon = interaction.options.getString("pokemon");

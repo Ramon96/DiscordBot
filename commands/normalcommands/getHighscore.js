@@ -1,4 +1,6 @@
-const { MessageEmbed } = require('discord.js');
+const {
+    MessageEmbed
+} = require('discord.js');
 const hiscores = require('osrs-json-hiscores');
 const Player = require('../../model/osrs');
 const compare = require('../../helpers/functions/compare');
@@ -129,47 +131,48 @@ module.exports = {
             .exec()
             .then(docs => {
                 Object.keys(docs).forEach(async function (item) {
-                    try{
-                    await hiscores.getStats(docs[item].osrsName)
-                        .then(async res => {
-                            // Compare the new stats with the old
-                            const changes = compare(docs[item].stats, res.main.skills)
-                            const username = docs[item].osrsName.replace(new RegExp('_', 'g'), ' ')
+                    try {
+                        await hiscores.getStats(docs[item].osrsName)
+                            .then(async res => {
+                                // Compare the new stats with the old
+                                const changes = compare(docs[item].stats, res.main.skills)
+                                const username = docs[item].osrsName.replace(new RegExp('_', 'g'), ' ')
 
-                            if (!_.isEmpty(changes)) {
-                                for (let skill in changes) {
-                                    if (changes[skill].hasOwnProperty("level") && skill !== "overall") {
-                                        if (docs[item].stats[skill].level < changes[skill].level) {
-                                            const levelups = changes[skill].level - docs[item].stats[skill].level;
-                                            await Player.findOne({
-                                                    _id: docs[item].id
-                                                })
-                                                .then(async doc => {
-                                                    doc.stats[skill] = changes[skill]
-                                                    doc.markModified('stats')
-                                                    await doc.save();
-                                                })
-                                                .then(() => {
-                                                    const Embed = new MessageEmbed()
-                                                    .setColor(osrsSkills[skill].color)
-                                                    .setTitle(`**${_.startCase(username)} has reached ${changes[skill].level} ${skill}!**`)
-                                                    .setDescription((levelups > 1) ? `<@${docs[item].discordId}> has gained a total of ${levelups} level ups!` : `<@${docs[item].discordId}> has gained 1 level!`)
-                                                    .setImage(osrsSkills[skill].gif)
-                                                    .setThumbnail(osrsSkills[skill].placeholder)
-                                                    .setTimestamp();
+                                if (!_.isEmpty(changes)) {
+                                    for (let skill in changes) {
+                                        if (changes[skill].hasOwnProperty("level") && skill !== "overall") {
+                                            if (docs[item].stats[skill].level < changes[skill].level) {
+                                                const levelups = changes[skill].level - docs[item].stats[skill].level;
+                                                await Player.findOne({
+                                                        _id: docs[item].id
+                                                    })
+                                                    .then(async doc => {
+                                                        doc.stats[skill] = changes[skill]
+                                                        doc.markModified('stats')
+                                                        await doc.save();
+                                                    })
+                                                    .then(() => {
+                                                        const Embed = new MessageEmbed()
+                                                            .setColor(osrsSkills[skill].color)
+                                                            .setTitle(`**${_.startCase(username)} has reached ${changes[skill].level} ${skill}!**`)
+                                                            .setDescription((levelups > 1) ? `<@${docs[item].discordId}> has gained a total of ${levelups} level ups!` : `<@${docs[item].discordId}> has gained 1 level!`)
+                                                            .setImage(osrsSkills[skill].gif)
+                                                            .setThumbnail(osrsSkills[skill].placeholder)
+                                                            .setTimestamp();
 
-                                                    channel.send({embeds: [Embed]});
-                                                })
-                                                .catch(err => console.log(err))
+                                                        channel.send({
+                                                            embeds: [Embed]
+                                                        });
+                                                    })
+                                                    .catch(err => console.log(err))
+                                            }
                                         }
                                     }
+                                } else {
+                                    console.log('no changes')
                                 }
-                            } else {
-                                console.log('no changes')
-                            }
-                        })
-                    }
-                    catch(err){
+                            })
+                    } catch (err) {
                         console.log(err)
                     }
                 })
