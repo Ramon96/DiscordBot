@@ -1,8 +1,8 @@
-const _ = require('lodash');
+const _ = require("lodash");
 
 function compare(oldSkills, newSkills) {
-    const diff = difference(newSkills, oldSkills)
-    return diff
+  const diff = difference(newSkills, oldSkills);
+  return diff;
 }
 
 /**
@@ -13,14 +13,17 @@ function compare(oldSkills, newSkills) {
  */
 // https://gist.github.com/Yimiprod/7ee176597fef230d1451
 function difference(object, base) {
-    function changes(object, base) {
-        return _.transform(object, function (result, value, key) {
-            if (!_.isEqual(value, base[key])) {
-                result[key] = (_.isObject(value) && _.isObject(base[key])) ? changes(value, base[key]) : value;
-            }
-        });
-    }
-    return changes(object, base);
+  function changes(object, base) {
+    return _.transform(object, function (result, value, key) {
+      if (!_.isEqual(value, base[key])) {
+        result[key] =
+          _.isObject(value) && _.isObject(base[key])
+            ? changes(value, base[key])
+            : value;
+      }
+    });
+  }
+  return changes(object, base);
 }
 
 module.exports = compare;
