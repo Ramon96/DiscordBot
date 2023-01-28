@@ -134,6 +134,7 @@ module.exports = {
         Object.keys(docs).forEach(async function (item) {
           try {
             await hiscores.getStats(docs[item].osrsName).then(async (res) => {
+              // console.log(res);
               // Compare the new stats with the old
               const changes = compare(docs[item].stats, res.main.skills);
               const username = docs[item].osrsName.replace(
