@@ -2,6 +2,7 @@ const { SlashCommandBuilder } = require("@discordjs/builders");
 const { MessageEmbed } = require("discord.js");
 const fetchPokemon = require("../../helpers/api/pokemon/fetchPokemon");
 const pokeTypes = require("poke-types");
+const getKeyByValue = require("../../helpers/functions/keyByValue");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -106,9 +107,4 @@ module.exports = {
       return interaction.reply(`I couldn't find "${pokemon}".`);
     }
   },
-};
-
-// get key by value in object
-const getKeyByValue = (object, value) => {
-  return Object.keys(object).filter((key) => object[key] === value);
 };
