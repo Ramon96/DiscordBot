@@ -53,7 +53,6 @@ module.exports = {
     const collector = interaction.channel.createMessageComponentCollector({});
 
     collector.once("collect", async (select) => {
-      await select.deferReply();
       const selected = select.values[0];
       const embed = new MessageEmbed().setTitle(capatalize(selected));
       let file;
@@ -101,10 +100,11 @@ module.exports = {
           break;
         default:
           console.error("This value does not exist");
-          break;
+          return;
       }
 
-      await select.editReply({
+      await interaction.editReply({
+        content: `Gekozen lore: ${capatalize(selected)}`,
         embeds: [embed],
         components: [],
         files: [file],
