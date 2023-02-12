@@ -28,7 +28,7 @@ module.exports = {
           {
             label: "Daan",
             description: "leer meer over deze retard",
-            value: "Daan",
+            value: "daan",
           },
           {
             label: "Julian",
@@ -100,6 +100,7 @@ module.exports = {
             );
           break;
         default:
+          console.error("This value does not exist");
           break;
       }
 
