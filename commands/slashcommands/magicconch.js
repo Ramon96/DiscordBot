@@ -3,7 +3,7 @@ const { MessageEmbed } = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("8ball")
+    .setName("magicconch")
     .addStringOption((option) =>
       option
         .setName("question")
@@ -11,7 +11,7 @@ module.exports = {
         .setRequired(true)
     )
     .setDescription("Ask the magic conch for some valuable advise"),
-  name: "8ball",
+  name: "magicconch",
   async execute(interaction) {
     const answers = ["yes", "no", "maybe"];
     let roll = Math.floor(Math.random() * answers.length);

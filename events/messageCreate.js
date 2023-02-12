@@ -27,15 +27,6 @@ module.exports = {
       client.commands.get("dailymessage").execute(client, msg);
     } else if (message.startsWith(`${process.env.prefix}birthday`)) {
       client.commands.get("birthday").execute(client, msg);
-    } else if (
-      message.includes("daniel") ||
-      message.includes("daan") ||
-      message.includes("ramon") ||
-      message.includes("julian") ||
-      message.includes("boyes") ||
-      message.includes("mannen")
-    ) {
-      client.commands.get("boyes").execute(msg);
     }
   },
 };
