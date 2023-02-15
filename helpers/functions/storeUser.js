@@ -6,19 +6,15 @@ async function storeUser(mention, birthday) {
     birthday: birthday,
   });
 
-  //function that checks if the user is already stored in the database
   const checkUser = await User.exists({
     id: mention,
   });
-  console.log(checkUser);
   if (checkUser) {
     return false;
   } else {
     return await user
       .save()
-      .then((result) => {
-        return true;
-      })
+      .then(() => true)
       .catch((err) => {
         console.error(err);
       });

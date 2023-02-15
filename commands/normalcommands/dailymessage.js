@@ -1,10 +1,12 @@
 const { MessageEmbed } = require("discord.js");
 const cron = require("cron");
+const Hottie = require("../../model/hotties");
+const { forEach } = require("lodash");
 
 module.exports = {
   name: "dailymessage",
   description: "sends a daily message giving a random hotty of the day",
-  execute(client, message) {
+  async execute(client, message) {
     const hotties = [
       "291296782187495424",
       "424641375372443654",
@@ -13,6 +15,17 @@ module.exports = {
       "131124125996548096",
       "275998536162738179",
     ];
+
+    hotties.forEach(async (hottie) => {
+      const checkHottie = await Hottie.exists({ id: hottie });
+
+      if (!checkHottie) {
+        new Hottie({
+          id: hottie,
+          count: 0,
+        }).save();
+      }
+    });
 
     if (message) {
       const guild = client.guilds.cache.get("867074325824012379");
@@ -26,6 +39,12 @@ module.exports = {
       while (hotties.includes(user.id) == false) {
         user = guild.members.cache.random().user;
       }
+
+      Hottie.findOne({ id: user.id }).then(async (doc) => {
+        doc.count += 1;
+        doc.markModified("count");
+        await doc.save();
+      });
 
       const Embed = new MessageEmbed()
         .setColor(0xff496c)
@@ -47,6 +66,12 @@ module.exports = {
       while (hotties.includes(user.id) == false) {
         user = guild.members.cache.random().user;
       }
+
+      Hottie.findOne({ id: user.id }).then(async (doc) => {
+        doc.count += 1;
+        doc.markModified("count");
+        await doc.save();
+      });
 
       const Embed = new MessageEmbed()
         .setColor(0xff496c)
