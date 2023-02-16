@@ -1,7 +1,6 @@
 const { MessageEmbed } = require("discord.js");
 const cron = require("cron");
 const Hottie = require("../../model/hotties");
-const { forEach } = require("lodash");
 
 module.exports = {
   name: "dailymessage",

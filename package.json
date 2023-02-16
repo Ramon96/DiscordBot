@@ -23,6 +23,7 @@
     "node-fetch": "^2.6.6",
     "osrs-json-hiscores": "^2.11.0",
     "poke-types": "^1.0.22",
+    "quickchart-js": "^3.1.2",
     "yt-search": "^2.10.2",
     "ytdl-core": "^4.9.1"
   },
