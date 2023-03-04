@@ -55,6 +55,7 @@ const fetchChart = async (data) => {
               fontFamily: "Sans",
               fontColor: "#F00",
               stepSize: 1,
+              beginAtZero: true,
             },
           },
         ],
