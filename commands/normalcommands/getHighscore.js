@@ -4,6 +4,7 @@ const Player = require("../../model/osrs");
 const compare = require("../../helpers/functions/compare");
 const _ = require("lodash");
 const osrsSkills = require("../../helpers/osrs/skills");
+const capatalize = require("../../helpers/functions/capatalize");
 
 module.exports = {
   name: "highscore",
@@ -37,6 +38,8 @@ module.exports = {
                     skillColor: osrsSkills[skill].color,
                     skillIcon: osrsSkills[skill].placeholder,
                     skillCape: osrsSkills[skill].gif,
+                    emoji: osrsSkills[skill].emoji,
+                    compliment: osrsSkills[skill].compliment,
                   });
                   await updatePlayerStats(player, skill, changes[skill]);
                 }
@@ -67,11 +70,11 @@ function createEmbed(username, discordId, levelups, client) {
   const user = guild.members.cache.get(discordId).user;
 
   const Embed = new MessageEmbed()
-    .setTitle(`**${_.startCase(username)}** has just ended it's journey.`)
+    .setTitle(`Congratulations, adventurer!`)
     .setDescription(
-      levelups.length > 1
-        ? `During this journey the following levels where gained`
-        : `During this journey the following level was gained`
+      `**${capatalize(
+        username
+      )}** has just completed an epic journey, and we're excited to share their accomplishments with you. Behold the amazing levels they've gained:`
     )
     .setAuthor({ name: user.username, iconURL: `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.jpeg` })
     .setTimestamp()
@@ -84,8 +87,10 @@ function createEmbed(username, discordId, levelups, client) {
     const gains = level.newLevel - level.oldLevel;
     totalLevels += gains;
     fields.push({
-      name: `${level.skillName} (${gains})`,
-      value: `${level.oldLevel} -> ${level.newLevel === 99 ? `**${level.newLevel}**` : level.newLevel}`,
+      name: `${capatalize(level.skillName)} (${gains})`,
+      value: `${level.emoji} From ${level.oldLevel} to ${
+        level.newLevel === 99 ? `**${level.newLevel}**` : level.newLevel
+      }!${level.newLevel == 99 ? ` ${level.compliment} ` : ""}`,
     });
   });
 
@@ -96,7 +101,9 @@ function createEmbed(username, discordId, levelups, client) {
   }
 
   Embed.addFields(fields).setFooter({
-    text: `${username} gained (${totalLevels}) ${totalLevels > 1 ? "levels" : "level"}`,
+    text: `Overall, ${capatalize(username)} gained an incredible total of (${totalLevels}) ${
+      totalLevels > 1 ? "levels" : "level"
+    }! Amazing job!🎉`,
     iconURL: getHighestLevel(levelups),
   });
 
