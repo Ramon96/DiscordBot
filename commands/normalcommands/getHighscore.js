@@ -9,7 +9,7 @@ module.exports = {
   name: "highscore",
   description:
     "fetches the highscores and compares the levels stored in the database with the highscore data. if there are level increases the player will be congratiolated and the new data will be saved.",
-  execute(channel) {
+  execute(channel, client) {
     Player.find()
       .exec()
       .then((docs) => {
@@ -18,35 +18,34 @@ module.exports = {
             await hiscores.getStats(docs[item].osrsName).then(async (res) => {
               const changes = compare(docs[item].stats, res.main.skills);
               const username = docs[item].osrsName.replace(new RegExp("_", "g"), " ");
-              const levelups = [];
+              let levelups = [];
 
               if (_.isEmpty(changes)) {
                 console.log("no changes");
                 return;
               }
 
-              Object.keys(changes)
-                .filter((skill) => skill !== "overall" && changes[skill].hasOwnProperty("level"))
-                .forEach(async (skill) => {
-                  const player = await Player.findOne({ _id: docs[item].id });
-                  if (docs[item].stats[skill].level < changes[skill].level) {
-                    levelups.push({
-                      skillName: skill,
-                      oldLevel: docs[item].stats[skill].level,
-                      newLevel: changes[skill].level,
-                      skillColor: osrsSkills[skill].color,
-                      skillIcon: osrsSkills[skill].placeholder,
-                      skillCape: osrsSkills[skill].gif,
-                    });
-                    updatePlayerStats(player, skill, changes[skill]);
-                  }
-                })
-                .then(async () => {
-                  if (levelups.length > 0) {
-                    const embed = createEmbed(username, docs[item].discordId, levelups);
-                    await channel.send({ embeds: [embed] });
-                  }
-                });
+              for (const skill of Object.keys(changes).filter(
+                (skill) => skill !== "overall" && changes[skill].hasOwnProperty("level")
+              )) {
+                const player = await Player.findOne({ _id: docs[item].id });
+                if (docs[item].stats[skill].level < changes[skill].level) {
+                  levelups.push({
+                    skillName: skill,
+                    oldLevel: docs[item].stats[skill].level,
+                    newLevel: changes[skill].level,
+                    skillColor: osrsSkills[skill].color,
+                    skillIcon: osrsSkills[skill].placeholder,
+                    skillCape: osrsSkills[skill].gif,
+                  });
+                  await updatePlayerStats(player, skill, changes[skill]);
+                }
+              }
+
+              if (levelups.length > 0) {
+                const embed = createEmbed(username, docs[item].discordId, levelups, client);
+                await channel.send({ embeds: [embed] });
+              }
             });
           } catch (err) {
             console.log(err);
@@ -57,25 +56,25 @@ module.exports = {
   },
 };
 
-function updatePlayerStats(player, skill, newStats) {
+async function updatePlayerStats(player, skill, newStats) {
   player.stats[skill] = newStats;
   player.markModified("stats");
-  return player.save();
+  return await player.save();
 }
 
-function createEmbed(username, discordId, levelups) {
+function createEmbed(username, discordId, levelups, client) {
+  const guild = client.guilds.cache.get("867074325824012379");
+  const user = guild.members.cache.get(discordId).user;
+
   const Embed = new MessageEmbed()
-    .setTitle(`**${_.startCase(username)} has just ended it's journey.`)
+    .setTitle(`**${_.startCase(username)}** has just ended it's journey.`)
     .setDescription(
       levelups.length > 1
-        ? `During this journey the following levels where gained:`
-        : `During this journey the following level was gained:`
+        ? `During this journey the following levels where gained`
+        : `During this journey the following level was gained`
     )
+    .setAuthor({ name: user.username, iconURL: `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.jpeg` })
     .setTimestamp()
-    .setFooter({
-      text: `Congratulations <@${discordId}>, keep the gains comming.`,
-      iconURL: getHighestLevel(levelups),
-    })
     .setColor(getHighestColor(levelups));
 
   let totalLevels = 0;
@@ -86,7 +85,7 @@ function createEmbed(username, discordId, levelups) {
     totalLevels += gains;
     fields.push({
       name: `${level.skillName} (${gains})`,
-      value: `${level.oldLevel} => ${level.newLevel === 99 ? `**${level.newLevel}**` : level.newLevel}`,
+      value: `${level.oldLevel} -> ${level.newLevel === 99 ? `**${level.newLevel}**` : level.newLevel}`,
     });
   });
 
@@ -96,7 +95,12 @@ function createEmbed(username, discordId, levelups) {
     Embed.setImage(has99.skillCape);
   }
 
-  Embed.addFields(fields);
+  Embed.addFields(fields).setFooter({
+    text: `${username} gained (${totalLevels}) ${totalLevels > 1 ? "levels" : "level"}`,
+    iconURL: getHighestLevel(levelups),
+  });
+
+  return Embed;
 }
 
 function getHighestLevel(levelups) {
