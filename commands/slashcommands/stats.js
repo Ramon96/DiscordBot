@@ -19,8 +19,7 @@ module.exports = {
           hotties.push({
             username: user.username,
             img: user.displayAvatarURL({ format: "png" }),
-            color: user.displayHexColor,
-            bannerColor: user.bannerColor,
+            color: docs[person].color,
             count: docs[person].count,
           });
         });

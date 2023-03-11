@@ -37,8 +37,7 @@ const fetchChart = async (data) => {
           label: "Users",
           data: data.map((user) => user.count),
           backgroundColor: data.map((user) => {
-            const color = user.bannerColor ? user.bannerColor : user.color;
-            return color ? color : generateRandomRGBColor();
+            return user.color ? user.color : generateRandomRGBColor();
           }),
         },
       ],

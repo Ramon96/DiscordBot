@@ -27,6 +27,11 @@ module.exports = {
       client.commands.get("dailymessage").execute(client, msg);
     } else if (message.startsWith(`${process.env.prefix}birthday`)) {
       client.commands.get("birthday").execute(client, msg);
+    } else if (
+      message.includes("test") &&
+      msg.author.id == "294200096763936769"
+    ) {
+      client.commands.get("test").execute(client, msg);
     }
   },
 };
