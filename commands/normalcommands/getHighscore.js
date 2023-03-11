@@ -40,12 +40,13 @@ module.exports = {
                     });
                     updatePlayerStats(player, skill, changes[skill]);
                   }
+                })
+                .then(async () => {
+                  if (levelups.length > 0) {
+                    const embed = createEmbed(username, docs[item].discordId, levelups);
+                    await channel.send({ embeds: [embed] });
+                  }
                 });
-
-              if (levelups.length > 0) {
-                const embed = createEmbed(username, docs[item].discordId, levelups);
-                await channel.send({ embeds: [embed] });
-              }
             });
           } catch (err) {
             console.log(err);
