@@ -5,15 +5,20 @@ async function storePlayer(rsn, mention) {
   return await hiscores
     .getStats(rsn)
     .then((res) => {
-      // TODO check of de speler niet al in de highscore staat xd
+      // check if player exists
+
+      if (Player.exists({ discordId: mention, osrsName: rsn.toLowerCase() })) {
+        return false;
+      }
+
       const player = new Player({
         discordId: mention,
-        osrsName: rsn,
+        osrsName: rsn.toLowerCase(),
         stats: res.main.skills,
       });
       player
         .save()
-        .then((result) => {
+        .then(() => {
           return true;
         })
         .catch((err) => {
