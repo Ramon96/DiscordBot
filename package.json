@@ -18,7 +18,7 @@
     "dotenv": "^8.2.0",
     "libsodium-wrappers": "^0.7.9",
     "lodash": "^4.17.20",
-    "mongoose": "^6.0.9",
+    "mongoose": "^6.12.0",
     "ms": "^2.1.3",
     "node-fetch": "^2.6.6",
     "osrs-json-hiscores": "^2.16.0",
