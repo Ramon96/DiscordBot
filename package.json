@@ -2,15 +2,14 @@
   "name": "discordbot",
   "version": "1.0.0",
   "description": "bot for the boyes discord server, this project is for educational purposes",
-  "engines": {
-    "node": "16.13.0",
-    "npm": "7.24.2"
-  },
-  "main": "./index.js",
+  "main": "src/index.js",
+  "type": "module",
   "dependencies": {
     "@discordjs/opus": "github:discordjs/opus",
     "@discordjs/rest": "^0.1.0-canary.0",
     "@discordjs/voice": "^0.7.5",
+    "@types/chart.js": "^2.9.39",
+    "chart.js": "^4.4.0",
     "cron": "^1.8.2",
     "discord-api-types": "^0.24.0",
     "discord-player": "^5.1.0",
@@ -28,8 +27,9 @@
     "ytdl-core": "^4.9.1"
   },
   "scripts": {
-    "prestart": "node ./deploy-commands.js",
-    "start": "node ./index.js"
+    "prestart": "tsc",
+    "start": "npm run deploy-commands && npx tsx src/index.ts",
+    "deploy-commands": "npx tsx src/deploy-commands.ts"
   },
   "repository": {
     "type": "git",
@@ -46,5 +46,12 @@
   "bugs": {
     "url": "https://github.com/Ramon96/DiscordBot/issues"
   },
-  "homepage": "https://github.com/Ramon96/DiscordBot#readme"
+  "homepage": "https://github.com/Ramon96/DiscordBot#readme",
+  "devDependencies": {
+    "@types/dotenv": "^8.2.0",
+    "@types/lodash": "^4.14.200",
+    "@types/ms": "^0.7.33",
+    "tsx": "^3.14.0",
+    "typescript": "^5.2.2"
+  }
 }
