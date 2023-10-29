@@ -57,13 +57,13 @@ export default new Command({
 
     embed.addFields({
       name: "Clue Scrolls",
-      value: `**All**:${stats.main.clues.all.score}
-      **Beginner**: ${stats.main.clues.beginner.score}
-      **Easy**: ${stats.main.clues.easy.score}
-      **Medium**: ${stats.main.clues.medium.score}
-      **Hard**: ${stats.main.clues.hard.score}
-      **Elite**: ${stats.main.clues.elite.score}
-      **Master**: ${stats.main.clues.master.score}`,
+      value: `All:${stats.main.clues.all.score}
+      Beginner: ${stats.main.clues.beginner.score}
+      Easy: ${stats.main.clues.easy.score}
+      Medium: ${stats.main.clues.medium.score}
+      Hard: ${stats.main.clues.hard.score}
+      Elite: ${stats.main.clues.elite.score}
+      Master: ${stats.main.clues.master.score}`,
       inline: false,
     });
 
