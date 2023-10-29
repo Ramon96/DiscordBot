@@ -6,6 +6,8 @@ COPY *.json /app/
 
 RUN npm install
 
+RUN npm tsc
+
 COPY . /app/
 
 EXPOSE 3000
