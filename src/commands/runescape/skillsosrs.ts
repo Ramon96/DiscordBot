@@ -18,7 +18,7 @@ export default new Command({
   run: async ({ interaction, args }) => {
     const rsn = args.getString("rsn");
 
-    if (!rsn) interaction.followUp("No rsn found");
+    if (!rsn) return interaction.followUp("No rsn found");
 
     let stats;
 
@@ -28,10 +28,10 @@ export default new Command({
         stats = res;
       })
       .catch((err) => {
-        interaction.followUp("User not found on hiscores");
+        return interaction.followUp("User not found on hiscores");
       });
 
-    if (!stats) interaction.followUp("User not found on hiscores");
+    if (!stats) return interaction.followUp("User not found on hiscores");
 
     const embed = new EmbedBuilder();
     embed.setAuthor({
@@ -67,6 +67,6 @@ export default new Command({
       inline: false,
     });
 
-    interaction.followUp({ embeds: [embed] });
+    return interaction.followUp({ embeds: [embed] });
   },
 });
