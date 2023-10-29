@@ -1,4 +1,4 @@
-import cron from "cron";
+import * as cron from "cron";
 import { UserSchema } from "../models/user";
 import { EmbedBuilder, TextChannel } from "discord.js";
 import { client } from "..";
