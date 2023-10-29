@@ -5,8 +5,8 @@
   "scripts": {
     "start": "ts-node src/index.ts",
     "start:dev": "ts-node-dev src/index.ts",
-    "start:prod": "npm run build && node --enable-source-maps dist/index.js",
-    "build": "tsc",
+    "start:prod": "node  dist/index.js",
+    "build": "tsc --project tsconfig.json",
     "watch": "tsc -w"
   },
   "repository": {
