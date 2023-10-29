@@ -25,7 +25,7 @@ export const birthdayCron = new cron.CronJob("00 00 00 * * *", function () {
           embed.setTimestamp();
 
           const channel = client.channels.cache.get(
-            "872200569257873458"
+            "1022102320575696906"
           ) as TextChannel;
 
           if (!channel) return console.log("Channel not found");

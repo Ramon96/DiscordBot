@@ -36,7 +36,7 @@ export const hotdCron = new cron.CronJob("00 00 11 * * *", () => {
     .setTimestamp();
 
   const channel = client.channels.cache.get(
-    "872200569257873458"
+    "867074325824012382"
   ) as TextChannel;
 
   if (!channel) return console.log("Channel not found");
