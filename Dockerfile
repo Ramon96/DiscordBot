@@ -1,4 +1,4 @@
-FROM node:20.9
+FROM node:16.15
 
 WORKDIR /app
 
@@ -10,4 +10,4 @@ COPY . /app/
 
 EXPOSE 3000
 
-CMD ["npm", "run" ,"start:prod"]
+CMD ["node", "dist/index.js"]
