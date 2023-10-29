@@ -20,7 +20,9 @@ export default new Command({
 
     if (!rsn) interaction.followUp("No rsn found");
 
-    const stats = await hiscores.getStats(rsn);
+    const stats = await hiscores.getStats(rsn).catch((err) => {
+      interaction.followUp("User not found on hiscores");
+    });
 
     if (!stats) interaction.followUp("User not found on hiscores");
 
