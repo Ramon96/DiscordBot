@@ -40,9 +40,6 @@ export default new Command({
         "https://preview.redd.it/whan5oux4vpz.png?width=960&crop=smart&auto=webp&s=60c6b6df01af710bdb536c34d9d5f5142bf03a8e",
     });
 
-    embed.setFooter({
-      text: `Total Level: ${stats.main.skills.overall.level}`,
-    });
     embed.setThumbnail("https://i.imgur.com/oImaKtY.png");
 
     embed.addFields({
