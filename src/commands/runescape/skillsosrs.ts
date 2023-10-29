@@ -25,7 +25,12 @@ export default new Command({
     if (!stats) interaction.followUp("User not found on hiscores");
 
     const embed = new EmbedBuilder();
-    embed.setTitle(`${capitalize(rsn)}`);
+    embed.setAuthor({
+      name: `${capitalize(rsn)}`,
+      iconURL:
+        "https://preview.redd.it/whan5oux4vpz.png?width=960&crop=smart&auto=webp&s=60c6b6df01af710bdb536c34d9d5f5142bf03a8e",
+    });
+    embed.setTitle(`Stats:`);
     embed.setFooter({
       text: `Total Level: ${stats.main.skills.overall.level}`,
     });
