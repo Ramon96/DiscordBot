@@ -1,12 +1,10 @@
-FROM node:16.15
+FROM node:20.9
 
 WORKDIR /app
 
 COPY *.json /app/
 
 RUN npm install
-
-RUN npm tsc
 
 COPY . /app/
 
