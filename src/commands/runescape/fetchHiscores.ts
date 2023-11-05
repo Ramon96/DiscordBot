@@ -116,7 +116,7 @@ const createEmbed = async (
     }
 
     fields.push({
-      name: `${capitalize(level.skill)} (${level.newLevel})`,
+      name: `${capitalize(level.skill)} (${level.newLevel - level.oldLevel})`,
       value: `${osrsSkills[level.skill].emoji} from ${level.oldLevel} to ${
         level.newLevel
       }! ${level.newLevel === 99 ? osrsSkills[level.skill].compliment : ""}`,
