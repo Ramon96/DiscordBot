@@ -21,13 +21,19 @@ export default new Command({
 
     const validDate = /^\d{1,2}-\d{1,2}-\d{4}$/;
 
+    if (!birthday) {
+      return interaction.followUp(
+        "Please provide a valid date in the format dd-mm-yyyy (e.g. 01-01-2021)"
+      );
+    }
+
     if (!validDate.test(birthday)) {
       return interaction.followUp(
         "Please provide a valid date in the format dd-mm-yyyy (e.g. 01-01-2021)"
       );
     }
 
-    if (UserSchema.exists({ discordId: userId })) {
+    if (await UserSchema.exists({ discordId: userId })) {
       UserSchema.findOneAndUpdate(
         { discordId: userId },
         { birthday: birthday }

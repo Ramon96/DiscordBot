@@ -24,7 +24,13 @@ export default new Command({
     const osrsName = args.getString("osrs_name");
     const discordUser = args.getUser("discord_user");
 
-    if (OsrsSchema.exists({ discordId: discordUser.id, osrsName: osrsName })) {
+    if (!discordUser) {
+      return interaction.followUp("Please provide a valid discord user");
+    }
+
+    if (
+      await OsrsSchema.exists({ discordId: discordUser.id, osrsName: osrsName })
+    ) {
       return interaction.followUp("You are already in the database");
     }
 
@@ -45,7 +51,7 @@ export default new Command({
     const player = new OsrsSchema({
       discordId: discordUser.id,
       osrsName,
-      stats: playerStats.main.skills,
+      stats: playerStats.main?.skills,
     });
 
     await player.save();

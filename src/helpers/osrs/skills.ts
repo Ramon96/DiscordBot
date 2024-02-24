@@ -1,4 +1,14 @@
-export const osrsSkills = {
+type Skills = {
+  [key: string]: {
+    gif: string;
+    color: number;
+    placeholder: string;
+    emoji: string;
+    compliment: string;
+  };
+};
+
+export const osrsSkills: Skills = {
   attack: {
     gif: "https://oldschool.runescape.wiki/images/thumb/Attack_cape_emote.gif/200px-Attack_cape_emote.gif?ca355",
     color: 0x9b2007,

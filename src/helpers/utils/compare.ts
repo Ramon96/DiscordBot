@@ -1,6 +1,13 @@
 import { transform, isEqual, isObject } from "lodash";
 
-export const compare = (current, incomming) => {
+interface AnyObject {
+  [key: string]: any;
+}
+
+export const compare = (
+  current: AnyObject,
+  incomming: AnyObject
+): AnyObject => {
   const diff = difference(current, incomming);
 
   return diff;
@@ -13,16 +20,19 @@ export const compare = (current, incomming) => {
  * @return {Object}        Return a new object who represent the diff
  */
 // https://gist.github.com/Yimiprod/7ee176597fef230d1451
-function difference(object, base) {
-  function changes(object, base) {
-    return transform(object, function (result, value, key) {
-      if (!isEqual(value, base[key])) {
-        result[key] =
-          isObject(value) && isObject(base[key])
-            ? changes(value, base[key])
-            : value;
+function difference(object: AnyObject, base: AnyObject): AnyObject {
+  function changes(object: AnyObject, base: AnyObject): AnyObject {
+    return transform(
+      object,
+      function (result: AnyObject, value: any, key: string) {
+        if (!isEqual(value, base[key])) {
+          result[key] =
+            isObject(value) && isObject(base[key])
+              ? changes(value, base[key])
+              : value;
+        }
       }
-    });
+    );
   }
   return changes(object, base);
 }

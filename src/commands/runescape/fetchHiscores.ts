@@ -1,6 +1,6 @@
 import { Command } from "../../structures/command";
 import { OsrsSchema } from "../../models/osrs-schema";
-import hiscores from "osrs-json-hiscores";
+import hiscores, { Skills } from "osrs-json-hiscores";
 import { compare } from "../../helpers/utils/compare";
 import { EmbedBuilder, TextChannel } from "discord.js";
 import { capitalize, isEmpty } from "lodash";
@@ -26,12 +26,12 @@ export default new Command({
           return null;
         });
 
-      if (!playerStats) {
+      if (!playerStats || !playerStats.main?.skills) {
         console.info(`${player.osrsName} not found on hiscores`);
         continue;
       }
 
-      const changes = compare(player.stats, playerStats.main.skills) as object;
+      const changes = compare(player.stats, playerStats.main.skills);
       const username = player.osrsName.replace(new RegExp("_", "g"), " ");
       const currentStats = player.stats;
       let hasLevelGains = false;
@@ -42,11 +42,15 @@ export default new Command({
       for (const skill of Object.keys(changes).filter((skill) =>
         changes[skill].hasOwnProperty("level")
       )) {
-        if (playerStats.main.skills[skill].level > currentStats[skill].level) {
+        const skillKey = skill as keyof Skills;
+
+        if (
+          playerStats.main.skills[skillKey].level > currentStats[skillKey].level
+        ) {
           gainedLevels.push({
             skill,
-            oldLevel: currentStats[skill].level,
-            newLevel: playerStats.main.skills[skill].level,
+            oldLevel: currentStats[skillKey].level,
+            newLevel: playerStats.main.skills[skillKey].level,
           });
           hasLevelGains = true;
         }
@@ -152,7 +156,7 @@ const createEmbed = async (
     .addFields(fields)
     .addFields({
       name: "Total Level",
-      value: `${osrsSkills.overall.emoji} ${overallLevel.newLevel}`,
+      value: `${osrsSkills.overall.emoji} ${overallLevel?.newLevel}`,
     })
     .setFooter({
       text: `Overall, ${capitalize(

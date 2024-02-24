@@ -21,6 +21,10 @@ export default new Command({
 
     const hexColor = /^#[0-9a-fA-F]{6}$/;
 
+    if (!color) {
+      return interaction.followUp("Please provide a valid hex color");
+    }
+
     if (!hexColor.test(color)) {
       return interaction.followUp("Please provide a valid hex color");
     }
