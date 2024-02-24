@@ -1,7 +1,12 @@
 import QuickChart from "quickchart-js";
 import { generateRandomRGBColor } from "../utils/generateRGB";
+import { CacheType, CommandInteraction } from "discord.js";
+import { Hottie } from "@/typings/hotd";
 
-async function getHottestHottie(interaction, hotties) {
+async function getHottestHottie(
+  interaction: CommandInteraction<CacheType>,
+  hotties: Hottie[]
+) {
   let highestCount = 0;
   let id = "";
 
@@ -16,12 +21,17 @@ async function getHottestHottie(interaction, hotties) {
   return `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`;
 }
 
-export const generateChart = async (interaction, hotties) => {
+export const generateChart = async (
+  interaction: CommandInteraction<CacheType>,
+  hotties: Hottie[]
+) => {
+  if (!interaction) return;
+
   const HottieUsers = await Promise.all(
     hotties.map(async (hottie) => {
       await interaction.client.users.fetch(hottie.id);
       return {
-        username: interaction.client.users.cache.get(hottie.id).globalName,
+        username: interaction.client.users.cache.get(hottie.id)?.globalName,
         count: hottie.count,
         color: hottie.color,
       };

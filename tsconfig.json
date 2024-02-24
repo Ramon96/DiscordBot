@@ -6,6 +6,12 @@
     "target": "ESNext",
     "outDir": "./dist",
     "rootDir": "./src",
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["*"],
+      "@/typings/*": ["typings/*"]
+    },
+    "strict": true,
     "sourceMap": false,
     "esModuleInterop": true,
     "experimentalDecorators": true,
