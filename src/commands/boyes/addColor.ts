@@ -16,6 +16,10 @@ export default new Command({
     },
   ],
   run: async ({ interaction, args }) => {
+    if (!interaction) return;
+
+    if (!args) return interaction.followUp("Please provide a valid hex color");
+
     const color = args.getString("color");
     const userId = interaction.user.id;
 

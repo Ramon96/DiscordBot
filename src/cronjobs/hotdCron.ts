@@ -5,7 +5,10 @@ import { EmbedBuilder, TextChannel } from "discord.js";
 
 export const hotdCron = new cron.CronJob("00 00 11 * * *", () => {
   const guild = client.guilds.cache.get(process.env.guildId);
-  let user = guild.members.cache.random().user;
+  if (!guild) return console.log("Guild not found");
+  let user = guild.members.cache.random()!.user;
+
+  if (!user) return console.log("User not found");
 
   const whitelisted = [
     "291296782187495424",
@@ -17,13 +20,13 @@ export const hotdCron = new cron.CronJob("00 00 11 * * *", () => {
   ];
 
   while (!whitelisted.includes(user.id)) {
-    user = guild.members.cache.random().user;
+    user = guild.members.cache.random()!.user;
   }
 
   HottieSchema.findOne({ id: user.id }).then(async (document) => {
-    document.count += 1;
-    document.markModified("count");
-    await document.save();
+    document!.count += 1;
+    document!.markModified("count");
+    await document!.save();
   });
 
   const embed = new EmbedBuilder()

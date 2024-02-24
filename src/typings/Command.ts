@@ -14,9 +14,9 @@ export interface ExtendedInteraction extends CommandInteraction {
 
 interface RunOptions {
   client: ExtendedClient;
-  args: CommandInteractionOptionResolver;
-  interaction: CommandInteraction;
-  message: Message;
+  args: CommandInteractionOptionResolver | null;
+  interaction?: CommandInteraction;
+  message?: Message;
 }
 
 type RunFunction = (options: RunOptions) => any;

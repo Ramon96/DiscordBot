@@ -16,6 +16,9 @@ export default new Command({
     },
   ],
   run: async ({ interaction, args }) => {
+    if (!interaction) return;
+    if (!args) return interaction.followUp("Please provide a valid date");
+
     const userId = interaction.user.id;
     const birthday = args.getString("birthday");
 

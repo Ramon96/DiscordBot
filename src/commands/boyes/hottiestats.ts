@@ -7,6 +7,8 @@ export default new Command({
   name: "hotdchart",
   description: "shows the hottie of the day chart",
   run: async ({ interaction }) => {
+    if (!interaction) return;
+
     const hotties = await HottieSchema.find({});
 
     const hottieChart = await generateChart(interaction, hotties);

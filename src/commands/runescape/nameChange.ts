@@ -21,6 +21,10 @@ export default new Command({
     },
   ],
   run: async ({ interaction, args }) => {
+    if (!interaction) return;
+    if (!args)
+      return interaction.followUp("please provide both your old and new rsn");
+
     const oldRsn = args.getString("old_rsn");
     const newRsn = args.getString("new_rsn");
 

@@ -12,7 +12,7 @@ export default new Event("messageCreate", async (message) => {
 
   if (msg.includes("gz")) {
     client.commands
-      .get("goedezaak")
+      .get("goedezaak")!
       .run({ client, message: message, args: null });
   }
 });

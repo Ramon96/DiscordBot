@@ -21,6 +21,12 @@ export default new Command({
     },
   ],
   run: async ({ interaction, args }) => {
+    if (!interaction) return;
+    if (!args)
+      return interaction.followUp(
+        "Please provide both your osrs name and discord user"
+      );
+
     const osrsName = args.getString("osrs_name");
     const discordUser = args.getUser("discord_user");
 

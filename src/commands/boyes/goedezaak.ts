@@ -4,6 +4,8 @@ export default new Command({
   name: "goedezaak",
   description: "shows a goedezaak when a user says gz",
   run: async ({ message }) => {
+    if (!message) return console.log("Message not found");
+
     const channel = message.channel;
     if (!channel) return console.log("Channel not found");
 

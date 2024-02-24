@@ -6,7 +6,7 @@ export default new Event("voiceStateUpdate", async (oldState, newState) => {
   // if the user joined a voice channel
   if (oldState.channel === null && newState.channel !== null) {
     // check the user id to see who joined
-    if (newState.member.id === "291296782187495424") {
+    if (newState.member?.id === "291296782187495424") {
       // write a message in the general channel if Daniel joined.
       const channel = client.channels.cache.get(
         "867074325824012382"
