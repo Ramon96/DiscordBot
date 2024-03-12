@@ -13,18 +13,22 @@ const options: ExtendedConnectOptions = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 };
-if (!process.env.mongoURI) {
-  mongoose
-    .connect(process.env.mongoURI!, options)
-    .then(() => console.log("Connected to the database"))
-    .catch((err) => console.log(err));
 
-  mongoose.set("toJSON", {
-    virtuals: true,
-    transform: (_doc, ret) => {
-      delete ret._id;
-      delete ret.__v;
-    },
-  });
+if (!process.env.mongoURI) {
+  throw new Error("MongoURI is not defined");
 }
+
+mongoose
+  .connect(process.env.mongoURI, options)
+  .then(() => console.log("Connected to the database"))
+  .catch((err) => console.log(err));
+
+mongoose.set("toJSON", {
+  virtuals: true,
+  transform: (_doc, ret) => {
+    delete ret._id;
+    delete ret.__v;
+  },
+});
+
 client.start();
