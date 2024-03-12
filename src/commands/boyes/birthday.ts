@@ -36,22 +36,21 @@ export default new Command({
       );
     }
 
-    if (await UserSchema.exists({ discordId: userId })) {
-      await UserSchema.findOneAndUpdate(
-        { discordId: userId },
-        { birthday: birthday },
-        { new: true }
-      );
-      interaction.followUp(`Your birthday has been set to ${birthday}`);
-      return;
+    const user = await UserSchema.findOne({ discord: userId });
+
+    if (!user) {
+      const newUser = new UserSchema({
+        id: userId,
+        birthday: birthday,
+      });
+
+      await newUser.save();
+      return interaction.followUp(`Your birthday has been set to ${birthday}`);
     }
 
-    const user = new UserSchema({
-      id: userId,
-      birthday: birthday,
-    });
-
+    user.birthday = birthday;
     await user.save();
-    interaction.followUp(`Your birthday has been set to ${birthday}`);
+
+    return interaction.followUp(`Your birthday has been set to ${birthday}`);
   },
 });

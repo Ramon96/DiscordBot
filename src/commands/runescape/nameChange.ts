@@ -40,17 +40,14 @@ export default new Command({
       return interaction.followUp("New rsn not found on hiscores");
     }
 
-    const user = OsrsSchema.findOne({ osrsName: oldRsn });
+    const user = await OsrsSchema.findOne({ osrsName: oldRsn });
 
     if (!user) {
       return interaction.followUp("Old rsn not found in database");
     }
 
-    await OsrsSchema.findOneAndUpdate(
-      { osrsName: oldRsn },
-      { osrsName: newRsn },
-      { new: true }
-    );
+    user.osrsName = newRsn;
+    await user.save();
 
     interaction.followUp(`${oldRsn} has been changed to ${newRsn}`);
   },

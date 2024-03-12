@@ -33,16 +33,16 @@ export default new Command({
       return interaction.followUp("Please provide a valid hex color");
     }
 
-    await HottieSchema.findOneAndUpdate(
-      { discordId: userId },
-      { color: color },
-      { new: true }
-    )
-      .then(() => {
-        interaction.followUp(`Your color has been set to ${color}`);
-      })
-      .catch((err) => {
-        interaction.followUp("You are not in the database");
-      });
+    const Hottie = await HottieSchema.findOne({
+      discordId: userId,
+    });
+
+    if (!Hottie) {
+      interaction.followUp("Hottie not found! INTRUDER ALERT!");
+    } else {
+      Hottie.color = color;
+      await Hottie.save();
+      interaction.followUp(`Your color has been set to ${color}`);
+    }
   },
 });
