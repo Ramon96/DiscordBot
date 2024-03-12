@@ -4,6 +4,9 @@ import { client } from "..";
 import { EmbedBuilder, TextChannel } from "discord.js";
 
 export const hotdCron = new cron.CronJob("00 00 11 * * *", () => {
+  if (process.env.guildId === undefined)
+    return console.log("Guild ID not found");
+
   const guild = client.guilds.cache.get(process.env.guildId);
   if (!guild) return console.log("Guild not found");
   let user = guild.members.cache.random()!.user;
