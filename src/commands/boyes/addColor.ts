@@ -33,7 +33,11 @@ export default new Command({
       return interaction.followUp("Please provide a valid hex color");
     }
 
-    HottieSchema.findOneAndUpdate({ discordId: userId }, { color: color })
+    await HottieSchema.findOneAndUpdate(
+      { discordId: userId },
+      { color: color },
+      { new: true }
+    )
       .then(() => {
         interaction.followUp(`Your color has been set to ${color}`);
       })

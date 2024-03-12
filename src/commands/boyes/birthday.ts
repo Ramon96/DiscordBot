@@ -37,9 +37,10 @@ export default new Command({
     }
 
     if (await UserSchema.exists({ discordId: userId })) {
-      UserSchema.findOneAndUpdate(
+      await UserSchema.findOneAndUpdate(
         { discordId: userId },
-        { birthday: birthday }
+        { birthday: birthday },
+        { new: true }
       );
       interaction.followUp(`Your birthday has been set to ${birthday}`);
       return;

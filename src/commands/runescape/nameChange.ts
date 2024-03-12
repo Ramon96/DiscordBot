@@ -48,7 +48,8 @@ export default new Command({
 
     await OsrsSchema.findOneAndUpdate(
       { osrsName: oldRsn },
-      { osrsName: newRsn }
+      { osrsName: newRsn },
+      { new: true }
     );
 
     interaction.followUp(`${oldRsn} has been changed to ${newRsn}`);
