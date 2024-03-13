@@ -34,7 +34,7 @@ export default new Command({
     }
 
     const Hottie = await HottieSchema.findOne({
-      discordId: userId,
+      id: userId,
     });
 
     if (!Hottie) {
