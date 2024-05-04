@@ -12,6 +12,7 @@ import { startCase } from "lodash";
 import fetch from "node-fetch";
 
 export type WikiData = {
+  username: string;
   quests: Quests;
   achievement_diaries: AchievementDiaries;
   music_tracks: MusicTracks;
@@ -27,7 +28,7 @@ export async function handleWikiSync(player: IPlayer, client: Client) {
       return null;
     })) as WikiData | null;
 
-  if (!wikiData) {
+  if (!wikiData?.username) {
     console.info(`${player.osrsName} not found on the wiki`);
     return;
   }

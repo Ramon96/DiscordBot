@@ -33,7 +33,7 @@ export default new Command({
         return null;
       })) as WikiData | null;
 
-    if (!wikiData) {
+    if (!wikiData?.username) {
       return interaction.followUp(
         "User not found on the wiki, make sure you have wiki sync enabled"
       );
