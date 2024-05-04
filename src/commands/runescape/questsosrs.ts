@@ -1,6 +1,7 @@
 import { Command } from "../../structures/command";
 import { ApplicationCommandOptionType } from "discord.js";
 import { WikiData } from "../util/runescape/handleWikiSync";
+import fetch from "node-fetch";
 
 export default new Command({
   name: "questsosrs",
@@ -23,12 +24,12 @@ export default new Command({
 
     const url = `https://sync.runescape.wiki/runelite/player/${rsn}/STANDARD`;
 
-    const wikiData: WikiData | null = await fetch(url)
+    const wikiData = (await fetch(url)
       .then((res) => res.json())
       .catch((err) => {
         console.error(err);
         return null;
-      });
+      })) as WikiData | null;
 
     if (!wikiData) {
       return interaction.followUp(
