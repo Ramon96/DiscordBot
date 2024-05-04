@@ -9,6 +9,7 @@ import {
 import { ExtendedClient } from "@/structures/client";
 import { cleanUsername } from "../../../helpers/utils/cleanUsername";
 import { startCase } from "lodash";
+import fetch from "node-fetch";
 
 export type WikiData = {
   quests: Quests;
@@ -19,12 +20,12 @@ export type WikiData = {
 export async function handleWikiSync(player: IPlayer, client: Client) {
   const url = `https://sync.runescape.wiki/runelite/player/${player.osrsName}/STANDARD`;
 
-  const wikiData: WikiData | null = await fetch(url)
+  const wikiData = (await fetch(url)
     .then((res) => res.json())
     .catch((err) => {
       console.error(err);
       return null;
-    });
+    })) as WikiData | null;
 
   if (!wikiData) {
     console.info(`${player.osrsName} not found on the wiki`);

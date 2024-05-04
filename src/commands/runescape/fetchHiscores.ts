@@ -10,8 +10,9 @@ export default new Command({
     const players = await OsrsSchema.find({});
 
     for (const player of players) {
-      // await handleHighscores(player, client);
-      await handleWikiSync(player, client);
+      await handleHighscores(player, client).then(
+        async () => await handleWikiSync(player, client)
+      );
     }
   },
 });
