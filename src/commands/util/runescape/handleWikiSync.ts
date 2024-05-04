@@ -20,8 +20,7 @@ export type WikiData = {
 export async function handleWikiSync(player: IPlayer, client: Client) {
   const url = `https://sync.runescape.wiki/runelite/player/${player.osrsName}/STANDARD`;
 
-  const wikiData = (await import("node-fetch")
-    .then((fetch) => fetch.default(url))
+  const wikiData = (await fetch(url)
     .then((res) => res.json())
     .catch((err) => {
       console.error(err);
