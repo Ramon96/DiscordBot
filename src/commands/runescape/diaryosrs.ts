@@ -60,11 +60,11 @@ const createEmbed = async (rsn: string, diaries: AchievementDiaries) => {
 
   for (const region in diaries) {
     let values = [];
-    for (const diffeculty in diaries[region]) {
-      values.push(
-        `${diffeculty} - ${diaries[region][diffeculty] ? "✅" : "❌"}`
-      );
-    }
+
+    values.push(`${diaries[region]["Easy"].complete ? "✅" : "❌"} - Easy`);
+    values.push(`${diaries[region]["Medium"].complete ? "✅" : "❌"} - Medium`);
+    values.push(`${diaries[region]["Hard"].complete ? "✅" : "❌"} - Hard`);
+    values.push(`${diaries[region]["Elite"].complete ? "✅" : "❌"} - Elite`);
 
     embed.addFields({
       name: region,
