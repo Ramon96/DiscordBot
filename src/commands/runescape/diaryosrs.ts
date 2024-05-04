@@ -58,6 +58,8 @@ const createEmbed = async (rsn: string, diaries: AchievementDiaries) => {
     "https://oldschool.runescape.wiki/images/thumb/Achievement_Diaries.png/130px-Achievement_Diaries.png?f3803"
   );
 
+  embed.setColor("#3cab3c");
+
   for (const region in diaries) {
     let values = [];
 
