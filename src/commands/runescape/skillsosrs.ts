@@ -1,6 +1,6 @@
 import { ApplicationCommandOptionType, EmbedBuilder } from "discord.js";
 import { Command } from "../../structures/command";
-import hiscores, { Player, Skills, Stats } from "osrs-json-hiscores";
+import hiscores, { Player } from "osrs-json-hiscores";
 import { osrsSkills } from "../../helpers/osrs/skills";
 import { capitalize } from "lodash";
 
