@@ -56,12 +56,12 @@ export default new Command({
 
     return interaction.followUp(`
        🧭 ${rsn}'s Quest list\n\n
-        **Completed**\n
-        ${completed.join("\n")}\n\n
-        **In Progress**\n
-        ${inProgress.join("\n")}\n\n
-        **Not Started**\n
-        ${notStarted.join("\n")}
+        ${completed.length > 0 && `**Completed**`}\n
+        ${completed.length > 0 && completed.join("\n")}\n\n
+        ${inProgress.length > 0 && `**In Progress**`}\n
+        ${inProgress.length > 0 && inProgress.join("\n")}\n\n
+        ${notStarted.length > 0 && `**Not Started**`}\n
+        ${notStarted.length > 0 && notStarted.join("\n")}
       `);
   },
 });
