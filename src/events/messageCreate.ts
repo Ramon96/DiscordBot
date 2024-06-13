@@ -10,9 +10,9 @@ export default new Event("messageCreate", async (message) => {
     message.reply(`👅 💦 ${withoutLik}`);
   }
 
-  if (msg.includes("gz")) {
-    client.commands
-      .get("goedezaak")!
-      .run({ client, message: message, args: null });
-  }
+  // if (msg.includes("gz")) {
+  //   client.commands
+  //     .get("goedezaak")!
+  //     .run({ client, message: message, args: null });
+  // }
 });
