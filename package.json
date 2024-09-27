@@ -1,7 +1,7 @@
 {
   "name": "discordbot",
   "version": "2.3.0",
-  "description": "hobby project to expiriment with discord.js",
+  "description": "hobby project to experiment with discord.js and mongodb. This bot has a lot of different features with no direct goal.",
   "scripts": {
     "start": "ts-node src/index.ts",
     "start:dev": "ts-node-dev src/index.ts",
