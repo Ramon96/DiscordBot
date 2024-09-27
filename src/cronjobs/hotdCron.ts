@@ -1,5 +1,5 @@
 import * as cron from "cron";
-import { HottieSchema } from "../models/hottie";
+import { HottieSchema } from "@/models/hottie";
 import { client } from "..";
 import { EmbedBuilder, TextChannel } from "discord.js";
 
