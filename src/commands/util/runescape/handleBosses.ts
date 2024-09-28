@@ -27,7 +27,7 @@ export async function handleBosses(players: IPlayer[], client: Client) {
         }
         
         if (!fetchedStats.bosses) {
-            console.info(`${player.osrsName} has no bosses`);
+            console.info(`${player.osrsName} has no boss kc`);
             continue;
         }
         
@@ -76,6 +76,10 @@ export async function handleBosses(players: IPlayer[], client: Client) {
                 killedBosses[bossIndex].players.push({name: cleanUsername(player.osrsName), kc, total: change.total});
             }
         }
+
+        player.bosses = fetchedStats.bosses;
+        player.markModified("bosses");
+        await player.save();
     }
     
     if (killedBosses.length === 0) {
