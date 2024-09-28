@@ -11,7 +11,7 @@ import { cleanUsername } from "@/helpers/utils/cleanUsername";
 import { GainedLevel, Field } from "@/typings/runescape";
 
 
-export async function handleHiscores(player: IPlayer, client: Client, HiscoreStats: Stats | undefined) {
+export async function handleSkills(player: IPlayer, client: Client, HiscoreStats: Stats | undefined) {
   const fetchedStats = HiscoreStats?.skills;
   
   if (!fetchedStats) {

@@ -1,11 +1,11 @@
 ﻿import { handleBosses } from './handleBosses';
-import { handleHiscores } from './handleHiscores';
+import { handleSkills } from './handleSkills';
 import { handleWikiSync } from './handleWikiSync';
 import { fetchPlayerHiscores } from './fetchPlayerHiscores';
 
 export {
     handleBosses,
-    handleHiscores,
+    handleSkills,
     handleWikiSync,
     fetchPlayerHiscores
 };
