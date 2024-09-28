@@ -119,7 +119,7 @@ const createBossEmbed = async (boss: { bossName: string; players: Player[] }) =>
         
         fields.push({
             name: player.name,
-            value: player.kc.toString() + `${player.kc} (+ ${player.kc})`,
+            value: player.total.toString() + `(+ ${player.kc})`,
         });
     });
     let message = `**${nameList}** ${subject} been on an expedition and killed **${cleanedBossName}**`;
