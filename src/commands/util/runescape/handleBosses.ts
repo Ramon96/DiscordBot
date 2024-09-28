@@ -1,25 +1,19 @@
 ﻿import { IPlayer } from "@/models/osrs-schema";
 import { Client, EmbedBuilder, TextChannel } from "discord.js";
-import hiscores from "osrs-json-hiscores";
-import { Field } from "@/typings/runescape";
+import { FetchStats, Field } from "@/typings/runescape";
 import { cleanUsername } from "@/helpers/utils/cleanUsername";
 import { osrsBosses } from "@/helpers/osrs/bosses";
 
 type Player = { name: string, kc: number, total: number };
 
-export async function handleBosses(players: IPlayer[], client: Client) {
+export async function handleBosses(players: IPlayer[], client: Client, hiscoreStats: FetchStats[]) {
     let killedBosses: {
         bossName: string,
         players: Player[]
     }[] = [];
     
     for (const player of players) {
-        const fetchedStats = await hiscores.getStats(player.osrsName)
-            .then((res) => res.main)
-            .catch((err) => {
-                console.error(err);
-                return null;
-            });
+        const fetchedStats = hiscoreStats.find((stats) => stats.hasOwnProperty(player.osrsName))?.[player.osrsName];
         
         if (!fetchedStats) {
             console.info(`${player.osrsName} not found on hiscores`);

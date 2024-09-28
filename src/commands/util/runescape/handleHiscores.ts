@@ -1,6 +1,6 @@
 import { Client, TextChannel, EmbedBuilder } from "discord.js";
 
-import hiscores, { Skills } from "osrs-json-hiscores";
+import { Skills, Stats } from "osrs-json-hiscores";
 import { capitalize, isEmpty } from "lodash";
 
 import { ExtendedClient } from "@/structures/client";
@@ -11,14 +11,9 @@ import { cleanUsername } from "@/helpers/utils/cleanUsername";
 import { GainedLevel, Field } from "@/typings/runescape";
 
 
-export async function handleHiscores(player: IPlayer, client: Client) {
-  const fetchedStats = await hiscores.getStats(player.osrsName)
-      .then((res) => res.main?.skills)    
-      .catch((err) => {
-        console.error(err);
-        return null;
-    });
-
+export async function handleHiscores(player: IPlayer, client: Client, HiscoreStats: Stats | undefined) {
+  const fetchedStats = HiscoreStats?.skills;
+  
   if (!fetchedStats) {
     console.info(`${player.osrsName} not found on hiscores`);
     return;
