@@ -3,7 +3,7 @@ import { OsrsSchema } from "@/models/osrs-schema";
 import { handleHighscores } from "../util/runescape/handleHighscores";
 import { handleWikiSync } from "../util/runescape/handleWikiSync";
 
-new Command({
+export default new Command({
   name: "fetchhiscores",
   description: "Fetch all player's hiscores from OSRS",
   run: async ({ client }) => {

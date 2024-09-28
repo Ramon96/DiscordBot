@@ -9,3 +9,20 @@ export type Field = {
     value: string;
 };
 
+ export type Skills = {
+     [key: string]: {
+         gif: string;
+         color: number;
+         placeholder: string;
+         emoji: string;
+         compliment: string;
+     };
+ };
+ 
+ export type Bosses = {
+        [key: string]: {
+            img: string;
+            emoji: string;
+            message: string;
+        };
+ };

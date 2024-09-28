@@ -6,10 +6,10 @@ import {
   GatewayIntentBits,
   Partials,
 } from "discord.js";
-import { CommandType } from "../typings/Command";
+import { CommandType } from "@/typings/Command";
 import glob from "glob";
 import { promisify } from "util";
-import { registerCommandsOptions } from "../typings/Client";
+import { registerCommandsOptions } from "@/typings/Client";
 import { Event } from "./event";
 
 const globPromise = promisify(glob);

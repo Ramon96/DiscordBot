@@ -1,4 +1,4 @@
-import { Command } from "../../structures/command";
+import { Command } from "@/structures/command";
 import { ApplicationCommandOptionType, EmbedBuilder } from "discord.js";
 import { WikiData } from "../util/runescape/handleWikiSync";
 import { capitalize } from "lodash";

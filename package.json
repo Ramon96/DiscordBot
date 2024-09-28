@@ -3,7 +3,7 @@
   "version": "2.3.0",
   "description": "hobby project to experiment with discord.js and mongodb. This bot has a lot of different features with no direct goal.",
   "scripts": {
-    "start": "ts-node src/index.ts",
+    "start": "ts-node -r tsconfig-paths/register src/index.ts",
     "start:dev": "ts-node-dev src/index.ts",
     "start:prod": "node dist/index.js",
     "build": "tsc --project tsconfig.json",
@@ -34,7 +34,8 @@
     "mongoose": "^7.6.3",
     "node-fetch": "^2.7.0",
     "osrs-json-hiscores": "2.17.0",
-    "quickchart-js": "^3.1.3"
+    "quickchart-js": "^3.1.3",
+    "tsconfig-paths": "^4.2.0"
   },
   "devDependencies": {
     "@types/cron": "^2.4.0",

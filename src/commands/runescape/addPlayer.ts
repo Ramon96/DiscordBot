@@ -3,7 +3,7 @@ import { Command } from "@/structures/command";
 import hiscores from "osrs-json-hiscores";
 import { OsrsSchema } from "@/models/osrs-schema";
 
-new Command({
+export default new Command({
   name: "addplayer",
   description: "add a player to the database",
   options: [
