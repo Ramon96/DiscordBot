@@ -12,4 +12,4 @@ RUN npm run build
 
 EXPOSE 3000
 
-CMD ["node",  "-r", "tsconfig-paths/register", "dist/index.js"]
+CMD ["npm", "run", "start:prod"]
