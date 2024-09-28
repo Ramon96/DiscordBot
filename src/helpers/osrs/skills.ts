@@ -1,12 +1,4 @@
-type Skills = {
-  [key: string]: {
-    gif: string;
-    color: number;
-    placeholder: string;
-    emoji: string;
-    compliment: string;
-  };
-};
+import { Skills } from "@/typings/runescape";
 
 export const osrsSkills: Skills = {
   attack: {

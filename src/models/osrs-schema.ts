@@ -1,9 +1,11 @@
 import mongoose, { Document } from "mongoose";
+import { Bosses, Skills } from "osrs-json-hiscores";
 
 const osrsSchema = new mongoose.Schema({
   discordId: { type: String, required: true },
   osrsName: { type: String, required: true },
   stats: { type: Object, required: false },
+  bosses: { type: Object, required: false },
   quests: { type: Object, required: false },
   achievementDiaries: { type: Object, required: false },
   musicTracks: { type: Object, required: false },
@@ -12,7 +14,8 @@ const osrsSchema = new mongoose.Schema({
 export interface IPlayer extends Document {
   discordId: string;
   osrsName: string;
-  stats?: Stats;
+  stats?: Skills;
+  bosses?: Bosses;
   quests?: Quests;
   achievementDiaries?: AchievementDiaries;
   musicTracks?: MusicTracks;
@@ -43,14 +46,6 @@ export enum QuestProgress {
 
 export interface MusicTracks {
   [key: string]: boolean;
-}
-
-interface Stats {
-  [key: string]: {
-    rank: number;
-    level: number;
-    xp: number;
-  };
 }
 
 export const OsrsSchema = mongoose.model<IPlayer>("Player", osrsSchema);

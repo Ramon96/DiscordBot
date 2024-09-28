@@ -1,7 +1,7 @@
 import { ApplicationCommandOptionType } from "discord.js";
-import { Command } from "../../structures/command";
+import { Command } from "@/structures/command";
 import hiscores from "osrs-json-hiscores";
-import { OsrsSchema } from "../../models/osrs-schema";
+import { OsrsSchema } from "@/models/osrs-schema";
 
 export default new Command({
   name: "addplayer",
@@ -22,6 +22,7 @@ export default new Command({
   ],
   run: async ({ interaction, args }) => {
     if (!interaction) return;
+    
     if (!args)
       return interaction.followUp(
         "Please provide both your osrs name and discord user"
@@ -30,8 +31,8 @@ export default new Command({
     const osrsName = args.getString("osrs_name");
     const discordUser = args.getUser("discord_user");
 
-    if (!discordUser) {
-      return interaction.followUp("Please provide a valid discord user");
+    if (!discordUser || !osrsName) {
+      return interaction.followUp("Please provide a valid discord and osrs user");
     }
 
     if (
@@ -40,28 +41,26 @@ export default new Command({
       return interaction.followUp("You are already in the database");
     }
 
-    if (!osrsName || !discordUser) {
-      return interaction.followUp(
-        "Please provide both your osrs name and discord user"
-      );
-    }
 
-    const playerStats = await hiscores.getStats(osrsName).catch((err) => {
-      interaction.followUp("osrs name not found on hiscores");
-    });
+    await hiscores.getStats(osrsName)
+        .then(async (playerStats) =>  {
+          if(!playerStats.main) {
+            await interaction.followUp("osrs name not found on hiscores");
+          }
 
-    if (!playerStats) {
-      return interaction.followUp("osrs name not found on hiscores");
-    }
+          const player = new OsrsSchema({
+            discordId: discordUser.id,
+            osrsName,
+            stats: playerStats.main?.skills,
+          });
 
-    const player = new OsrsSchema({
-      discordId: discordUser.id,
-      osrsName,
-      stats: playerStats.main?.skills,
-    });
+          await player.save();
 
-    await player.save();
-
-    interaction.followUp(`${osrsName} has been added to the database`);
+          await interaction.followUp(`${osrsName} has been added to the database`);
+          
+        })    
+        .catch(() => {
+          interaction.followUp("osrs name not found on hiscores");
+      });
   },
 });
