@@ -1,8 +1,8 @@
 import { Command } from "@/structures/command";
 import { OsrsSchema } from "@/models/osrs-schema";
-import { handleHiscores } from "../util/runescape/handleHiscores";
-import { handleWikiSync } from "../util/runescape/handleWikiSync";
-import { handleBosses } from "../util/runescape/handleBosses";
+import { handleHiscores } from "@/commands/util/runescape/handleHiscores";
+import { handleWikiSync } from "@/commands/util/runescape/handleWikiSync";
+import { handleBosses } from "@/commands/util/runescape/handleBosses";
 import { fetchPlayerHiscores } from "@/commands/util/runescape/fetchPlayerHiscores";
 
 export default new Command({
