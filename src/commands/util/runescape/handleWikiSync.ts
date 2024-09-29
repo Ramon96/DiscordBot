@@ -1,13 +1,7 @@
-import { Client, TextChannel, EmbedBuilder, ColorResolvable } from "discord.js";
-import {
-  AchievementDiaries,
-  IPlayer,
-  Quests,
-  MusicTracks,
-  QuestProgress,
-} from "../../../models/osrs-schema";
-import { cleanUsername } from "../../../helpers/utils/cleanUsername";
-import { startCase } from "lodash";
+import {Client, ColorResolvable, EmbedBuilder, TextChannel} from "discord.js";
+import {AchievementDiaries, IPlayer, MusicTracks, QuestProgress, Quests,} from "../../../models/osrs-schema";
+import {cleanUsername} from "../../../helpers/utils/cleanUsername";
+import {startCase} from "lodash";
 import fetch from "node-fetch";
 import {ExtendedClient} from "../../../structures/client";
 
@@ -81,24 +75,27 @@ const checkAchievementDiaries = async (
   let diaryChanges = [];
 
   for (const region in achievementDiaries) {
-    for (const diffeculty in achievementDiaries[region]) {
+    for (const diaryDifficulty in achievementDiaries[region]) {
       if (
-        player.achievementDiaries[region][diffeculty].complete !==
-        achievementDiaries[region][diffeculty].complete
+        player.achievementDiaries[region][diaryDifficulty].complete !==
+        achievementDiaries[region][diaryDifficulty].complete
       ) {
+        // If the player has completed the diary, don't update it
+        if (player.achievementDiaries[region][diaryDifficulty].complete) return;
+        
         diaryChanges.push({
           region,
-          diffeculty,
+          diaryDifficulty,
         });
       }
     }
   }
 
-  diaryChanges.forEach(async (diary) => {
+  for (const diary of diaryChanges) {
     const diaryEmbed = await createDiaryEmbed(
       player.osrsName,
       diary.region,
-      diary.diffeculty,
+      diary.diaryDifficulty,
       client as ExtendedClient,
       player.discordId
     );
@@ -107,12 +104,12 @@ const checkAchievementDiaries = async (
       "872200569257873458"
     ) as TextChannel;
 
-    if (!channel) return console.log("Channel not found");
+    if (!channel) console.log("Channel not found");
 
     if (diaryEmbed) {
-      channel.send({ embeds: [diaryEmbed] });
+      await channel.send({ embeds: [diaryEmbed] });
     }
-  });
+  }
 
   if (diaryChanges.length > 0) {
     hasChanges = true;
@@ -130,18 +127,16 @@ const createDiaryEmbed = async (
 ) => {
   const user = await client.users.fetch(discordId);
 
-  const embed = new EmbedBuilder()
-    .setAuthor({
-      name: user.username,
-      iconURL: `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.jpeg`,
-    })
-    .setTitle(`${cleanUsername(username)}`)
-    .setDescription(
-      `📖 Has completed the ${region} **${startCase(difficulty)} diaries**.`
-    )
-    .setColor("#3cab3c");
-
-  return embed;
+  return new EmbedBuilder()
+      .setAuthor({
+        name: user.username,
+        iconURL: `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.jpeg`,
+      })
+      .setTitle(`${cleanUsername(username)}`)
+      .setDescription(
+          `📖 Has completed the ${region} **${startCase(difficulty)} diaries**.`
+      )
+      .setColor("#3cab3c");
 };
 
 const checkQuests = async (player: IPlayer, quests: Quests, client: Client) => {
@@ -158,11 +153,16 @@ const checkQuests = async (player: IPlayer, quests: Quests, client: Client) => {
 
   for (const quest in quests) {
     if (player.quests[quest] !== quests[quest]) {
+      // If the player has completed the quest, don't update it
+      if(player.quests[quest] === QuestProgress.COMPLETED) return;
+      // If the player has started the quest and the wiki has it as not started, don't update it
+      if(player.quests[quest] === QuestProgress.IN_PROGRESS && quests[quest] === QuestProgress.NOT_STARTED) return;
+      
       questChanges.push(quest);
     }
   }
 
-  questChanges.forEach(async (quest) => {
+  for (const quest of questChanges) {
     const questEmbed = await createQuestEmbed(
       player.osrsName,
       quest,
@@ -175,12 +175,12 @@ const checkQuests = async (player: IPlayer, quests: Quests, client: Client) => {
       "872200569257873458"
     ) as TextChannel;
 
-    if (!channel) return console.log("Channel not found");
+    if (!channel) console.log("Channel not found");
 
     if (questEmbed) {
-      channel.send({ embeds: [questEmbed] });
+      await channel.send({ embeds: [questEmbed] });
     }
-  });
+  }
 
   if (questChanges.length > 0) {
     hasChanges = true;
@@ -210,16 +210,14 @@ const createQuestEmbed = async (
     color = "#4344e6";
   }
 
-  const embed = new EmbedBuilder()
-    .setAuthor({
-      name: user.username,
-      iconURL: `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.jpeg`,
-    })
-    .setTitle(`${cleanUsername(username)}`)
-    .setDescription(`🧭 ${title}`)
-    .setColor(color as ColorResolvable);
-
-  return embed;
+  return new EmbedBuilder()
+      .setAuthor({
+        name: user.username,
+        iconURL: `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.jpeg`,
+      })
+      .setTitle(`${cleanUsername(username)}`)
+      .setDescription(`🧭 ${title}`)
+      .setColor(color as ColorResolvable);
 };
 
 const checkMusicTracks = async (
@@ -240,11 +238,14 @@ const checkMusicTracks = async (
 
   for (const track in musicTracks) {
     if (player.musicTracks[track] !== musicTracks[track]) {
+      // If the player has unlocked the track, don't update it
+      if(player.musicTracks[track]) return;
+      
       musicTrackChanges.push(track);
     }
   }
 
-  musicTrackChanges.forEach(async (track) => {
+  for (const track of musicTrackChanges) {
     const musicTrackEmbed = await createMusicTrackEmbed(
       player.osrsName,
       track,
@@ -256,12 +257,12 @@ const checkMusicTracks = async (
       "872200569257873458"
     ) as TextChannel;
 
-    if (!channel) return console.log("Channel not found");
+    if (!channel) console.log("Channel not found");
 
     if (musicTrackEmbed) {
-      channel.send({ embeds: [musicTrackEmbed] });
+      await channel.send({ embeds: [musicTrackEmbed] });
     }
-  });
+  }
 
   if (musicTrackChanges.length > 0) {
     hasChanges = true;
@@ -277,14 +278,12 @@ const createMusicTrackEmbed = async (
 ) => {
   const user = await client.users.fetch(discordId);
 
-  const embed = new EmbedBuilder()
-    .setAuthor({
-      name: user.username,
-      iconURL: `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.jpeg`,
-    })
-    .setTitle(`${cleanUsername(username)}`)
-    .setDescription(`🎵 Unlocked the music track **${track}**.`)
-    .setColor("#000000");
-
-  return embed;
+  return new EmbedBuilder()
+      .setAuthor({
+        name: user.username,
+        iconURL: `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.jpeg`,
+      })
+      .setTitle(`${cleanUsername(username)}`)
+      .setDescription(`🎵 Unlocked the music track **${track}**.`)
+      .setColor("#000000");
 };
