@@ -42,7 +42,7 @@ export async function handleBosses(players: IPlayer[], client: Client, hiscoreSt
         for (const [key, _] of Object.entries(fetchedStats.bosses)) {
             const bossKey = key as keyof typeof storedStats;
             const storedBossKc = storedStats[bossKey]?.score ?? 0;
-            const fetchedBossKc = fetchedStats.bosses[bossKey].score;
+            const fetchedBossKc = fetchedStats.bosses[bossKey]?.score ?? 0;
             
             if (fetchedBossKc > storedBossKc) {
                 changes.push({
