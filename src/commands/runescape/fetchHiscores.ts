@@ -10,18 +10,18 @@ export default new Command({
     const players = await OsrsSchema.find({});
     
     if(!players) return console.log("No players found");
-    const fetchedStats = await fetchPlayerHiscores(players);
-    
-    await handleBosses(players, client, fetchedStats);
-
-    for (const player of players) {
-        const playerStats = fetchedStats.find((stats) => stats.hasOwnProperty(player.osrsName))?.[player.osrsName];
-      
-        await handleSkills(player, client, playerStats);
-        await handleWikiSync(player, client);
-    }
+    // const fetchedStats = await fetchPlayerHiscores(players);
+    //
+    // await handleBosses(players, client, fetchedStats);
+    //
+    // for (const player of players) {
+    //     const playerStats = fetchedStats.find((stats) => stats.hasOwnProperty(player.osrsName))?.[player.osrsName];
+    //  
+    //     await handleSkills(player, client, playerStats);
+    //     await handleWikiSync(player, client);
+    // }
 
       // Clear fetchedStats to free up memory
-      fetchedStats.length = 0;
+      // fetchedStats.length = 0;
   },
 });
