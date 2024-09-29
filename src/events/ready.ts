@@ -17,10 +17,10 @@ export default new Event("ready", () => {
   if (fetchHiscores) {
     fetchHiscores.run({ client: client, args: null });
     
-    // 5 minutes
+    // 1 minute = 60000 ms
     setInterval(function () {
       fetchHiscores.run({ client: client, args: null });
-    }, 300000);
+    }, 60000 * 30);
   }
   
   birthdayCron.start();
