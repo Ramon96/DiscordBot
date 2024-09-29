@@ -156,6 +156,11 @@ export const osrsBosses: Bosses = {
         emoji: "👹",
         message: "entered the God Wars Dungeon to challenge Zamoraks big demon K'ril Tsutsaroth"
     },
+    lunarChests: {
+        img: "https://oldschool.runescape.wiki/images/thumb/Lunar_Chest_%28closed%29.png/280px-Lunar_Chest_%28closed%29.png?19bbc",
+        emoji: "🌙",
+        message: "opened some lunar chests inside Cam Torum"
+    },
     mimic: {
         img: "https://oldschool.runescape.wiki/images/thumb/The_Mimic.png/250px-The_Mimic.png?b45f4",
         emoji: "🎁",
@@ -225,6 +230,11 @@ export const osrsBosses: Bosses = {
         img: "https://oldschool.runescape.wiki/images/thumb/Corrupted_Hunllef.png/280px-Corrupted_Hunllef.png?0cd55",
         emoji: "🦾",
         message: "entered the Corrupted Gauntlet and defeated the Corrupted Hunllef"
+    },
+    hueycoatl: {
+        img: "https://oldschool.runescape.wiki/images/thumb/The_Hueycoatl.png/280px-The_Hueycoatl.png?7b216",
+        emoji: "🐍",
+        message: "faced the mighty Hueycoatl"
     },
     leviathan: {
         img: "https://oldschool.runescape.wiki/images/thumb/The_Leviathan.png/280px-The_Leviathan.png?d588a",
