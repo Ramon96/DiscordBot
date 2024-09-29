@@ -6,10 +6,10 @@ import {
   MusicTracks,
   QuestProgress,
 } from "../../../models/osrs-schema";
-import { ExtendedClient } from "@/structures/client";
 import { cleanUsername } from "../../../helpers/utils/cleanUsername";
 import { startCase } from "lodash";
 import fetch from "node-fetch";
+import {ExtendedClient} from "../../../structures/client";
 
 export type WikiData = {
   username: string;

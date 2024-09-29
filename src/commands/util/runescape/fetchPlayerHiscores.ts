@@ -1,6 +1,7 @@
-﻿import { IPlayer } from "@/models/osrs-schema";
-import hiscores from "osrs-json-hiscores";
-import { FetchStats } from "@/typings/runescape";
+﻿import hiscores from "osrs-json-hiscores";
+import {FetchStats} from "../../../typings/runescape";
+import {IPlayer} from "../../../models/osrs-schema";
+
 
 export async function fetchPlayerHiscores (players: IPlayer[]): Promise<FetchStats[]> {
     let stats = [];

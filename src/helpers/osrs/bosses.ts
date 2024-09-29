@@ -1,4 +1,4 @@
-﻿import { Bosses } from "@/typings/runescape";
+﻿import {Bosses} from "../../typings/runescape";
 
 export const osrsBosses: Bosses = {
     abyssalSire: {

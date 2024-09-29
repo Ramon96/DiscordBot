@@ -1,7 +1,9 @@
 import { ApplicationCommandOptionType } from "discord.js";
-import { Command } from "@/structures/command";
+
 import hiscores from "osrs-json-hiscores";
-import { OsrsSchema } from "@/models/osrs-schema";
+import {Command} from "../../structures/command";
+import {OsrsSchema} from "../../models/osrs-schema";
+
 
 export default new Command({
   name: "addplayer",

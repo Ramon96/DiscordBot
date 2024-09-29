@@ -2,13 +2,14 @@ import { Client, TextChannel, EmbedBuilder } from "discord.js";
 
 import { Skills, Stats } from "osrs-json-hiscores";
 import { capitalize, isEmpty } from "lodash";
+import {IPlayer} from "../../../models/osrs-schema";
+import {compare} from "../../../helpers/utils/compare";
+import {cleanUsername} from "../../../helpers/utils/cleanUsername";
+import {Field, GainedLevel} from "../../../typings/runescape";
+import {ExtendedClient} from "../../../structures/client";
+import {osrsSkills} from "../../../helpers/osrs/skills";
 
-import { ExtendedClient } from "@/structures/client";
-import { IPlayer } from "@/models/osrs-schema";
-import { osrsSkills } from "@/helpers/osrs/skills";
-import { compare } from "@/helpers/utils/compare";
-import { cleanUsername } from "@/helpers/utils/cleanUsername";
-import { GainedLevel, Field } from "@/typings/runescape";
+
 
 
 export async function handleSkills(player: IPlayer, client: Client, HiscoreStats: Stats | undefined) {

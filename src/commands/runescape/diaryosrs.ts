@@ -1,9 +1,10 @@
-import { Command } from "@/structures/command";
+
 import { ApplicationCommandOptionType, EmbedBuilder } from "discord.js";
 import { WikiData } from "../util/runescape/handleWikiSync";
 import { capitalize } from "lodash";
-import { AchievementDiaries } from "@/models/osrs-schema";
 import fetch from "node-fetch";
+import {Command} from "../../structures/command";
+import {AchievementDiaries} from "../../models/osrs-schema";
 
 export default new Command({
   name: "diarysosrs",

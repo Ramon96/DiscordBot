@@ -1,6 +1,7 @@
-import { Command } from "@/structures/command";
-import { OsrsSchema } from "@/models/osrs-schema";
-import { handleSkills, handleBosses, handleWikiSync, fetchPlayerHiscores } from "@/commands/util/runescape";
+import { Command } from "../../structures/command";
+import { OsrsSchema } from "../../models/osrs-schema";
+import { fetchPlayerHiscores, handleBosses, handleSkills, handleWikiSync } from "../util/runescape";
+
 
 export default new Command({
   name: "fetchhiscores",

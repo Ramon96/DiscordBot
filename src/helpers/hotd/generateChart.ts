@@ -1,7 +1,8 @@
 import QuickChart from "quickchart-js";
 import { generateRandomRGBColor } from "../utils/generateRGB";
 import { CacheType, CommandInteraction } from "discord.js";
-import { Hottie } from "@/typings/hotd";
+import {Hottie} from "../../typings/hotd";
+
 
 async function getHottestHottie(
   interaction: CommandInteraction<CacheType>,

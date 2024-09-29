@@ -1,8 +1,8 @@
 import { ActivityType } from "discord.js";
 import { client } from "..";
-import { Event } from "@/structures/event";
-import { birthdayCron } from "@/cronjobs/birthdayCron";
-import { hotdCron } from "@/cronjobs/hotdCron";
+import { birthdayCron } from "../cronjobs/birthdayCron";
+import { hotdCron } from "../cronjobs/hotdCron";
+import { Event } from "../structures/event";
 
 export default new Event("ready", () => {
   console.log(`Logged in as ${client.user!.tag}!`);

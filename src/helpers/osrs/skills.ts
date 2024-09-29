@@ -1,4 +1,4 @@
-import { Skills } from "@/typings/runescape";
+import {Skills} from "../../typings/runescape";
 
 export const osrsSkills: Skills = {
   attack: {

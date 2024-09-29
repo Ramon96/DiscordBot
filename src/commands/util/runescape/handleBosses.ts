@@ -1,8 +1,10 @@
-﻿import { IPlayer } from "@/models/osrs-schema";
+﻿
 import { Client, EmbedBuilder, TextChannel } from "discord.js";
-import { FetchStats, Field } from "@/typings/runescape";
-import { cleanUsername } from "@/helpers/utils/cleanUsername";
-import { osrsBosses } from "@/helpers/osrs/bosses";
+import {IPlayer} from "../../../models/osrs-schema";
+import {FetchStats, Field} from "../../../typings/runescape";
+import {cleanUsername} from "../../../helpers/utils/cleanUsername";
+import {osrsBosses} from "../../../helpers/osrs/bosses";
+
 
 type Player = { name: string, kc: number, total: number };
 
