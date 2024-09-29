@@ -20,5 +20,8 @@ export default new Command({
         await handleSkills(player, client, playerStats);
         await handleWikiSync(player, client);
     }
+
+      // Clear fetchedStats to free up memory
+      fetchedStats.length = 0;
   },
 });

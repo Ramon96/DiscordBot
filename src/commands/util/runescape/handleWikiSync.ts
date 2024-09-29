@@ -56,6 +56,12 @@ export async function handleWikiSync(player: IPlayer, client: Client) {
     player.markModified("achievementDiaries");
     player.markModified("musicTracks");
     await player.save();
+    
+    // Clear wikiData to free up memory
+    // Clear wikiData to free up memory
+    wikiData.quests = {} as Quests;
+    wikiData.achievement_diaries = {} as AchievementDiaries;
+    wikiData.music_tracks = {} as MusicTracks;
   }
 }
 

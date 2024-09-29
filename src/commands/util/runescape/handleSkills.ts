@@ -10,7 +10,7 @@ import {ExtendedClient} from "../../../structures/client";
 import {osrsSkills} from "../../../helpers/osrs/skills";
 
 export async function handleSkills(player: IPlayer, client: Client, HiscoreStats: Stats | undefined) {
-  const fetchedStats = HiscoreStats?.skills;
+  const fetchedStats = HiscoreStats?.skills; 
   
   if (!fetchedStats) {
     console.info(`${player.osrsName} not found on hiscores`);
@@ -79,6 +79,12 @@ export async function handleSkills(player: IPlayer, client: Client, HiscoreStats
   await channel.send({ embeds: [embed] });
 
   console.info(`Updated ${player.osrsName}'s stats`);
+
+
+  // Clear fetchedStats to free up memory
+  Object.keys(fetchedStats).forEach(key => {
+    fetchedStats[key as keyof Skills] = { level: 0, xp: 0, rank: 0 };
+  });
 }
 
 const createEmbed = async (

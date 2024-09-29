@@ -4,6 +4,7 @@ import {IPlayer} from "../../../models/osrs-schema";
 import {FetchStats, Field} from "../../../typings/runescape";
 import {cleanUsername} from "../../../helpers/utils/cleanUsername";
 import {osrsBosses} from "../../../helpers/osrs/bosses";
+import {Bosses} from "osrs-json-hiscores";
 
 
 type Player = { name: string, kc: number, total: number };
@@ -76,6 +77,9 @@ export async function handleBosses(players: IPlayer[], client: Client, hiscoreSt
         player.bosses = fetchedStats.bosses;
         player.markModified("bosses");
         await player.save();
+        
+        // Clear fetchedStats to free up memory
+        fetchedStats.bosses = {} as Bosses;
     }
     
     if (killedBosses.length === 0) {
@@ -96,6 +100,9 @@ export async function handleBosses(players: IPlayer[], client: Client, hiscoreSt
 
         await channel.send({ embeds: [embed] });
     });
+
+    // Clear killedBosses to free up memory
+    killedBosses.length = 0;
 }
 
 const createBossEmbed = async (boss: { bossName: string; players: Player[] }) => {
