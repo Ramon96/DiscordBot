@@ -211,6 +211,11 @@ export const osrsBosses: Bosses = {
         emoji: "👹",
         message: "used some totems inside the Catacombs of Kourend to challenge Skotizo"
     },
+    solHeredit: {
+        img: "https://oldschool.runescape.wiki/images/thumb/Sol_Heredit_%28sitting%29.png/250px-Sol_Heredit_%28sitting%29.png?aa6d1",
+        emoji: "🌞",
+        message: "entered the Colosseum to challenge Sol Heredit and came out victorious"
+    },
     spindel: {
         img: "https://oldschool.runescape.wiki/images/thumb/Spindel.png/280px-Spindel.png?2c818",
         emoji: "🕷️",
