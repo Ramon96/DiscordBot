@@ -38,9 +38,9 @@ export async function handleBosses(players: IPlayer[], client: Client, hiscoreSt
         const storedStats = player.bosses;
         
         let changes: { boss: string, kc: number, total: number }[] = [];
-        for (const [key, _] of Object.entries(storedStats)) {
+        for (const [key, _] of Object.entries(fetchedStats.bosses)) {
             const bossKey = key as keyof typeof storedStats;
-            const storedBossKc = storedStats[bossKey].score;
+            const storedBossKc = storedStats[bossKey]?.score ?? 0;
             const fetchedBossKc = fetchedStats.bosses[bossKey].score;
             
             if (fetchedBossKc > storedBossKc) {
@@ -115,7 +115,7 @@ const createBossEmbed = async (boss: { bossName: string; players: Player[] }) =>
         
         fields.push({
             name: player.name,
-            value: player.total.toString() + `(+ ${player.kc})`,
+            value: player.total.toString() + ` (+ ${player.kc})`,
         });
     });
     let message = `**${nameList}** ${subject} been on an expedition and killed **${cleanedBossName}**`;
