@@ -120,6 +120,14 @@ const createBossEmbed = async (boss: { bossName: string; players: Player[] }) =>
     });
     let message = `**${nameList}** ${subject} been on an expedition and killed **${cleanedBossName}**`;
     
+    // Sort the fields by total
+    fields = fields.sort((a, b) => {
+        const totalA = parseInt(a.value.split(" ")[0]);
+        const totalB = parseInt(b.value.split(" ")[0]);
+        
+        return totalB - totalA;
+    });
+    
     const embed = new EmbedBuilder()
         .setTitle(cleanedBossName)
         .setDescription(message)

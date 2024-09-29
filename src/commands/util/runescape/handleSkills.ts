@@ -9,9 +9,6 @@ import {Field, GainedLevel} from "../../../typings/runescape";
 import {ExtendedClient} from "../../../structures/client";
 import {osrsSkills} from "../../../helpers/osrs/skills";
 
-
-
-
 export async function handleSkills(player: IPlayer, client: Client, HiscoreStats: Stats | undefined) {
   const fetchedStats = HiscoreStats?.skills;
   
