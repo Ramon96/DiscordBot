@@ -1,10 +1,10 @@
 
 import { ApplicationCommandOptionType, EmbedBuilder } from "discord.js";
-import { WikiData } from "../util/runescape/handleWikiSync";
 import { capitalize } from "lodash";
 import fetch from "node-fetch";
 import {Command} from "../../structures/command";
 import {AchievementDiaries} from "../../models/osrs-schema";
+import { WikiData } from "../../typings/runescape";
 
 export default new Command({
   name: "diarysosrs",
@@ -38,6 +38,10 @@ export default new Command({
       return interaction.followUp(
         "User not found on the wiki, make sure you have wiki sync enabled"
       );
+    }
+    
+    if (!wikiData.achievement_diaries) {
+      return interaction.followUp("No diaries found for this user");
     }
 
     const diaries = wikiData.achievement_diaries;
