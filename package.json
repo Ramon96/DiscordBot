@@ -3,9 +3,9 @@
   "version": "2.3.0",
   "description": "hobby project to experiment with discord.js and mongodb. This bot has a lot of different features with no direct goal.",
   "scripts": {
-    "start": "ts-node -r tsconfig-paths/register src/index.ts",
+    "start": "ts-node src/index.ts",
     "start:dev": "ts-node-dev src/index.ts",
-    "start:prod": "node -r tsconfig-paths/register dist/index.js",
+    "start:prod": "node dist/index.js",
     "build": "tsc --project tsconfig.json",
     "watch": "tsc -w"
   },

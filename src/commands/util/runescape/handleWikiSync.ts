@@ -2,14 +2,19 @@ import { Client, ColorResolvable, EmbedBuilder, TextChannel } from "discord.js";
 import { AchievementDiaries, IPlayer, MusicTracks, QuestProgress, Quests } from "../../../models/osrs-schema";
 import { cleanUsername } from "../../../helpers/utils/cleanUsername";
 import { startCase } from "lodash";
-import fetch from "node-fetch";
+// import fetch from "node-fetch";
 import { ExtendedClient } from "../../../structures/client";
 import { WikiData } from "../../../typings/runescape";
 
 export async function handleWikiSync(player: IPlayer, client: Client) {
   const url = `https://sync.runescape.wiki/runelite/player/${player.osrsName}/STANDARD`;
 
-  const wikiData = (await fetch(url)
+  const wikiData = (await fetch(url, {
+    headers: {
+      'Accept': 'application/json',
+      'User-Agent': 'Mozilla/5.0'
+    }
+  })
       .then(async(res) => {
         if (!res.ok) {
           console.error(`HTTP error! Status: ${res.status}`);

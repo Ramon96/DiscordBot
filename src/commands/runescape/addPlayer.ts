@@ -4,9 +4,7 @@ import hiscores, { Skills } from "osrs-json-hiscores";
 import { Command } from "../../structures/command";
 import { OsrsSchema } from "../../models/osrs-schema";
 import { WikiData } from "../../typings/runescape";
-import fetch from "node-fetch";
-
-
+// import fetch from "node-fetch";
 
 export default new Command({
     name: "addplayer",
@@ -82,7 +80,12 @@ const checkHiscores = async(osrsName: string): Promise<Skills | undefined> => {
 const checkWikiSync = async(osrsName: string): Promise<WikiData | undefined> => {
     const url = `https://sync.runescape.wiki/runelite/player/${osrsName}/STANDARD`;
 
-    return (await fetch(url)
+    return (await fetch(url, {
+        headers: {
+            'Accept': 'application/json',
+            'User-Agent': 'Mozilla/5.0'
+        }
+    })
         .then(async(res) => {
             if (!res.ok) {
                 console.error(`HTTP error! Status: ${res.status}`);
