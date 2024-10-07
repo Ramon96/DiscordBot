@@ -1,68 +1,85 @@
 import { ApplicationCommandOptionType } from "discord.js";
 
-import hiscores from "osrs-json-hiscores";
-import {Command} from "../../structures/command";
-import {OsrsSchema} from "../../models/osrs-schema";
+import hiscores, { Skills } from "osrs-json-hiscores";
+import { Command } from "../../structures/command";
+import { OsrsSchema } from "../../models/osrs-schema";
+import { WikiData } from "../../typings/runescape";
 
 
 export default new Command({
-  name: "addplayer",
-  description: "add a player to the database",
-  options: [
-    {
-      name: "osrs_name",
-      description: "your osrs name",
-      required: true,
-      type: ApplicationCommandOptionType.String,
-    },
-    {
-      name: "discord_user",
-      description: "your discord user",
-      required: true,
-      type: ApplicationCommandOptionType.User,
-    },
-  ],
-  run: async ({ interaction, args }) => {
-    if (!interaction) return;
-    
-    if (!args)
-      return interaction.followUp(
-        "Please provide both your osrs name and discord user"
-      );
+    name: "addplayer",
+    description: "add a player to the database",
+    options: [
+        {
+            name: "osrs_name",
+            description: "your osrs name",
+            required: true,
+            type: ApplicationCommandOptionType.String,
+        },
+        {
+            name: "discord_user",
+            description: "your discord user",
+            required: true,
+            type: ApplicationCommandOptionType.User,
+        },
+    ],
+    run: async({interaction, args}) => {
+        if (!interaction) return;
 
-    const osrsName = args.getString("osrs_name");
-    const discordUser = args.getUser("discord_user");
+        if (!args)
+            return interaction.followUp(
+                "Please provide both your osrs name and discord user"
+            );
 
-    if (!discordUser || !osrsName) {
-      return interaction.followUp("Please provide a valid discord and osrs user");
-    }
+        const osrsName = args.getString("osrs_name");
+        const discordUser = args.getUser("discord_user");
 
-    if (
-      await OsrsSchema.exists({ discordId: discordUser.id, osrsName: osrsName })
-    ) {
-      return interaction.followUp("You are already in the database");
-    }
+        if (!discordUser || !osrsName) {
+            return interaction.followUp("Please provide a valid discord and osrs user");
+        }
+
+        if (
+            await OsrsSchema.exists({discordId: discordUser.id, osrsName: osrsName})
+        ) {
+            return interaction.followUp("You are already in the database");
+        }
 
 
-    await hiscores.getStats(osrsName)
-        .then(async (playerStats) =>  {
-          if(!playerStats.main) {
-            await interaction.followUp("osrs name not found on hiscores");
-          }
-
-          const player = new OsrsSchema({
+        const playerStats = await checkHiscores(osrsName);
+        const wikiData = await checkWikiSync(osrsName);
+        
+        if (!playerStats || !wikiData?.username) {
+            return interaction.followUp("osrs name not found on hiscores or on wiki sync");
+        }
+        
+        const player = new OsrsSchema({
             discordId: discordUser.id,
             osrsName,
-            stats: playerStats.main?.skills,
-          });
-
-          await player.save();
-
-          await interaction.followUp(`${osrsName} has been added to the database`);
-          
-        })    
-        .catch(() => {
-          interaction.followUp("osrs name not found on hiscores");
-      });
-  },
+            stats: playerStats,
+            quests: wikiData.quests,
+            achievementDiaries: wikiData.achievement_diaries,
+            musicTracks: wikiData.music_tracks,
+        });
+        
+        await player.save();
+        await interaction.followUp(`${osrsName} has been added to the database`);
+    },
 });
+
+const checkHiscores = async(osrsName: string): Promise<Skills | undefined> => {
+    return await hiscores.getStats(osrsName)
+        .then((playerStats) => {
+            return playerStats.main?.skills;
+        });
+}
+
+const checkWikiSync = async(osrsName: string): Promise<WikiData | undefined> => {
+    const url = `https://sync.runescape.wiki/runelite/player/${osrsName}/STANDARD`;
+
+    return (await fetch(url)
+        .then((res) => res.json())
+        .catch((err) => {
+            console.error(err);
+            return undefined;
+        })) as WikiData | undefined;
+}

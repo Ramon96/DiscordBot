@@ -1,4 +1,5 @@
 ﻿import { Stats } from "osrs-json-hiscores";
+import {AchievementDiaries, MusicTracks, Quests} from "../../models/osrs-schema";
 
 export type GainedLevel = {
     skillName: string;
@@ -32,3 +33,10 @@ export type Field = {
  export type FetchStats = {
         [key: string]: Stats;
  };
+
+export type WikiData = {
+    username?: string;
+    quests?: Quests;
+    achievement_diaries?: AchievementDiaries;
+    music_tracks?: MusicTracks;
+};

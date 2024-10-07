@@ -1,16 +1,10 @@
-import {Client, ColorResolvable, EmbedBuilder, TextChannel} from "discord.js";
-import {AchievementDiaries, IPlayer, MusicTracks, QuestProgress, Quests} from "../../../models/osrs-schema";
-import {cleanUsername} from "../../../helpers/utils/cleanUsername";
-import {startCase} from "lodash";
+import { Client, ColorResolvable, EmbedBuilder, TextChannel } from "discord.js";
+import { AchievementDiaries, IPlayer, MusicTracks, QuestProgress, Quests } from "../../../models/osrs-schema";
+import { cleanUsername } from "../../../helpers/utils/cleanUsername";
+import { startCase } from "lodash";
 import fetch from "node-fetch";
-import {ExtendedClient} from "../../../structures/client";
-
-export type WikiData = {
-  username: string;
-  quests: Quests;
-  achievement_diaries: AchievementDiaries;
-  music_tracks: MusicTracks;
-};
+import { ExtendedClient } from "../../../structures/client";
+import { WikiData } from "../../../typings/runescape";
 
 export async function handleWikiSync(player: IPlayer, client: Client) {
   const url = `https://sync.runescape.wiki/runelite/player/${player.osrsName}/STANDARD`;
@@ -27,15 +21,15 @@ export async function handleWikiSync(player: IPlayer, client: Client) {
     return;
   }
 
-  const questChanges = await checkQuests(player, wikiData.quests, client);
+  const questChanges = await checkQuests(player, wikiData.quests ?? {}, client);
   const diaryChanges = await checkAchievementDiaries(
     player,
-    wikiData.achievement_diaries,
+    wikiData.achievement_diaries ?? {},
     client
   );
   const musicTrackChanges = await checkMusicTracks(
     player,
-    wikiData.music_tracks,
+    wikiData.music_tracks ?? {},
     client
   );
 
@@ -51,7 +45,6 @@ export async function handleWikiSync(player: IPlayer, client: Client) {
     player.markModified("musicTracks");
     await player.save();
     
-    // Clear wikiData to free up memory
     // Clear wikiData to free up memory
     wikiData.quests = {} as Quests;
     wikiData.achievement_diaries = {} as AchievementDiaries;
