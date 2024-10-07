@@ -2,7 +2,7 @@ import { Client, ColorResolvable, EmbedBuilder, TextChannel } from "discord.js";
 import { AchievementDiaries, IPlayer, MusicTracks, QuestProgress, Quests } from "../../../models/osrs-schema";
 import { cleanUsername } from "../../../helpers/utils/cleanUsername";
 import { startCase } from "lodash";
-// import fetch from "node-fetch";
+import fetch from "node-fetch";
 import { ExtendedClient } from "../../../structures/client";
 import { WikiData } from "../../../typings/runescape";
 

@@ -4,7 +4,7 @@ import hiscores, { Skills } from "osrs-json-hiscores";
 import { Command } from "../../structures/command";
 import { OsrsSchema } from "../../models/osrs-schema";
 import { WikiData } from "../../typings/runescape";
-// import fetch from "node-fetch";
+import fetch from "node-fetch";
 
 export default new Command({
     name: "addplayer",
