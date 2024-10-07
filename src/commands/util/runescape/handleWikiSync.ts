@@ -17,7 +17,6 @@ export async function handleWikiSync(player: IPlayer, client: Client) {
   })
       .then(async(res) => {
         if (!res.ok) {
-          console.error(`HTTP error! Status: ${res.status}`);
           return null;
         }
 
