@@ -70,6 +70,10 @@ const checkHiscores = async(osrsName: string): Promise<Skills | undefined> => {
     return await hiscores.getStats(osrsName)
         .then((playerStats) => {
             return playerStats.main?.skills;
+        })
+        .catch((err) => {
+            console.error(err);
+            return undefined;
         });
 }
 
