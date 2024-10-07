@@ -48,7 +48,7 @@ export default new Command({
         const playerStats = await checkHiscores(osrsName);
         const wikiData = await checkWikiSync(osrsName);
         
-        if (!playerStats || !wikiData?.username) {
+        if (!playerStats && !wikiData?.username) {
             return interaction.followUp("osrs name not found on hiscores or on wiki sync");
         }
         
@@ -56,9 +56,9 @@ export default new Command({
             discordId: discordUser.id,
             osrsName,
             stats: playerStats,
-            quests: wikiData.quests,
-            achievementDiaries: wikiData.achievement_diaries,
-            musicTracks: wikiData.music_tracks,
+            quests: wikiData?.quests ?? {},
+            achievementDiaries: wikiData?.achievement_diaries ?? {},
+            musicTracks: wikiData?.music_tracks ?? {},
         });
         
         await player.save();
