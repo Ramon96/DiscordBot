@@ -83,7 +83,22 @@ const checkWikiSync = async(osrsName: string): Promise<WikiData | undefined> => 
     const url = `https://sync.runescape.wiki/runelite/player/${osrsName}/STANDARD`;
 
     return (await fetch(url)
-        .then((res) => res.json())
+        .then(async(res) => {
+            const contentType = res.headers.get("content-type");
+            if (!contentType || !contentType.includes("application/json")) {
+                try {
+                    const parseJson = JSON.parse(await res.text());
+                    if (parseJson.error) {
+                        console.error(`Error fetching wiki data: ${parseJson.error}`);
+                    }
+                    return parseJson;
+                } catch (e) {
+                    console.error(`Error parsing JSON: ${e}`);
+                }
+                return null;
+            }
+            return res.json()
+        })
         .catch((err) => {
             console.error(err);
             return undefined;
