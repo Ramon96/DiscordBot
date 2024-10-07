@@ -10,26 +10,31 @@ export async function handleWikiSync(player: IPlayer, client: Client) {
   const url = `https://sync.runescape.wiki/runelite/player/${player.osrsName}/STANDARD`;
 
   const wikiData = (await fetch(url)
-    .then(async(res) => {
-      const contentType = res.headers.get("content-type");
+      .then(async(res) => {
+        if (!res.ok) {
+          console.error(`HTTP error! Status: ${res.status}`);
+          return null;
+        }
+
+        const contentType = res.headers.get("content-type");
         if (!contentType || !contentType.includes("application/json")) {
           try {
             const parseJson = JSON.parse(await res.text());
             if (parseJson.error) {
-                console.error(`Error fetching wiki data: ${parseJson.error}`);
+              console.error(`Error fetching wiki data: ${parseJson.error}`);
             }
             return parseJson;
-            } catch (e) {
-                console.error(`Error parsing JSON: ${e}`);
+          } catch (e) {
+            console.error(`Error parsing JSON: ${e}`);
           }
-            return null;
+          return null;
         }
-        return res.json()
-    })
-    .catch((err) => {
-      console.error(err);
-      return undefined;
-    })) as WikiData | undefined;
+        return res.json();
+      })
+      .catch((err) => {
+        console.error(err);
+        return undefined;
+      })) as WikiData | undefined;
   
     if (!wikiData) {
         console.info(`${player.osrsName} not found on the wiki`);

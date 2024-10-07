@@ -84,6 +84,11 @@ const checkWikiSync = async(osrsName: string): Promise<WikiData | undefined> => 
 
     return (await fetch(url)
         .then(async(res) => {
+            if (!res.ok) {
+                console.error(`HTTP error! Status: ${res.status}`);
+                return null;
+            }
+
             const contentType = res.headers.get("content-type");
             if (!contentType || !contentType.includes("application/json")) {
                 try {
@@ -97,7 +102,7 @@ const checkWikiSync = async(osrsName: string): Promise<WikiData | undefined> => 
                 }
                 return null;
             }
-            return res.json()
+            return res.json();
         })
         .catch((err) => {
             console.error(err);
