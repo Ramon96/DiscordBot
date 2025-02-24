@@ -105,6 +105,30 @@ const createEmbed = async (
     level: 0,
   };
 
+  // TODO: replace description with a ai generated message
+  const embed = new EmbedBuilder()
+      .setTitle(`Congratulations to ${username}!`)
+      .setDescription(
+          `**${capitalize(
+              username
+          )}** has just completed an epic journey, and we're excited to share their accomplishments with you. Behold the amazing levels they've gained:`
+      )
+      .setAuthor({
+        name: user.username,
+        iconURL: `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.jpeg`,
+      })
+      .setTimestamp()
+      .setColor(
+          osrsSkills[highestLevelSkill.name]?.color ?? osrsSkills.overall.color
+      );
+
+  // sort fields so that overall is always at the bottom
+  fields = fields.sort((a, b) => {
+    if (a.name === "Overall") return 1;
+    if (b.name === "Overall") return -1;
+    return 0;
+  });
+
   gainedLevels.map((skill) => {
     const levelDifference = skill.fetchedLevel - skill.storedLevel;
     if (levelDifference === 0 || skill.skillName === "overall") return;
@@ -130,29 +154,7 @@ const createEmbed = async (
     });
   });
 
-  // TODO: replace description with a ai generated message
-  const embed = new EmbedBuilder()
-    .setTitle(`Congratulations to ${username}!`)
-    .setDescription(
-      `**${capitalize(
-        username
-      )}** has just completed an epic journey, and we're excited to share their accomplishments with you. Behold the amazing levels they've gained:`
-    )
-    .setAuthor({
-      name: user.username,
-      iconURL: `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.jpeg`,
-    })
-    .setTimestamp()
-    .setColor(
-      osrsSkills[highestLevelSkill.name]?.color ?? osrsSkills.overall.color
-    );
-
-  // sort fields so that overall is always at the bottom
-  fields = fields.sort((a, b) => {
-    if (a.name === "Overall") return 1;
-    if (b.name === "Overall") return -1;
-    return 0;
-  });
+ 
 
   const overallLevel = gainedLevels.find((skill) => skill.skillName === "overall");
 
