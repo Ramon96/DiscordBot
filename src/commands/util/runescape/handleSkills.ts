@@ -117,10 +117,8 @@ const createEmbed = async (
         name: user.username,
         iconURL: `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.jpeg`,
       })
-      .setTimestamp()
-      .setColor(
-          osrsSkills[highestLevelSkill.name]?.color ?? osrsSkills.overall.color
-      );
+      .setTimestamp();
+
 
   // sort fields so that overall is always at the bottom
   fields = fields.sort((a, b) => {
@@ -173,7 +171,9 @@ const createEmbed = async (
       iconURL:
         osrsSkills[highestLevelSkill.name]?.placeholder ??
         osrsSkills.overall.placeholder,
-    });
+    }).setColor(
+          osrsSkills[highestLevelSkill.name]?.color ?? osrsSkills.overall.color
+      );
 
   return embed;
 };
