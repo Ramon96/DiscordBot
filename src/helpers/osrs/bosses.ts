@@ -321,4 +321,10 @@ export const osrsBosses: Bosses = {
         emoji: "🐍",
         message: "been thrown into the shrine as sacrifice to Zulrah and defeated her in return"
     },
+    royalTitans: {
+        img: 'https://oldschool.runescape.wiki/w/Royal_Titans#/media/File:Royal_Titans_concept_art.png',
+        emoji: '🔥 + 🧊',
+        message: "faced not one, but two Royal Titans!"
+        
+    }
 }

@@ -1,5 +1,6 @@
 ﻿import { Stats } from "osrs-json-hiscores";
 import {AchievementDiaries, MusicTracks, Quests} from "../../models/osrs-schema";
+import {Boss} from "osrs-json-hiscores/lib/types";
 
 export type GainedLevel = {
     skillName: string;
@@ -23,7 +24,7 @@ export type Field = {
  };
  
  export type Bosses = {
-        [key: string]: {
+        [Type in Boss]: {
             img: string;
             emoji: string;
             message: string;
