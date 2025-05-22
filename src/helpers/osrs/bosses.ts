@@ -344,12 +344,16 @@ export const osrsBosses: Bosses = {
   zulrah: {
     img: "https://oldschool.runescape.wiki/images/thumb/Zulrah_%28serpentine%29.png/250px-Zulrah_%28serpentine%29.png?29a54",
     emoji: "🐍",
-    message:
-      "been thrown into the shrine as sacrifice to Zulrah and defeated her in return",
+    message: "was thrown into the shrine as a sacrifice to Zulrah and defeated her in return",
   },
   royalTitans: {
     img: "https://oldschool.runescape.wiki/images/Royal_Titans_concept_art.png?31e1d",
     emoji: "🔥 + 🧊",
-    message: "faced not one, but two Royal Titans!",
+    message: "faced not one but two Royal Titans!",
+  },
+  yama: {
+    img: "https://oldschool.runescape.wiki/images/thumb/Yama.png/280px-Yama.png?7653a",
+    emoji: "👹",
+    message: "entered the chasm of fire to challenge Yama and emerged victorious",
   },
 };
