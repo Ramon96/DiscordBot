@@ -1,5 +1,10 @@
 import { ActivityType } from "discord.js";
 import { client } from "..";
+declare module "discord.js" {
+  interface Client {
+    fetchHiscoresInterval?: NodeJS.Timeout;
+  }
+}
 import { birthdayCron } from "../cronjobs/birthdayCron";
 import { hotdCron } from "../cronjobs/hotdCron";
 import { Event } from "../structures/event";
@@ -11,18 +16,24 @@ export default new Event("ready", () => {
     type: ActivityType.Streaming,
     url: "https://www.youtube.com/watch?v=t-T6lEYJHm8",
   });
-  
+
   const fetchHiscores = client.commands.get("fetchhiscores");
-  
+  const minute = 60000;
+
+  // Clear bestaande interval als die er is
+  if (client.fetchHiscoresInterval) {
+    clearInterval(client.fetchHiscoresInterval);
+    client.fetchHiscoresInterval = undefined;
+  }
+
   if (fetchHiscores) {
     fetchHiscores.run({ client: client, args: null });
-    
-    // 1 minute = 60000 ms
-    setInterval(function () {
+
+    client.fetchHiscoresInterval = setInterval(function () {
       fetchHiscores.run({ client: client, args: null });
-    }, 60000 * 30);
+    }, minute * 30);
   }
-  
+
   birthdayCron.start();
   hotdCron.start();
 });
