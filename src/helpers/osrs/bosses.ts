@@ -356,4 +356,9 @@ export const osrsBosses: Bosses = {
     emoji: "👹",
     message: "entered the chasm of fire to challenge Yama and emerged victorious",
   },
+  doomOfMokhaiotl: {
+    img: "https://oldschool.runescape.wiki/images/Doom_of_Mokhaiotl.png?e5edb",
+    emoji: "👺🪏",
+    message: "dug deep into the deep delves to defeat the Doom of Mokhaiotl over and over again"
+  }
 };
