@@ -9,8 +9,9 @@ import { birthdayCron } from "../cronjobs/birthdayCron";
 import { hotdCron } from "../cronjobs/hotdCron";
 import { Event } from "../structures/event";
 
-export default new Event("ready", () => {
+export default new Event("ready", async () => {
   console.log(`Logged in as ${client.user!.tag}!`);
+
   client.user!.setActivity({
     name: "I am your shield... I am your sword.",
     type: ActivityType.Streaming,
@@ -27,13 +28,17 @@ export default new Event("ready", () => {
   }
 
   if (fetchHiscores) {
-    fetchHiscores.run({ client: client, args: null });
+    await fetchHiscores.run({ client: client, args: null });
 
-    client.fetchHiscoresInterval = setInterval(function () {
-      fetchHiscores.run({ client: client, args: null });
+    client.fetchHiscoresInterval = setInterval(async () => {
+      try {
+        await fetchHiscores.run({ client: client, args: null });
+      } catch (error) {
+        console.error("Fetch hiscores failed:", error);
+      }
     }, minute * 30);
   }
 
-  birthdayCron.start();
-  hotdCron.start();
+  if (!birthdayCron.running) birthdayCron.start();
+  if (!hotdCron.running) hotdCron.start();
 });

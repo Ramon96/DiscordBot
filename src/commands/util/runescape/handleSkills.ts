@@ -2,21 +2,25 @@ import { Client, TextChannel, EmbedBuilder } from "discord.js";
 
 import { Skills, Stats } from "osrs-json-hiscores";
 import { capitalize, isEmpty } from "lodash";
-import {IPlayer} from "../../../models/osrs-schema";
-import {compare} from "../../../helpers/utils/compare";
-import {cleanUsername} from "../../../helpers/utils/cleanUsername";
-import {Field, GainedLevel} from "../../../typings/runescape";
-import {ExtendedClient} from "../../../structures/client";
-import {osrsSkills} from "../../../helpers/osrs/skills";
+import { IPlayer } from "../../../models/osrs-schema";
+import { compare } from "../../../helpers/utils/compare";
+import { cleanUsername } from "../../../helpers/utils/cleanUsername";
+import { Field, GainedLevel } from "../../../typings/runescape";
+import { ExtendedClient } from "../../../structures/client";
+import { osrsSkills } from "../../../helpers/osrs/skills";
 
-export async function handleSkills(player: IPlayer, client: Client, HiscoreStats: Stats | undefined) {
-  const fetchedStats = HiscoreStats?.skills; 
-  
+export async function handleSkills(
+  player: IPlayer,
+  client: Client,
+  HiscoreStats: Stats | undefined
+) {
+  const fetchedStats = HiscoreStats?.skills;
+
   if (!fetchedStats) {
     console.info(`${player.osrsName} not found on hiscores`);
     return;
   }
-  
+
   if (!player.stats) {
     player.stats = fetchedStats;
     player.markModified("stats");
@@ -27,25 +31,21 @@ export async function handleSkills(player: IPlayer, client: Client, HiscoreStats
 
   const storedStats = player.stats;
   const changes = compare(storedStats, fetchedStats);
-  
+
   const username = cleanUsername(player.osrsName);
   if (isEmpty(changes)) return console.log(`${username} has no changes`);
-  
-  
+
   let hasLevelGains = false;
   let gainedLevels: GainedLevel[] = [];
-  
+
   const filteredSkills = Object.keys(changes).filter((skill) =>
     changes[skill].hasOwnProperty("level")
   );
 
-
   for (const skill of filteredSkills) {
     const skillKey = skill as keyof Skills;
 
-    if (
-      fetchedStats[skillKey].level > storedStats[skillKey].level
-    ) {
+    if (fetchedStats[skillKey].level > storedStats[skillKey].level) {
       gainedLevels.push({
         skillName: skill,
         storedLevel: storedStats[skillKey].level,
@@ -58,33 +58,36 @@ export async function handleSkills(player: IPlayer, client: Client, HiscoreStats
   if (!hasLevelGains) {
     return;
   }
-  
-  player.stats = fetchedStats;
-  player.markModified("stats");
-  await player.save();
-  
-  const channel = client.channels.cache.get(
-    "872200569257873458"
-  ) as TextChannel;
+  try {
+    player.stats = fetchedStats;
+    player.markModified("stats");
+    await player.save();
 
-  if (!channel) return console.log("Channel not found");
+    const channel = client.channels.cache.get(
+      "872200569257873458"
+    ) as TextChannel;
 
-  const embed = await createEmbed(
-    username,
-    player.discordId,
-    gainedLevels,
-    client as ExtendedClient
-  );
+    if (!channel) return console.log("Channel not found");
 
-  await channel.send({ embeds: [embed] });
+    const embed = await createEmbed(
+      username,
+      player.discordId,
+      gainedLevels,
+      client as ExtendedClient
+    );
 
-  console.info(`Updated ${player.osrsName}'s stats`);
+    await channel.send({ embeds: [embed] });
 
-
-  // Clear fetchedStats to free up memory
-  Object.keys(fetchedStats).forEach(key => {
-    fetchedStats[key as keyof Skills] = { level: 0, xp: 0, rank: 0 };
-  });
+    console.info(`Updated ${player.osrsName}'s stats`);
+  } catch (error) {
+    console.error(`Failed to update ${player.osrsName}'s stats:`, error);
+  } finally {
+    // Clear fetchedStats to free up memory
+    Object.keys(fetchedStats).forEach((key) => {
+      fetchedStats[key as keyof Skills] = { level: 0, xp: 0, rank: 0 };
+    });
+    console.log(`Cleaned up fetchedStats for ${player.osrsName}`);
+  }
 }
 
 const createEmbed = async (
@@ -107,18 +110,17 @@ const createEmbed = async (
 
   // TODO: replace description with a ai generated message
   const embed = new EmbedBuilder()
-      .setTitle(`Congratulations to ${username}!`)
-      .setDescription(
-          `**${capitalize(
-              username
-          )}** has just completed an epic journey, and we're excited to share their accomplishments with you. Behold the amazing levels they've gained:`
-      )
-      .setAuthor({
-        name: user.username,
-        iconURL: `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.jpeg`,
-      })
-      .setTimestamp();
-
+    .setTitle(`Congratulations to ${username}!`)
+    .setDescription(
+      `**${capitalize(
+        username
+      )}** has just completed an epic journey, and we're excited to share their accomplishments with you. Behold the amazing levels they've gained:`
+    )
+    .setAuthor({
+      name: user.username,
+      iconURL: `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.jpeg`,
+    })
+    .setTimestamp();
 
   // sort fields so that overall is always at the bottom
   fields = fields.sort((a, b) => {
@@ -145,16 +147,20 @@ const createEmbed = async (
     }
 
     fields.push({
-      name: `${capitalize(skill.skillName)} (${skill.fetchedLevel - skill.storedLevel})`,
-      value: `${osrsSkills[skill.skillName].emoji} from ${skill.storedLevel} to ${
-        skill.fetchedLevel
-      }! ${skill.fetchedLevel === 99 ? osrsSkills[skill.skillName].compliment : ""}`,
+      name: `${capitalize(skill.skillName)} (${
+        skill.fetchedLevel - skill.storedLevel
+      })`,
+      value: `${osrsSkills[skill.skillName].emoji} from ${
+        skill.storedLevel
+      } to ${skill.fetchedLevel}! ${
+        skill.fetchedLevel === 99 ? osrsSkills[skill.skillName].compliment : ""
+      }`,
     });
   });
 
- 
-
-  const overallLevel = gainedLevels.find((skill) => skill.skillName === "overall");
+  const overallLevel = gainedLevels.find(
+    (skill) => skill.skillName === "overall"
+  );
 
   embed
     .addFields(fields)
@@ -171,9 +177,10 @@ const createEmbed = async (
       iconURL:
         osrsSkills[highestLevelSkill.name]?.placeholder ??
         osrsSkills.overall.placeholder,
-    }).setColor(
-          osrsSkills[highestLevelSkill.name]?.color ?? osrsSkills.overall.color
-      );
+    })
+    .setColor(
+      osrsSkills[highestLevelSkill.name]?.color ?? osrsSkills.overall.color
+    );
 
   return embed;
 };

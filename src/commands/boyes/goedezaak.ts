@@ -4,10 +4,10 @@ export default new Command({
   name: "goedezaak",
   description: "shows a goedezaak when a user says gz",
   run: async ({ message }) => {
-    if (!message) return console.log("Message not found");
+    if (!message) return console.log("Goedezaak command: Message not found");
 
     const channel = message.channel;
-    if (!channel) return console.log("Channel not found");
+    if (!channel) return console.log("Goedezaak command: Channel not found");
 
     const goedenZaken = [
       "./src/assets/goedenzaken/gz1.png",

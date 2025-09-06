@@ -31,4 +31,23 @@ mongoose.set("toJSON", {
   },
 });
 
+// Graceful shutdown handler
+process.on("SIGINT", async () => {
+  console.log("Shutting down gracefully...");
+  await mongoose.disconnect();
+  console.log("MongoDB connection closed");
+  client.removeAllListeners();
+  console.log("Client listeners removed");
+  process.exit(0);
+});
+
+process.on("SIGTERM", async () => {
+  console.log("Shutting down gracefully...");
+  await mongoose.disconnect();
+  console.log("MongoDB connection closed");
+  client.removeAllListeners();
+  console.log("Client listeners removed");
+  process.exit(0);
+});
+
 client.start();
