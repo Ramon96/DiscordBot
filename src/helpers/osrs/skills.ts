@@ -1,4 +1,4 @@
-import {Skills} from "../../typings/runescape";
+import { Skills } from "../../typings/runescape";
 
 export const osrsSkills: Skills = {
   attack: {
@@ -177,6 +177,15 @@ export const osrsSkills: Skills = {
     compliment:
       "Your ability to turn raw materials into grand structures is a testament to your creativity and vision.",
     emoji: "🏗️",
+  },
+  sailing: {
+    gif: "https://oldschool.runescape.wiki/images/thumb/Construction_cape_emote.gif/190px-Construction_cape_emote.gif?c2bae",
+    color: 0x2e5b80,
+    placeholder:
+      "https://oldschool.runescape.wiki/images/Sailing_icon.png?ebfec",
+    compliment:
+      "Your skills on the open sea are unparalleled, navigating even the roughest waters with ease.",
+    emoji: "⛵",
   },
   overall: {
     gif: "https://oldschool.runescape.wiki/images/thumb/Max_cape_emote.gif/190px-Max_cape_emote.gif?c2bae",
