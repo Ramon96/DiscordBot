@@ -344,7 +344,8 @@ export const osrsBosses: Bosses = {
   zulrah: {
     img: "https://oldschool.runescape.wiki/images/thumb/Zulrah_%28serpentine%29.png/250px-Zulrah_%28serpentine%29.png?29a54",
     emoji: "🐍",
-    message: "was thrown into the shrine as a sacrifice to Zulrah and defeated her in return",
+    message:
+      "was thrown into the shrine as a sacrifice to Zulrah and defeated her in return",
   },
   royalTitans: {
     img: "https://oldschool.runescape.wiki/images/Royal_Titans_concept_art.png?31e1d",
@@ -354,11 +355,18 @@ export const osrsBosses: Bosses = {
   yama: {
     img: "https://oldschool.runescape.wiki/images/thumb/Yama.png/280px-Yama.png?7653a",
     emoji: "👹",
-    message: "entered the chasm of fire to challenge Yama and emerged victorious",
+    message:
+      "entered the chasm of fire to challenge Yama and emerged victorious",
   },
   doomOfMokhaiotl: {
     img: "https://oldschool.runescape.wiki/images/Doom_of_Mokhaiotl.png?e5edb",
     emoji: "👺🪏",
-    message: "dug deep into the deep delves to defeat the Doom of Mokhaiotl over and over again"
-  }
+    message:
+      "dug deep into the deep delves to defeat the Doom of Mokhaiotl over and over again",
+  },
+  shellbaneGryphon: {
+    img: "https://oldschool.runescape.wiki/images/thumb/Shellbane_gryphon.png/1280px-Shellbane_gryphon.png?bc76e",
+    emoji: "🦅",
+    message: "soared into battle and defeated the Shellbane Gryphon",
+  },
 };
