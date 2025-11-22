@@ -30,7 +30,7 @@ export async function handleSkills(
   }
 
   const storedStats = player.stats;
-  const changes = compare(storedStats, fetchedStats);
+  const changes = compare(fetchedStats, storedStats);
 
   const username = cleanUsername(player.osrsName);
   if (isEmpty(changes)) return console.log(`${username} has no changes`);
@@ -45,11 +45,14 @@ export async function handleSkills(
   for (const skill of filteredSkills) {
     const skillKey = skill as keyof Skills;
 
-    if (fetchedStats[skillKey].level > storedStats[skillKey].level) {
+    const storedLevel = storedStats[skillKey]?.level || 1;
+    const fetchedLevel = fetchedStats[skillKey].level;
+
+    if (fetchedLevel > storedLevel) {
       gainedLevels.push({
         skillName: skill,
-        storedLevel: storedStats[skillKey].level,
-        fetchedLevel: fetchedStats[skillKey].level,
+        storedLevel: storedLevel,
+        fetchedLevel: fetchedLevel,
       });
       hasLevelGains = true;
     }
