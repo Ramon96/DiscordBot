@@ -34,5 +34,5 @@ export default new Event("ready", async () => {
   }
 
   // if (!birthdayCron.running) birthdayCron.start();
-  if (!hotdCron.running) hotdCron.start();
+  // if (!hotdCron.running) hotdCron.start();
 });
