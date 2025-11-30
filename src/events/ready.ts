@@ -21,12 +21,6 @@ export default new Event("ready", async () => {
   const fetchHiscores = client.commands.get("fetchhiscores");
   const minute = 60000;
 
-  // Clear bestaande interval als die er is
-  if (client.fetchHiscoresInterval) {
-    clearInterval(client.fetchHiscoresInterval);
-    client.fetchHiscoresInterval = undefined;
-  }
-
   if (fetchHiscores) {
     await fetchHiscores.run({ client: client, args: null });
 
@@ -39,6 +33,6 @@ export default new Event("ready", async () => {
     }, minute * 30);
   }
 
-  if (!birthdayCron.running) birthdayCron.start();
+  // if (!birthdayCron.running) birthdayCron.start();
   if (!hotdCron.running) hotdCron.start();
 });

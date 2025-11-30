@@ -84,12 +84,6 @@ export async function handleSkills(
     console.info(`Updated ${player.osrsName}'s stats`);
   } catch (error) {
     console.error(`Failed to update ${player.osrsName}'s stats:`, error);
-  } finally {
-    // Clear fetchedStats to free up memory
-    Object.keys(fetchedStats).forEach((key) => {
-      fetchedStats[key as keyof Skills] = { level: 0, xp: 0, rank: 0 };
-    });
-    console.log(`Cleaned up fetchedStats for ${player.osrsName}`);
   }
 }
 
